@@ -1,0 +1,42 @@
+.btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: fit-content;
+
+    padding: 0.4em 1em;
+    border-radius: 100vh;
+    border: 1px solid var(--clr-btn-border);
+
+    color: var(--clr-btn-text);
+    font-weight: 600;
+    text-transform: uppercase;
+    background-color: var(--clr-btn-background);
+
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: var(--clr-btn-background-hover);
+}
+
+.btn-remove {
+    border: 1px solid var(--clr-btn-remove-border);
+    color: var(--clr-btn-remove-text);
+    background-color: var(--clr-btn-remove-background);
+}
+
+.btn-remove:hover {
+    background-color: var(--clr-btn-remove-background-hover);
+}
+
+.btn-box-close {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+
+    width: 25px;
+    height: 25px;
+    border-radius: 100vh;
+}

@@ -1,5 +1,16 @@
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     margin: 0;
+
+    font-family: system-ui;
+    color: var(--clr-text-primary);
 }
 
 h1,
@@ -14,6 +25,13 @@ h6 {
 a {
     text-decoration: none;
     color: inherit;
+}
+
+ul,
+ol {
+    list-style: none;
+    padding: 0;
+    cursor: pointer;
 }
 
 img {
