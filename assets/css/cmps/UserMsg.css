@@ -1,4 +1,56 @@
 .user-msg {
+    position: absolute;
+    bottom: 3em;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1rem;
+    height: 6rem;
+    margin: 0.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
+}
+
+.user-msg p {
+    margin: 0;
+}
+
+.success {
+    border: 1px solid var(--clr-user-msg-success-border);
+    background-color: var(--clr-user-msg-success-background);
+    color: var(--clr-user-msg-success-text);
+}
+
+.error {
+    border: 1px solid var(--clr-user-msg-error-border);
+    background-color: var(--clr-user-msg-error-background);
+    color: var(--clr-user-msg-error-text);
+}
+
+.user-msg button {
+    position: absolute;
+    bottom: 0.8em;
+    left: 50%;
+    transform: translateX(-50%);
+
+    border: 1px solid var(--clr-border-primary);
+    border-radius: 5px;
+    width: fit-content;
+    height: fit-content;
+    padding: 0.5em 1em;
+    color: var(--clr-text-primary);
+    background: var(--clr-background-primary);
+
+    cursor: pointer;
+}
+
+.user-msg button:hover {
+    background-color: var(--clr-background-primary-darker);
+}
+
+/* .user-msg {
     background-color: lightgray;
     padding: 1em;
     position: absolute;
@@ -14,7 +66,8 @@
     background-color: lightpink;
 }
 
-.user-msg button {
+
+.user-msg button{
     float: right;
     margin: 1em;
-}
+} */
