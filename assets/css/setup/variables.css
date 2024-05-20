@@ -1,3 +1,23 @@
 :root {
+    --clr-border-primary: var(--gray-8);
+    --clr-text-primary: var(--gray-8);
+    --clr-background-primary: var(--gray-1);
+    --clr-background-primary-darker: var(--gray-3);
+    --clr-more-or-less-link: var(--blue-7);
+    --clr-user-msg-success-border: var(--lime-10);
+    --clr-user-msg-success-text: var(--lime-10);
+    --clr-user-msg-success-background: var(--lime-2);
+    --clr-user-msg-error-border: var(--red-10);
+    --clr-user-msg-error-text: var(--red-10);
+    --clr-user-msg-error-background: var(--red-2);
+    --clr-btn-text: var(--gray-10);
+    --clr-btn-background: var(--gray-2);
+    --clr-btn-background-hover: var(--gray-4);
+    --clr-btn-border: var(--gray-8);
+    --clr-btn-remove-text: var(--gray-2);
+    --clr-btn-remove-background: var(--red-10);
+    --clr-btn-remove-background-hover: var(--red-9);
+    --clr-btn-remove-border: var(--red-12);
+
     --main-bg-color: lightblue;
 }
