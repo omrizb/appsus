@@ -1,0 +1,4 @@
+.long-text-display .more-or-less {
+    color: var(--clr-more-or-less-link);
+    cursor: pointer;
+}
