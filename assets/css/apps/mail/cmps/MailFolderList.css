@@ -1,0 +1,33 @@
+.mail-folder-list {
+    width: 280px;
+    /* Width of the sidebar */
+    background-color: #fff;
+    /* White background */
+    border-right: 1px solid #ddd;
+    /* Light gray border */
+    padding: 20px 0;
+    /* Padding on top and bottom */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    /* Light shadow for depth */
+}
+
+.folder-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    /* Padding inside each item */
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.folder-item:hover {
+    background-color: #f1f3f4;
+    /* Light gray background on hover */
+}
+
+.folder-name {
+    font-size: 14px;
+    /* Size of the text */
+    color: #202124;
+    /* Dark gray color for the text */
+}
