@@ -10,17 +10,51 @@ _createMails()
 
 export const mailService = {
     query,
+    get,
+    getDefaultFilter,
+    getFilterFromSearchParams,
 
 }
 // For Debug (easy access from console):
 window.ms = mailService
 
 
-function query() {
+function query(filterBy = {}) {
     return storageService.query(MAIL_KEY)
         .then(mails => {
+            if (filterBy.txt) {
+                const regExp = new RegExp(filterBy.txt, 'i')
+                mails = mails.filter(mail => 
+                    regExp.test(mail.subject) ||
+                    regExp.test(mail.body) ||
+                    regExp.test(mail.from) ||
+                    regExp.test(mail.to)
+                )
+            }
+            if (filterBy.isRead !== null) {
+                mails = mails.filter(mail => mail.isRead === filterBy.isRead)
+            }
             return mails
         })
+}
+
+function get(emailId) {
+    return storageService.get(MAIL_KEY, emailId)
+        .then(email => {
+            email = _setNextPrevEmailId(email)
+            return email
+        })
+}
+
+function getDefaultFilter(filterBy = { txt: '',isRead: null }) {
+    return { txt: filterBy.txt , isRead: filterBy.isRead }
+}
+
+function getFilterFromSearchParams(searchParams) {
+    return {
+        txt: searchParams.get('txt') || '',
+        isRead: searchParams.get('isRead') || null,
+    }
 }
 
 
@@ -62,8 +96,7 @@ function _createEmail(subject, body, from, to) {
         removedAt: null,
         from,
         to,
-        folder: from==='user@appsus.com'? 'sent':'inbox',
+        folder: from===loggedinUser.email? 'sent':'inbox',
     }
     return email
 }
-
