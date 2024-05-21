@@ -8,7 +8,7 @@ export function MailList({ mails, isLoading }) {
             <ul>
                 {mails.map(mail =>
                     <li key={mail.id}>
-                        <MailPreview mail={mail} />
+                        <Link to={`/mail/${mail.id}`}><MailPreview mail={mail} /></Link>
                     </li>)
                 }
             </ul>
