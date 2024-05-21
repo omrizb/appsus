@@ -1,0 +1,18 @@
+.mail-preview.unread {
+    color: blue;
+}
+
+.mail-preview {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    /* Padding inside each item */
+    border-bottom: 1px solid #ddd;
+    /* Light gray border between items */
+    transition: background-color 0.3s;
+}
+
+.mail-preview:hover {
+    background-color: #f1f3f4;
+    /* Light gray background on hover */
+}
