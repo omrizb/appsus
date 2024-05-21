@@ -1,9 +1,10 @@
 // mail service
-import { utilService } from "....../share-services/util.service.js"
-import { storageService } from "....../share-services/async-storage.service.js"
+import { utilService } from '../../../services/util.service.js'
+import { storageService } from '../../../services/async-storage.service.js'
 
-const MAIL_KEY = 'emailDB'
+const MAIL_KEY = 'mailDB'
 const loggedinUser = { email: 'user@appsus.com', fullname: 'Mahatma Appsus' }
+
 
 
 _createMails()
@@ -11,6 +12,7 @@ _createMails()
 export const mailService = {
     query,
     get,
+    remove,
     getDefaultFilter,
     getFilterFromSearchParams,
 
@@ -38,12 +40,16 @@ function query(filterBy = {}) {
         })
 }
 
-function get(emailId) {
-    return storageService.get(MAIL_KEY, emailId)
-        .then(email => {
-            email = _setNextPrevEmailId(email)
-            return email
+function get(mailId) {
+    return storageService.get(MAIL_KEY, mailId)
+        .then(mail => {
+            mail = _setNextPrevMailId(mail)
+            return mail
         })
+}
+
+function remove(mailId) {
+    return storageService.remove(MAIL_KEY, mailId)
 }
 
 function getDefaultFilter(filterBy = { txt: '',isRead: null }) {
@@ -71,7 +77,7 @@ function _createMails() {
             const body = bodies[i % bodies.length]
             const from = mailsAddresses[i % mailsAddresses.length]
             const to = 'user@appsus.com'
-            mails.push(_createEmail(subject, body, from, to))
+            mails.push(_createMail(subject, body, from, to))
         }
         utilService.saveToStorage(MAIL_KEY, mails)
 
@@ -80,14 +86,14 @@ function _createMails() {
             const body = bodies[i % bodies.length]
             const from = 'user@appsus.com'
             const to = mailsAddresses[i % mailsAddresses.length]
-            mails.push(_createEmail(subject, body, from, to))
+            mails.push(_createMail(subject, body, from, to))
         }
         utilService.saveToStorage(MAIL_KEY, mails)
     }
 }
 
-function _createEmail(subject, body, from, to) {
-    const email = {
+function _createMail(subject, body, from, to) {
+    const mail = {
         id: utilService.makeId(),
         subject,
         body,
@@ -98,5 +104,5 @@ function _createEmail(subject, body, from, to) {
         to,
         folder: from===loggedinUser.email? 'sent':'inbox',
     }
-    return email
+    return mail
 }

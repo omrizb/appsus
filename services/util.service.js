@@ -1,11 +1,23 @@
 export const utilService = {
+    loadFromStorage,
+    saveToStorage,
     makeId,
     makeLorem,
     getRandomIntInclusive,
     getRandomColor,
+    randomTimestamp,
     padNum,
     getDayName,
     getMonthName,
+}
+
+function saveToStorage(key, val) {
+    localStorage.setItem(key, JSON.stringify(val))
+}
+
+function loadFromStorage(key) {
+    var val = localStorage.getItem(key)
+    return JSON.parse(val)
 }
 
 function makeId(length = 6) {
@@ -34,6 +46,13 @@ function getRandomIntInclusive(min, max) {
     max = Math.floor(max)
     return Math.floor(Math.random() * (max - min + 1)) + min //The maximum is inclusive and the minimum is inclusive 
 }
+
+function randomTimestamp(startYear) {
+    const start = new Date(startYear, 0, 1); // January 1, startYear
+    const end = new Date(); // Current date
+    const randomDate = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()))
+    return randomDate.getTime()
+  }
 
 function padNum(num) {
     return (num > 9) ? num + '' : '0' + num
