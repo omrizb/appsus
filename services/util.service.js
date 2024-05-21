@@ -4,6 +4,7 @@ export const utilService = {
     makeId,
     makeLorem,
     getRandomIntInclusive,
+    getRandomItems,
     getRandomColor,
     randomTimestamp,
     padNum,
@@ -47,15 +48,18 @@ function getRandomIntInclusive(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min //The maximum is inclusive and the minimum is inclusive 
 }
 
-function randomTimestamp(startYear) {
-    const start = new Date(startYear, 0, 1); // January 1, startYear
-    const end = new Date(); // Current date
-    const randomDate = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()))
-    return randomDate.getTime()
-  }
+function getRandomItems(items, size = 1, duplicationAllowed = false) {
+    if (size > items.length && !duplicationAllowed) return
 
-function padNum(num) {
-    return (num > 9) ? num + '' : '0' + num
+    const res = []
+    const srcArray = (duplicationAllowed) ? items : [...items]
+    for (let i = 0; i < size; i++) {
+        if (!duplicationAllowed && srcArray.length === 0) break
+        const randIdx = Math.floor(Math.random() * srcArray.length)
+        res.push(srcArray[randIdx])
+        if (!duplicationAllowed) srcArray.splice(randIdx, 1)
+    }
+    return (size === 1) ? res[0] : res
 }
 
 function getRandomColor() {
@@ -65,6 +69,17 @@ function getRandomColor() {
         color += letters[Math.floor(Math.random() * 16)]
     }
     return color
+}
+
+function randomTimestamp(startYear) {
+    const start = new Date(startYear, 0, 1); // January 1, startYear
+    const end = new Date(); // Current date
+    const randomDate = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()))
+    return randomDate.getTime()
+}
+
+function padNum(num) {
+    return (num > 9) ? num + '' : '0' + num
 }
 
 function getDayName(date, locale) {
