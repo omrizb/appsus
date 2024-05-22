@@ -11,9 +11,9 @@ export function MailIndex() {
     const [searchParams, setSearchParams] = useSearchParams()
     const [filterBy, setFilterBy] = useState(mailService.getFilterFromSearchParams(searchParams))
     // console.log('mailService.getFilterFromSearchParams(searchParams):', mailService.getFilterFromSearchParams(searchParams))
-
+    // …filterBy, …sortBy
     useEffect(() => {
-        console.log('filterBy:', filterBy)
+        // console.log('filterBy:', filterBy)
         setSearchParams(filterBy)
         mailService.query(filterBy)
             .then(mails => setMails(mails))

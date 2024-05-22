@@ -2,15 +2,17 @@ const { useState, useEffect } = React
 
 export function MailFilter({ filterBy, onFilter }) {
 
+    let selectedValue
     const [filterByToEdit, setFilterByToEdit] = useState({ ...filterBy })
 
     useEffect(() => {
+
         // console.log('useEffect happened filterByToEdit:', filterByToEdit)
         onFilter(filterByToEdit)
+
     }, [filterByToEdit])
 
     function handleChange({ target }) {
-        // console.log('target:', target.type)
         let value = target.value
         let updatedFilter
         if (target.type === "text") {
@@ -35,21 +37,25 @@ export function MailFilter({ filterBy, onFilter }) {
                     break;
             }
         }
+
         setFilterByToEdit(prevFilterBy => ({ ...prevFilterBy, ...updatedFilter }))
+
+
     }
 
-    let selectedValue
-    if ((filterByToEdit.isRead === null || filterByToEdit.isRead === '') && (filterByToEdit.isStarred === null || filterByToEdit.isStarred === '')) { selectedValue = 'all' }
-    else if (filterByToEdit.isRead === true) { selectedValue = 'read' }
-    else if (filterByToEdit.isRead === false) { selectedValue = 'unread' }
-    else if (filterByToEdit.isStarred === true) { selectedValue = 'starred' }
-    else 'unstarred'
+    selectedValue = 'all';
+    if (filterBy.isRead === true) selectedValue = 'read';
+    else if (filterBy.isRead === false) selectedValue = 'unread';
+    else if (filterBy.isStarred === true) selectedValue = 'starred';
+    else if (filterBy.isStarred === false) selectedValue = 'unstarred';
+    console.log('selectedValue:', selectedValue)
 
     return (
+
         <section className="mail-filter">
             <input
                 onChange={handleChange}
-                value={filterByToEdit.txt}
+                value={filterBy.txt}
                 name="txt"
                 type="text"
                 placeholder="Search" />
