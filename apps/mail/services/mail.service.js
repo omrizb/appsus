@@ -5,64 +5,83 @@ import { storageService } from '../../../services/async-storage.service.js'
 const MAIL_KEY = 'mailDB'
 const loggedinUser = { email: 'user@appsus.com', fullname: 'Mahatma Appsus' }
 
-
-
 _createMails()
 
 export const mailService = {
     query,
     get,
     remove,
-    getDefaultFilter,
+    save,
     getFilterFromSearchParams,
-
+    // getDefaultFilter
 }
 // For Debug (easy access from console):
 window.ms = mailService
 
 
 function query(filterBy = {}) {
+    console.log({ filterBy });
     return storageService.query(MAIL_KEY)
         .then(mails => {
+            if (filterBy.folder) {
+                mails = mails.filter(mail => mail.folder === filterBy.folder)
+            }
+
             if (filterBy.txt) {
                 const regExp = new RegExp(filterBy.txt, 'i')
-                mails = mails.filter(mail => 
+                mails = mails.filter(mail =>
                     regExp.test(mail.subject) ||
                     regExp.test(mail.body) ||
                     regExp.test(mail.from) ||
                     regExp.test(mail.to)
                 )
             }
-            if (filterBy.isRead !== null) {
+
+            if (filterBy.isRead !== null && filterBy.isRead !== '' && filterBy.isRead !== undefined) {
+                console.log('mails before isRead filter', { mails });
                 mails = mails.filter(mail => mail.isRead === filterBy.isRead)
+                console.log('mails after isRead filter', { mails });
+            }
+
+            if (filterBy.isStarred !== null && filterBy.isStarred !== '' && filterBy.isStarred !== undefined) {
+                mails = mails.filter(mail => mail.isStarred === filterBy.isStarred)
             }
             return mails
+
+            // if (filterBy.labels !== undefined && filterBy.labels.length > 0) {
+            //     mails = mails.filter(mail => filterBy.labels.some(label => mail.labels.includes(label)))
+            // }
         })
 }
 
 function get(mailId) {
     return storageService.get(MAIL_KEY, mailId)
-        .then(mail => {
-            mail = _setNextPrevMailId(mail)
-            return mail
-        })
 }
 
 function remove(mailId) {
     return storageService.remove(MAIL_KEY, mailId)
 }
 
-function getDefaultFilter(filterBy = { txt: '',isRead: null }) {
-    return { txt: filterBy.txt , isRead: filterBy.isRead }
+function save(mail, folder) {
+    mail.folder = folder
+    if (mail.id) {
+        return storageService.put(MAIL_KEY, mail)
+    } else {
+        return storageService.post(MAIL_KEY, mail)
+    }
 }
+// function getDefaultFilter(filterBy = { folder: 'inbox', txt: '', isRead: '', isStarred: '' }) {
+//     return { folder: filterBy.folder, txt: filterBy.txt, isRead: filterBy.isRead, isStarred: filterBy.isStarred }
+// }
 
 function getFilterFromSearchParams(searchParams) {
     return {
+        folder: searchParams.get('folder') || 'inbox',
         txt: searchParams.get('txt') || '',
-        isRead: searchParams.get('isRead') || null,
+        isRead: searchParams.get('isRead') || '',
+        isStarred: searchParams.get('isStarred') || '',
     }
 }
-
 
 function _createMails() {
     let mails = utilService.loadFromStorage(MAIL_KEY)
@@ -102,7 +121,7 @@ function _createMail(subject, body, from, to) {
         removedAt: null,
         from,
         to,
-        folder: from===loggedinUser.email? 'sent':'inbox',
+        folder: from === loggedinUser.email ? 'sent' : 'inbox',
     }
     return mail
 }
