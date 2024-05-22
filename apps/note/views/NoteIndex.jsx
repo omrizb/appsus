@@ -18,6 +18,8 @@ export function NoteIndex() {
     return <section className="note-index">
         <NoteHeader />
         <NoteSideNav />
-        <Outlet context={{ notes }} />
+        <section className="note-main-view">
+            <Outlet className="bbb" context={{ notes }} />
+        </section>
     </section>
 }

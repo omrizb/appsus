@@ -8,10 +8,7 @@ export function NoteList() {
 
     return <ul className="note-list">
         {notes.map(note => <li key={note.id}>
-            <NotePreview />
-            <pre>
-                {JSON.stringify(note, null, 4)}
-            </pre>
+            <NotePreview note={note} />
         </li>)}
     </ul>
 }

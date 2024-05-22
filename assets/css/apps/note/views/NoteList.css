@@ -1,1 +1,15 @@
- /* note list */
+.note-list {
+    display: flex;
+    justify-content: start;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.note-list .note-preview {
+    position: relative;
+    padding: 10px;
+    border-radius: 1em;
+    border: 1px solid gray;
+    background: lightcyan;
+}
