@@ -16,11 +16,28 @@ export function MailDetails() {
     }, [mailId])
 
     function loadMail() {
-        mailService.get(mailId).then((mail) => setMail(mail))
+        mailService.get(mailId).then((mail) => {
+            setMail(mail)
+            if (!mail.isRead) {
+                mail.isRead = true
+                mailService.save(mail, mail.folder)
+            }
+        })
     }
 
     function onRemoveMail() {
-        mailService.remove(mail.id).then(() => onGoBack())
+        if (folder === 'trash') {
+            mailService.remove(mail.id).then(() => {
+                console.log('remove:', 'remove')
+                onGoBack()
+            })
+
+        } else {
+            mailService.save(mail, 'trash').then(() => {
+                console.log('save:', 'save')
+                onGoBack()
+            })
+        }
     }
 
     function onGoBack() {
@@ -45,7 +62,7 @@ export function MailDetails() {
             <div className='mail-details'>
                 <div className='mail-container'>
                     <button onClick={onGoBack}>Go back</button>
-                    <button onClick={onRemoveMail}>Remove</button>
+                    <button onClick={onRemoveMail}> {folder === 'trash' ? 'Delete Permanently' : 'Delete'} </button>
                     <hr />
                     <h3>{subject}</h3>
                     <p>From: {from} | To: {to}</p>

@@ -13,7 +13,8 @@ export const mailService = {
     remove,
     save,
     getFilterFromSearchParams,
-    getEmptyMail
+    // getEmptyMail,
+    getUnreadCountByFolder
     // getDefaultFilter
 }
 // For Debug (easy access from console):
@@ -77,19 +78,19 @@ function get(mailId) {
     return storageService.get(MAIL_KEY, mailId)
 }
 
-function getEmptyMail(
-    subject = '',
-    body = '',
-    // isRead,
-    // sentAt,
-    // removedAt,
-    from = loggedinUser.email,
-    to = '',
-    // folder='draft'
-) {
-    return { subject, body, isRead, sentAt, removedAt, from, to, folder }
+// function getEmptyMail(
+//     subject = '',
+//     body = '',
+//     // isRead,
+//     // sentAt,
+//     // removedAt,
+//     from = loggedinUser.email,
+//     to = '',
+//     // folder='draft'
+// ) {
+//     return { subject, body, isRead, sentAt, removedAt, from, to, folder }
 
-}
+// }
 
 function remove(mailId) {
     return storageService.remove(MAIL_KEY, mailId)
@@ -114,6 +115,20 @@ function getFilterFromSearchParams(searchParams) {
         isRead: searchParams.get('isRead') || '',
         isStarred: searchParams.get('isStarred') || '',
     }
+}
+
+function getUnreadCountByFolder() {
+    return storageService.query(MAIL_KEY)
+        .then(mails => {
+            const unreadCountByFolder = mails.reduce((map, mail) => {
+                if (!mail.isRead) {
+                    if (!map[mail.folder]) map[mail.folder] = 0
+                    map[mail.folder]++
+                }
+                return map
+            }, {})
+            return unreadCountByFolder
+        })
 }
 
 function _createMails() {

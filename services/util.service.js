@@ -11,6 +11,7 @@ export const utilService = {
     getDayName,
     getMonthName,
     formatDate,
+    formatDateDynamic
 }
 
 function saveToStorage(key, val) {
@@ -100,4 +101,28 @@ function getMonthName(date) {
 function formatDate(timestamp) {
     const date = new Date(timestamp);
     return date.toLocaleDateString()
+}
+
+function formatDateDynamic(timestamp) {
+    const date = new Date(timestamp)
+    const now = new Date()
+
+    // If the date is today, display hh:mm
+    if (date.toDateString() === now.toDateString()) {
+        const hours = date.getHours().toString().padStart(2, '0')
+        const minutes = date.getMinutes().toString().padStart(2, '0')
+        return `${hours}:${minutes}`
+    }
+
+    // If the date is this year but not today, display dd month name
+    if (date.getFullYear() === now.getFullYear()) {
+        const options = { day: '2-digit', month: 'short' }
+        return date.toLocaleDateString(undefined, options)
+    }
+
+    // Otherwise, display dd/mm/yyyy
+    const day = date.getDate().toString().padStart(2, '0')
+    const month = (date.getMonth() + 1).toString().padStart(2, '0')
+    const year = date.getFullYear()
+    return `${day}/${month}/${year}`
 }

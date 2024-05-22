@@ -8,16 +8,23 @@ import { MailFolderList } from '../cmps/MailFolderList.jsx'
 
 export function MailIndex() {
     const [mails, setMails] = useState([])
+    const [unreadCounts, setUnreadCounts] = useState({})
+
     const [searchParams, setSearchParams] = useSearchParams()
     const [filterBy, setFilterBy] = useState(mailService.getFilterFromSearchParams(searchParams))
     // console.log('mailService.getFilterFromSearchParams(searchParams):', mailService.getFilterFromSearchParams(searchParams))
-
+    // …filterBy, …sortBy
     useEffect(() => {
-        console.log('filterBy:', filterBy)
+        // console.log('filterBy:', filterBy)
         setSearchParams(filterBy)
         mailService.query(filterBy)
             .then(mails => setMails(mails))
     }, [filterBy])
+
+    useEffect(() => {
+        mailService.getUnreadCountByFolder()
+            .then(counts => setUnreadCounts(counts));
+    }, [])
 
     function onSetFilterBy(newFilter) {
         setFilterBy({ ...newFilter })
@@ -30,7 +37,7 @@ export function MailIndex() {
     const isMails = mails.length > 0
     return (
         <section className="mail-index">
-            <MailFolderList onFolderClick={handleFolderClick} />
+            <MailFolderList onFolderClick={handleFolderClick} unreadCounts={unreadCounts} />
             <MailFilter filterBy={filterBy} onFilter={onSetFilterBy} />
             {isMails
                 ? <MailList mails={mails} />
