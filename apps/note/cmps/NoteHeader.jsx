@@ -1,5 +1,6 @@
 export function NoteHeader() {
-    return <div>
+    return <section className="note-header">
         <h1>I'm the header</h1>
-    </div>
+        <input type="text" placeholder="Search..." />
+    </section>
 }
