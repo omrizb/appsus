@@ -1,8 +1,10 @@
 const { useState, useEffect } = React
+const { Outlet } = ReactRouterDOM
 
 import { noteService } from '../services/note.service.js'
 
-import { NoteList } from '../cmps/NoteList.jsx'
+import { NoteHeader } from '../cmps/NoteHeader.jsx'
+import { NoteSideNav } from '../cmps/NoteSideNav.jsx'
 
 export function NoteIndex() {
 
@@ -14,7 +16,8 @@ export function NoteIndex() {
     }, [])
 
     return <section className="note-index">
-        <h1>Notes</h1>
-        <NoteList notes={notes} />
+        <NoteHeader />
+        <NoteSideNav />
+        <Outlet context={{ notes }} />
     </section>
 }

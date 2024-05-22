@@ -5,9 +5,13 @@ import { AppHeader } from "./cmps/AppHeader.jsx"
 import { About } from "./views/About.jsx"
 import { Home } from "./views/Home.jsx"
 import { MailIndex } from "./apps/mail/views/MailIndex.jsx"
-import { NoteIndex } from "./apps/note/views/NoteIndex.jsx"
 import { MailDetails } from "./apps/mail/views/MailDetails.jsx"
-
+import { NoteIndex } from "./apps/note/views/NoteIndex.jsx"
+import { NoteList } from "./apps/note/views/NoteList.jsx"
+import { Reminders } from "./apps/note/views/Reminders.jsx"
+import { LabelEdit } from "./apps/note/views/LabelEdit.jsx"
+import { Archive } from "./apps/note/views/Archive.jsx"
+import { Trash } from "./apps/note/views/Trash.jsx"
 
 
 export function App() {
@@ -19,7 +23,13 @@ export function App() {
                 <Route path="/about" element={<About />} />
                 <Route path="/mail" element={<MailIndex />} />
                 <Route path="/mail/:mailId" element={<MailDetails />} />
-                <Route path="/note" element={<NoteIndex />} />
+                <Route path="/note" element={<NoteIndex />}>
+                    <Route index element={<NoteList />} />
+                    <Route path="reminders" element={<Reminders />} />
+                    <Route path="edit-labels" element={<LabelEdit />} />
+                    <Route path="archive" element={<Archive />} />
+                    <Route path="Trash" element={<Trash />} />
+                </Route>
             </Routes>
         </section>
     </Router>
