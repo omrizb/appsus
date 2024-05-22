@@ -38,11 +38,12 @@ export function MailFilter({ filterBy, onFilter }) {
         setFilterByToEdit(prevFilterBy => ({ ...prevFilterBy, ...updatedFilter }))
     }
 
-    const selectedValue = ((filterByToEdit.isRead === null || filterByToEdit.isRead === '') && (filterByToEdit.isStarred === null || filterByToEdit.isStarred === '')) ? 'all'
-        : (filterByToEdit.isRead === true) ? 'read'
-            : (filterByToEdit.isRead === false) ? 'unread'
-                : (filterByToEdit.isStarred === true) ? 'starred'
-                    : 'unstarred';
+    let selectedValue
+    if ((filterByToEdit.isRead === null || filterByToEdit.isRead === '') && (filterByToEdit.isStarred === null || filterByToEdit.isStarred === '')) { selectedValue = 'all' }
+    else if (filterByToEdit.isRead === true) { selectedValue = 'read' }
+    else if (filterByToEdit.isRead === false) { selectedValue = 'unread' }
+    else if (filterByToEdit.isStarred === true) { selectedValue = 'starred' }
+    else 'unstarred'
 
     return (
         <section className="mail-filter">

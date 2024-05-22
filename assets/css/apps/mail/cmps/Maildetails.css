@@ -1,0 +1,33 @@
+.mail-details {
+    max-width: 980px;
+    display: flex;
+    justify-content: center;
+    text-align: left;
+    margin: auto;
+}
+
+
+
+.mail-details .details-container {
+    margin-left: 20px;
+    line-height: 1.5;
+}
+
+.mail-details button {
+    margin-right: 10px;
+    margin-top: 20px;
+    border: 1px solid black;
+    border-radius: 6px;
+    background-color: whitesmoke;
+    padding: 7px 20px;
+    font-weight: 700;
+    color: #bb8082;
+
+
+}
+
+.mail-details button:hover {
+    background-color: #bb8082;
+    opacity: 0.8;
+    color: black;
+}

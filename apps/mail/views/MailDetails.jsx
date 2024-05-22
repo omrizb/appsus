@@ -1,13 +1,10 @@
 const { useState, useEffect } = React
 const { useNavigate, useParams } = ReactRouterDOM
 
-import { utilService } from '../services/util.service.js'
+import { utilService } from '../../../services/util.service.js'
 import { mailService } from '../services/mail.service.js'
-import { LongTxt } from '../cmps/long-txt.jsx'
 import { Loader } from '../cmps/loader.jsx'
-import { ReviewAdd } from '../cmps/review-add.jsx'
-import { ReviewList } from '../cmps/review-list.jsx'
-import { showErrorMsg, } from '../services/event-bus.service.js'
+
 
 export function MailDetails() {
     const [mail, setMail] = useState(null)
@@ -23,7 +20,7 @@ export function MailDetails() {
     }
 
     function onRemoveMail() {
-        mailService.removeMail(mail.id).then(() => onGoBack())
+        mailService.remove(mail.id).then(() => onGoBack())
     }
 
     function onGoBack() {
@@ -40,16 +37,19 @@ export function MailDetails() {
         removedAt,
         from,
         to,
+        folder
     } = mail
 
     return (
         <section>
             <div className='mail-details'>
                 <div className='mail-container'>
-                    <h2>{subject}</h2>
-                    <h3>From: {from} | To: {to}</h3>
                     <button onClick={onGoBack}>Go back</button>
-                    <button onClick={onRemoveMail}>Remove book</button>
+                    <button onClick={onRemoveMail}>Remove</button>
+                    <hr />
+                    <h3>{subject}</h3>
+                    <p>From: {from} | To: {to}</p>
+                    <p>folder: {folder}  | sent at: {utilService.formatDate(sentAt)} | removed at: {utilService.formatDate(removedAt)}</p>
                     <hr />
                     <p>{body}</p>
                 </div>
