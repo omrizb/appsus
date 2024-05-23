@@ -3,40 +3,64 @@ const { useNavigate, useParams, Link } = ReactRouterDOM
 
 import { utilService } from '../../../services/util.service.js'
 import { mailService } from '../services/mail.service.js'
-import { Loader } from '../cmps/loader.jsx'
+import { eventBusService, showErrorMsg, showSuccessMsg } from '../../../services/event-bus.service.js'
+
 
 
 export function MailDetails() {
     const [mail, setMail] = useState(null)
+    const [isLoading, setIsLoading] = useState(true)
+
+    const params = useParams()
     const navigate = useNavigate()
-    const { mailId } = useParams()
 
     useEffect(() => {
         loadMail()
-    }, [mailId])
+    }, [params.mailId])
 
     function loadMail() {
-        mailService.get(mailId).then((mail) => {
-            setMail(mail)
-            if (!mail.isRead) {
-                mail.isRead = true
-                mailService.save(mail, mail.folder)
-            }
-        })
+        setIsLoading(true)
+        mailService.get(params.mailId)
+            .then((mail) => {
+                setMail(mail)
+                if (!mail.isRead) {
+                    mail.isRead = true
+                    mailService.save(mail, mail.folder)
+                }
+            })
+            .catch(() => {
+                showErrorMsg('Couldnt get car...')
+                navigate('/car')
+            })
+            .finally(() => {
+                setIsLoading(false)
+            })
     }
 
     function onRemoveMail() {
         if (folder === 'trash') {
-            mailService.remove(mail.id).then(() => {
-                console.log('remove:', 'remove')
-                onGoBack()
-            })
+            mailService.remove(mail.id)
+                .then(() => {
+                    showSuccessMsg(`Your mail was deleted permanently!`)
+                    onGoBack()
+                })
+                .catch(err => {
+                    console.log('err:', err)
+                    showErrorMsg('There was a problem')
+                })
+                .finally(() => setIsLoading(false))
 
         } else {
-            mailService.save(mail, 'trash').then(() => {
-                console.log('save:', 'save')
-                onGoBack()
-            })
+            mailService.save(mail, 'trash')
+                .then(() => {
+                    showSuccessMsg(`Your mail was moved to trash...`)
+                    onGoBack()
+                })
+                .catch(err => {
+                    console.log('err:', err)
+                    showErrorMsg('There was a problem')
+                })
+                .finally(() => setIsLoading(false))
         }
     }
 
@@ -44,7 +68,7 @@ export function MailDetails() {
         navigate('/mail')
     }
 
-    if (!mail) return <Loader />
+    if (isLoading) return <h3>Loading...</h3>
 
     const {
         subject,

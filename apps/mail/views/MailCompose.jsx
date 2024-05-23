@@ -2,7 +2,7 @@ const { useState, useEffect } = React
 const { useParams, useNavigate } = ReactRouter
 
 import { mailService } from '../services/mail.service.js'
-import { showErrorMsg } from '../../../services/event-bus.service.js'
+import { eventBusService, showErrorMsg, showSuccessMsg } from '../../../services/event-bus.service.js'
 
 export function MailCompose() {
 
@@ -26,7 +26,10 @@ export function MailCompose() {
     function onSaveAsDraft(ev) {
         ev.preventDefault()
         mailService.save(mail, 'drafts')
-            .then(() => navigate('/mail'))
+            .then(() => {
+                showSuccessMsg(`Your mail was moved to draft...`)
+                navigate('/mail')
+            })
             .catch(() => {
                 showErrorMsg('Could not save as draft')
                 navigate('/mail');
@@ -38,7 +41,10 @@ export function MailCompose() {
         ev.preventDefault();
         const mailToSend = { ...mail, sentAt: Date.now() }
         mailService.save(mailToSend, 'sent')
-            .then(() => navigate('/mail'))
+            .then(() => {
+                showSuccessMsg(`Your mail was sent...`)
+                navigate('/mail')
+            })
             .catch(() => {
                 showErrorMsg('Could not send email')
                 navigate('/mail');
