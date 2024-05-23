@@ -24,12 +24,22 @@ export const noteService = {
     get,
     remove,
     save,
-    getEmptyNote
+    getEmptyNote,
+    getEmptyFilter,
+    getFilterFromSearchParams
 }
 
 function query(filterBy = {}) {
     return storageService.query(NOTE_KEY)
         .then(notes => {
+            if (filterBy.txt) {
+                const regExp = new RegExp(filterBy.txt, 'i')
+                notes = notes.filter(note => (
+                    regExp.test(note.title) ||
+                    regExp.test(note.info.txt)
+                ))
+            }
+
             return notes
         })
 }
@@ -59,6 +69,18 @@ function getEmptyNote(type) {
         style: {
             backgroundColor: '#fff'
         }
+    }
+}
+
+function getEmptyFilter() {
+    return {
+        txt: ''
+    }
+}
+
+function getFilterFromSearchParams(searchParams) {
+    return {
+        txt: searchParams.get('txt') || ''
     }
 }
 

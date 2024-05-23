@@ -11,7 +11,8 @@ export const utilService = {
     getDayName,
     getMonthName,
     formatDate,
-    formatDateDynamic
+    formatDateDynamic,
+    debounce
 }
 
 function saveToStorage(key, val) {
@@ -125,4 +126,14 @@ function formatDateDynamic(timestamp) {
     const month = (date.getMonth() + 1).toString().padStart(2, '0')
     const year = date.getFullYear()
     return `${day}/${month}/${year}`
+}
+
+function debounce(callback, wait) {
+    let timeoutId = null
+    return (...args) => {
+        window.clearTimeout(timeoutId);
+        timeoutId = window.setTimeout(() => {
+            callback(...args)
+        }, wait)
+    }
 }
