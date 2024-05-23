@@ -7,7 +7,6 @@ export function MailFilter({ filterBy, onFilter }) {
 
     useEffect(() => {
 
-        // console.log('useEffect happened filterByToEdit:', filterByToEdit)
         onFilter(filterByToEdit)
 
     }, [filterByToEdit])
