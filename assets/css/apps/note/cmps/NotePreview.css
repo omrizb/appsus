@@ -13,5 +13,5 @@
 
 .note-preview:hover .note-menu {
     opacity: 1;
-    transition: opacity 500ms;
+    transition: opacity 200ms;
 }

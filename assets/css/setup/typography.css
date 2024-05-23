@@ -31,6 +31,10 @@
     content: "\f015";
 }
 
+.fa-solid.pin::before {
+    content: "\f08d";
+}
+
 .fa-solid.bell::before {
     content: "\f0f3";
 }
