@@ -30,3 +30,23 @@
 .fa-solid.house::before {
     content: "\f015";
 }
+
+.fa-solid.bell::before {
+    content: "\f0f3";
+}
+
+.fa-solid.color-palette::before {
+    content: "\f53f";
+}
+
+.fa-solid.image::before {
+    content: "\f03e";
+}
+
+.fa-solid.archive::before {
+    content: "\f187";
+}
+
+.fa-solid.more::before {
+    content: "\f142";
+}
