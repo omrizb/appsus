@@ -1,5 +1,5 @@
 const { useState, useEffect } = React
-const { useNavigate, useParams } = ReactRouterDOM
+const { useNavigate, useParams, Link } = ReactRouterDOM
 
 import { utilService } from '../../../services/util.service.js'
 import { mailService } from '../services/mail.service.js'
@@ -63,6 +63,9 @@ export function MailDetails() {
                 <div className='mail-container'>
                     <button onClick={onGoBack}>Go back</button>
                     <button onClick={onRemoveMail}> {folder === 'trash' ? 'Delete Permanently' : 'Delete'} </button>
+                    {folder === 'drafts' && (
+                        <Link to={`/mail/compose/${mail.id}`}><button>Edit</button></Link>
+                    )}
                     <hr />
                     <h3>{subject}</h3>
                     <p>From: {from} | To: {to}</p>

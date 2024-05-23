@@ -13,9 +13,8 @@ export const mailService = {
     remove,
     save,
     getFilterFromSearchParams,
-    // getEmptyMail,
+    getEmptyMail,
     getUnreadCountByFolder
-    // getDefaultFilter
 }
 // For Debug (easy access from console):
 window.ms = mailService
@@ -78,19 +77,19 @@ function get(mailId) {
     return storageService.get(MAIL_KEY, mailId)
 }
 
-// function getEmptyMail(
-//     subject = '',
-//     body = '',
-//     // isRead,
-//     // sentAt,
-//     // removedAt,
-//     from = loggedinUser.email,
-//     to = '',
-//     // folder='draft'
-// ) {
-//     return { subject, body, isRead, sentAt, removedAt, from, to, folder }
+function getEmptyMail(
+    subject = '',
+    body = '',
+    isRead = false,
+    sentAt = null,
+    removedAt = null,
+    from = loggedinUser.email,
+    to = '',
+    folder = 'draft'
+) {
+    return { subject, body, isRead, sentAt, removedAt, from, to, folder }
 
-// }
+}
 
 function remove(mailId) {
     return storageService.remove(MAIL_KEY, mailId)

@@ -1,10 +1,11 @@
 const { useState, useEffect } = React
-const { useSearchParams } = ReactRouterDOM
+const { useSearchParams, Link } = ReactRouterDOM
 
 import { mailService } from '../services/mail.service.js'
 import { MailList } from '../cmps/MailList.jsx'
 import { MailFilter } from '../cmps/MailFilter.jsx'
 import { MailFolderList } from '../cmps/MailFolderList.jsx'
+
 
 export function MailIndex() {
     const [mails, setMails] = useState([])
@@ -37,7 +38,9 @@ export function MailIndex() {
     const isMails = mails.length > 0
     return (
         <section className="mail-index">
+            <Link to="/mail/compose"><button>Compose Mail</button></Link>
             <MailFolderList onFolderClick={handleFolderClick} unreadCounts={unreadCounts} />
+
             <MailFilter filterBy={filterBy} onFilter={onSetFilterBy} />
             {isMails
                 ? <MailList mails={mails} />
