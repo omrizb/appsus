@@ -47,7 +47,7 @@ export function MailFilter({ filterBy, onFilter }) {
     else if (filterBy.isRead === false) selectedValue = 'unread';
     else if (filterBy.isStarred === true) selectedValue = 'starred';
     else if (filterBy.isStarred === false) selectedValue = 'unstarred';
-    console.log('selectedValue:', selectedValue)
+    // console.log('selectedValue:', selectedValue)
 
     return (
 

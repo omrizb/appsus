@@ -1,0 +1,21 @@
+.mail-filter {
+    display: flex;
+    gap: 1em;
+    padding: 1em;
+    font-size: 1.5em;
+    color: #bb8082;
+}
+
+.mail-filter select {
+    margin-inline-start: 1em;
+    border-radius: 100vh;
+    border: 1px solid #ddd;
+    padding: 1em;
+    color: #bb8082;
+}
+
+.mail-filter input {
+    border-radius: 100vh;
+    border: 1px solid #ddd;
+    padding: 1em;
+}
