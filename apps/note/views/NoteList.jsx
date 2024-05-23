@@ -1,14 +1,17 @@
 const { useOutletContext } = ReactRouterDOM
 
+import { NoteAdd } from '../cmps/NoteAdd.jsx'
 import { NotePreview } from '../cmps/NotePreview.jsx'
 
 export function NoteList() {
-    console.log(useOutletContext())
     const { notes } = useOutletContext()
 
-    return <ul className="note-list">
-        {notes.map(note => <li key={note.id}>
-            <NotePreview note={note} />
-        </li>)}
-    </ul>
+    return <div className="note-list">
+        <NoteAdd />
+        <ul>
+            {notes.map(note => <li key={note.id}>
+                <NotePreview note={note} />
+            </li>)}
+        </ul>
+    </div>
 }
