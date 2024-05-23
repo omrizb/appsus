@@ -1,0 +1,12 @@
+.note-side-nav {
+    display: flex;
+    flex-direction: column;
+}
+
+.note-side-nav > * {
+    padding: 1em;
+}
+
+.note-side-nav > *:hover {
+    background-color: lightblue;
+}

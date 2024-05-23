@@ -53,6 +53,7 @@ function save(note) {
 function getEmptyNote(type) {
     return {
         type,
+        title: '',
         isPinned: false,
         info: { ..._getNoteInfo(type) },
         style: {
@@ -94,6 +95,7 @@ function _createNotes(size) {
 function _createNote() {
     const note = getEmptyNote('NoteTxt')
 
+    note.title = utilService.makeLorem(2)
     note.isPinned = (Math.random() > 0.7)
     note.info.txt = utilService.makeLorem(10)
     note.style.backgroundColor = utilService.getRandomItems(BACKGROUND_COLORS)
