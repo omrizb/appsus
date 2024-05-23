@@ -8,8 +8,6 @@ import { MailIndex } from "./apps/mail/views/MailIndex.jsx"
 import { MailDetails } from "./apps/mail/views/MailDetails.jsx"
 import { MailCompose } from "./apps/mail/views/MailCompose.jsx"
 import { NoteIndex } from "./apps/note/views/NoteIndex.jsx"
-
-import { NoteIndex } from "./apps/note/views/NoteIndex.jsx"
 import { NoteList } from "./apps/note/views/NoteList.jsx"
 import { Reminders } from "./apps/note/views/Reminders.jsx"
 import { LabelEdit } from "./apps/note/views/LabelEdit.jsx"
