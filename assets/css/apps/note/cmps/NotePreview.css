@@ -1,0 +1,17 @@
+.note-preview {
+    position: relative;
+    padding: 10px;
+    border-radius: 1em;
+    border: 1px solid gray;
+
+    cursor: default;
+}
+
+.note-preview .note-menu {
+    opacity: 0;
+}
+
+.note-preview:hover .note-menu {
+    opacity: 1;
+    transition: opacity 500ms;
+}
