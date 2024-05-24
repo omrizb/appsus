@@ -27,30 +27,30 @@
     font-family: fa-solid;
 }
 
-.fa-solid.house::before {
+.fa-solid.i-house::before {
     content: "\f015";
 }
 
-.fa-solid.pin::before {
+.fa-solid.i-pin::before {
     content: "\f08d";
 }
 
-.fa-solid.bell::before {
+.fa-solid.i-bell::before {
     content: "\f0f3";
 }
 
-.fa-solid.color-palette::before {
+.fa-solid.i-color-palette::before {
     content: "\f53f";
 }
 
-.fa-solid.image::before {
+.fa-solid.i-image::before {
     content: "\f03e";
 }
 
-.fa-solid.archive::before {
+.fa-solid.i-archive::before {
     content: "\f187";
 }
 
-.fa-solid.more::before {
+.fa-solid.i-more::before {
     content: "\f142";
 }

@@ -1,0 +1,7 @@
+.outline-box {
+    padding: 10px;
+    border-radius: 1em;
+    border: transparent;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    background-color: #ffffff;
+}

@@ -13,7 +13,7 @@ const BACKGROUND_COLORS = [
     { name: 'dusk', color: '#d3bfdb' },
     { name: 'blossom', color: '#f6e2dd' },
     { name: 'clay', color: '#e9e3d4' },
-    { name: 'chalk', color: '#e9e3d4' }
+    { name: 'chalk', color: '#efeff1' }
 ]
 const NOTE_KEY = 'noteDB'
 
@@ -26,7 +26,8 @@ export const noteService = {
     save,
     getEmptyNote,
     getEmptyFilter,
-    getFilterFromSearchParams
+    getFilterFromSearchParams,
+    getBackgroundColors
 }
 
 function query(filterBy = {}) {
@@ -82,6 +83,10 @@ function getFilterFromSearchParams(searchParams) {
     return {
         txt: searchParams.get('txt') || ''
     }
+}
+
+function getBackgroundColors() {
+    return BACKGROUND_COLORS
 }
 
 function _getNoteInfo(type) {

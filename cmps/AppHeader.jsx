@@ -7,7 +7,7 @@ export function AppHeader() {
             <h3>LOGO!</h3>
         </Link>
         <nav>
-            <NavLink to="/" className="fa-solid house"></NavLink>
+            <NavLink to="/" className="fa-solid i-house"></NavLink>
             <NavLink to="/about">About</NavLink>
             <NavLink to="/mail">Mail</NavLink>
             <NavLink to="/note">Note</NavLink>
