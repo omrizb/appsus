@@ -1,5 +1,3 @@
-const { useState, useEffect } = React
-
 import { utilService } from "../../../services/util.service.js"
 import { noteService } from "../services/note.service.js"
 
@@ -7,7 +5,7 @@ export function ColorPalette({ setNoteColor }) {
 
     const colors = noteService.getBackgroundColors()
 
-    const positionStyle = { top: '25px', left: '-20px' }
+    const positionStyle = { top: '25px', left: '-150px' }
 
     function handleMouseEnter({ target }) {
         target.style.border = '2px solid var(--clr-border-dark)'

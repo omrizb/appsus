@@ -4,18 +4,18 @@ import { noteService } from "../services/note.service.js"
 
 import { NoteMenu } from "./NoteMenu.jsx"
 
-export function NotePreview({ note }) {
+export function NotePreview({ note, activeElement, onElementToggle }) {
 
     const [currNote, setCurrNote] = useState(note)
     const [menuVisible, setMenuVisible] = useState(false)
-    const isMenuOpen = useRef(false)
+    // const isMenuOpen = useRef(false)
 
     function handleMouseEnter() {
         setMenuVisible(true)
     }
 
     function handleMouseLeave() {
-        if (isMenuOpen.current) return
+        if (activeElement.noteId === currNote.id) return
         setMenuVisible(false)
     }
 
@@ -32,6 +32,12 @@ export function NotePreview({ note }) {
         className="note-preview" style={noteStyle}>
         <h2>{currNote.title}</h2>
         <p>{currNote.info.txt}</p>
-        <NoteMenu menuClasses={menuClasses} isMenuOpen={isMenuOpen} saveNote={saveNote} />
+        <NoteMenu
+            menuClasses={menuClasses}
+            activeElement={activeElement}
+            onElementToggle={onElementToggle}
+            noteId={currNote.id}
+            saveNote={saveNote}
+        />
     </div>
 }

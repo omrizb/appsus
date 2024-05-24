@@ -3,16 +3,9 @@ const { Link } = ReactRouterDOM
 
 import { ColorPalette } from "./ColorPalette.jsx"
 
-export function NoteMenu({ menuClasses, isMenuOpen, saveNote }) {
+export function NoteMenu({ menuClasses, activeElement, onElementToggle, noteId, saveNote }) {
 
-    const [showPalette, setShowPalette] = useState(false)
-
-    function handleColorPaletteClick() {
-        setShowPalette(prev => {
-            isMenuOpen.current = !prev
-            return !prev
-        })
-    }
+    const isPaletteOpen = activeElement.noteId === noteId && activeElement.item === 'palette'
 
     function setNoteColor(color) {
         saveNote({ style: { backgroundColor: color } })
@@ -24,9 +17,9 @@ export function NoteMenu({ menuClasses, isMenuOpen, saveNote }) {
 
         <Link to={''}><div className="fa-solid i-bell"></div></Link>
 
-        <div onClick={handleColorPaletteClick} className="color-palette-btn">
+        <div className="color-palette-btn" onClick={() => onElementToggle(noteId, 'palette')}>
             <div className="fa-solid i-color-palette"></div>
-            {showPalette && <ColorPalette setNoteColor={setNoteColor} />}
+            {isPaletteOpen && <ColorPalette setNoteColor={setNoteColor} />}
         </div>
 
         <Link to={''}><div className="fa-solid i-image"></div></Link>
