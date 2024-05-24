@@ -7,10 +7,6 @@
     cursor: default;
 }
 
-.note-preview:hover {
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-}
-
 .note-preview:hover .note-menu {
     transition: opacity 200ms;
 }

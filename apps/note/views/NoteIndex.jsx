@@ -37,8 +37,8 @@ export function NoteIndex() {
         }
     }
 
-    function handleClickOutside() {
-        if (containerRef.current && !containerRef.current.contains(event.target)) {
+    function handleClickOutside(ev) {
+        if (containerRef.current && !containerRef.current.contains(ev.target)) {
             setActiveElement({ noteId: null, item: null })
         }
     }

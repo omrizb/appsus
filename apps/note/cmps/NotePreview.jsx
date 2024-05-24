@@ -1,4 +1,4 @@
-const { useState, useRef } = React
+const { useState, useEffect } = React
 
 import { noteService } from "../services/note.service.js"
 
@@ -7,16 +7,24 @@ import { NoteMenu } from "./NoteMenu.jsx"
 export function NotePreview({ note, activeElement, onElementToggle }) {
 
     const [currNote, setCurrNote] = useState(note)
-    const [menuVisible, setMenuVisible] = useState(false)
-    // const isMenuOpen = useRef(false)
+    const [isNoteActive, setIsNoteActive] = useState(false)
+    const [isMenuVisible, setIsMenuVisible] = useState(false)
+
+    useEffect(() => {
+        if (activeElement.noteId === currNote.id) return
+        setIsNoteActive(false)
+        setIsMenuVisible(false)
+    }, [activeElement])
 
     function handleMouseEnter() {
-        setMenuVisible(true)
+        setIsNoteActive(true)
+        setIsMenuVisible(true)
     }
 
     function handleMouseLeave() {
         if (activeElement.noteId === currNote.id) return
-        setMenuVisible(false)
+        setIsNoteActive(false)
+        setIsMenuVisible(false)
     }
 
     function saveNote(newProps) {
@@ -26,10 +34,11 @@ export function NotePreview({ note, activeElement, onElementToggle }) {
     }
 
     const noteStyle = { backgroundColor: currNote.style.backgroundColor.color }
-    const menuClasses = menuVisible ? [] : ['hide']
+    const noteClasses = isNoteActive ? ['note-preview', 'box-shadow'] : ['note-preview']
+    const menuClasses = isMenuVisible ? [] : ['hide']
 
     return <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}
-        className="note-preview" style={noteStyle}>
+        className={noteClasses.join(' ')} style={noteStyle}>
         <h2>{currNote.title}</h2>
         <p>{currNote.info.txt}</p>
         <NoteMenu
