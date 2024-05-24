@@ -99,7 +99,8 @@ function getMonthName(date) {
 
 
 function formatDate(timestamp) {
-    const date = new Date(timestamp);
+    if (!timestamp) return ""
+    const date = new Date(timestamp)
     const day = date.getDate().toString().padStart(2, '0')
     const month = (date.getMonth() + 1).toString().padStart(2, '0')
     const year = date.getFullYear()
@@ -107,6 +108,7 @@ function formatDate(timestamp) {
 }
 
 function formatDateDynamic(timestamp) {
+    if (!timestamp) return ""
     const date = new Date(timestamp)
     const now = new Date()
 
