@@ -12,6 +12,7 @@ export const utilService = {
     getMonthName,
     formatDate,
     formatDateDynamic,
+    rgbToHex,
     debounce
 }
 
@@ -126,6 +127,11 @@ function formatDateDynamic(timestamp) {
     const month = (date.getMonth() + 1).toString().padStart(2, '0')
     const year = date.getFullYear()
     return `${day}/${month}/${year}`
+}
+
+function rgbToHex(rgb) {
+    const result = rgb.match(/\d+/g)
+    return `#${((1 << 24) + (+result[0] << 16) + (+result[1] << 8) + +result[2]).toString(16).slice(1).toLowerCase()}`
 }
 
 function debounce(callback, wait) {
