@@ -4,11 +4,19 @@
 }
 
 .note-side-nav > * {
-    padding: 1em;
+    display: flex;
+    gap: 1em;
+    padding: 1em 2em;
 }
 
 .note-side-nav > *:hover {
     border-top-right-radius: 100vh;
     border-bottom-right-radius: 100vh;
-    background-color: lightblue;
+    background-color: var(--clr-background-hover);
+}
+
+.note-side-nav .active {
+    border-top-right-radius: 100vh;
+    border-bottom-right-radius: 100vh;
+    background-color: var(--clr-active-note-option);
 }

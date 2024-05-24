@@ -31,12 +31,28 @@
     content: "\f015";
 }
 
-.fa-solid.i-pin::before {
-    content: "\f08d";
+.fa-solid.i-lightbulb::before {
+    content: "\f0eb";
 }
 
 .fa-solid.i-bell::before {
     content: "\f0f3";
+}
+
+.fa-solid.i-pencil::before {
+    content: "\f303";
+}
+
+.fa-solid.i-archive::before {
+    content: "\f187";
+}
+
+.fa-solid.i-trash::before {
+    content: "\f2ed";
+}
+
+.fa-solid.i-pin::before {
+    content: "\f08d";
 }
 
 .fa-solid.i-color-palette::before {
@@ -45,10 +61,6 @@
 
 .fa-solid.i-image::before {
     content: "\f03e";
-}
-
-.fa-solid.i-archive::before {
-    content: "\f187";
 }
 
 .fa-solid.i-more::before {

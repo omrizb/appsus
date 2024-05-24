@@ -4,7 +4,8 @@
     --clr-border-dark: var(--gray-10);
     --clr-text-primary: var(--gray-8);
     --clr-background-primary: var(--gray-1);
-    --clr-background-primary-darker: var(--gray-3);
+    --clr-background-hover: var(--gray-2);
+    --clr-active-note-option: #feefc3;
     --clr-more-or-less-link: var(--blue-7);
     --clr-user-msg-success-border: var(--lime-10);
     --clr-user-msg-success-text: var(--lime-10);
