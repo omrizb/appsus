@@ -51,7 +51,8 @@ export function MailDetails() {
                 .finally(() => setIsLoading(false))
 
         } else {
-            mailService.save(mail, 'trash')
+            const mailRemoved = { ...mail, removedAt: Date.now() }
+            mailService.save(mailRemoved, 'trash')
                 .then(() => {
                     showSuccessMsg(`Your mail was moved to trash...`)
                     onGoBack()
@@ -92,8 +93,14 @@ export function MailDetails() {
                     )}
                     <hr />
                     <h3>{subject}</h3>
-                    <p>From: {from} | To: {to}</p>
-                    <p>folder: {folder}  | sent at: {utilService.formatDate(sentAt)} | removed at: {utilService.formatDate(removedAt)}</p>
+                    <p>From: {from}
+                        {to ? ` | to: ${to}` : ''}
+                    </p>
+                    <p>
+                        Folder: {folder}
+                        {sentAt ? ` | Sent at: ${utilService.formatDate(sentAt)}` : ''}
+                        {removedAt ? ` | Removed at: ${utilService.formatDate(removedAt)}` : ''}
+                    </p>
                     <hr />
                     <p>{body}</p>
                 </div>
