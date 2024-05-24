@@ -24,7 +24,7 @@ export function ColorPalette({ setNoteColor }) {
         setNoteColor(color)
     }
 
-    return <div className="color-palette outline-box" style={positionStyle}>
+    return <div className="color-palette outline-box1" style={positionStyle}>
         {colors.map(color => {
             const borderColor = (color.name === 'none') ? 'var(--clr-border-light)' : color.color
             const colorStyle = {

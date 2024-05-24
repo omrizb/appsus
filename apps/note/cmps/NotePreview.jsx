@@ -4,7 +4,7 @@ import { noteService } from "../services/note.service.js"
 
 import { NoteMenu } from "./NoteMenu.jsx"
 
-export function NotePreview({ note, activeElement, onElementToggle }) {
+export function NotePreview({ note, activeElement, onElementToggle, onSendToTrash }) {
 
     const [currNote, setCurrNote] = useState(note)
     const [isNoteActive, setIsNoteActive] = useState(false)
@@ -45,6 +45,7 @@ export function NotePreview({ note, activeElement, onElementToggle }) {
             menuClasses={menuClasses}
             activeElement={activeElement}
             onElementToggle={onElementToggle}
+            onSendToTrash={onSendToTrash}
             noteId={currNote.id}
             saveNote={saveNote}
         />

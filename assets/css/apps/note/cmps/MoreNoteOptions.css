@@ -1,0 +1,25 @@
+.more-note-options {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    z-index: 100;
+    cursor: default;
+}
+
+.more-note-options > * {
+    padding-block: 10px;
+    padding-inline: 15px;
+    cursor: pointer;
+}
+
+.more-note-options > *:hover {
+    background-color: var(--clr-background-hover);
+}
+
+.more-note-options > *:first-child {
+    margin-block-start: 5px;
+}
+
+.more-note-options > *:last-child {
+    margin-block-end: 5px;
+}

@@ -24,6 +24,7 @@ export const noteService = {
     get,
     remove,
     save,
+    setTrashProp,
     getEmptyNote,
     getEmptyFilter,
     getFilterFromSearchParams,
@@ -39,6 +40,10 @@ function query(filterBy = {}) {
                     regExp.test(note.title) ||
                     regExp.test(note.info.txt)
                 ))
+            }
+
+            if (filterBy.isTrashed !== null) {
+                notes = notes.filter(note => note.isTrashed === filterBy.isTrashed)
             }
 
             return notes
@@ -61,11 +66,20 @@ function save(note) {
     }
 }
 
+function setTrashProp(noteId, isTrashed = true) {
+    return get(noteId)
+        .then(note => {
+            note.isTrashed = isTrashed
+            return save(note)
+        })
+}
+
 function getEmptyNote(type) {
     return {
         type,
         title: '',
         isPinned: false,
+        isTrashed: false,
         info: { ..._getNoteInfo(type) },
         style: {
             backgroundColor: '#fff'
@@ -75,13 +89,14 @@ function getEmptyNote(type) {
 
 function getEmptyFilter() {
     return {
-        txt: ''
+        txt: '',
+        isTrashed: null
     }
 }
 
 function getFilterFromSearchParams(searchParams) {
     return {
-        txt: searchParams.get('txt') || ''
+        txt: searchParams.get('txt') || '',
     }
 }
 
