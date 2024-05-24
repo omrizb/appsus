@@ -7,7 +7,6 @@ export function MailFilter({ filterBy, onFilter }) {
 
     useEffect(() => {
 
-        // console.log('useEffect happened filterByToEdit:', filterByToEdit)
         onFilter(filterByToEdit)
 
     }, [filterByToEdit])
@@ -43,12 +42,12 @@ export function MailFilter({ filterBy, onFilter }) {
 
     }
 
-    selectedValue = 'all';
-    if (filterBy.isRead === true) selectedValue = 'read';
-    else if (filterBy.isRead === false) selectedValue = 'unread';
-    else if (filterBy.isStarred === true) selectedValue = 'starred';
-    else if (filterBy.isStarred === false) selectedValue = 'unstarred';
-    console.log('selectedValue:', selectedValue)
+    selectedValue = 'all'
+    if (filterBy.isRead === true) selectedValue = 'read'
+    else if (filterBy.isRead === false) selectedValue = 'unread'
+    else if (filterBy.isStarred === true) selectedValue = 'starred'
+    else if (filterBy.isStarred === false) selectedValue = 'unstarred'
+    // console.log('selectedValue:', selectedValue)
 
     return (
 

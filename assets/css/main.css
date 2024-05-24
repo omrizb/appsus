@@ -26,6 +26,8 @@
 @import "./apps/note/views/Reminders.css";
 @import "./apps/note/views/Trash.css";
 @import "./apps/mail/views/MailIndex.css";
+@import "./apps/mail/views/MailDetails.css";
+@import "./apps/mail/views/MailCompose.css";
 
 /* Cmps */
 
@@ -44,4 +46,5 @@
 @import "./apps/mail/cmps/MailFolderList.css";
 @import "./apps/mail/cmps/MailList.css";
 @import "./apps/mail/cmps/MailPreview.css";
-@import "./apps/mail/cmps/MailDetails.css";
+
+@import "./apps/mail/cmps/MailFilter.css";

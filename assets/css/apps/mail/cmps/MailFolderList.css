@@ -1,33 +1,32 @@
 .mail-folder-list {
-    width: 280px;
-    /* Width of the sidebar */
-    background-color: #fff;
-    /* White background */
-    border-right: 1px solid #ddd;
-    /* Light gray border */
-    padding: 20px 0;
-    /* Padding on top and bottom */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    /* Light shadow for depth */
-}
-
-.folder-item {
     display: flex;
+    flex-direction: column;
+    padding: 1em;
+}
+
+.mail-folder-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.mail-folder-list li {
+    display: flex;
+    justify-content: space-between;
     align-items: center;
-    padding: 10px 20px;
-    /* Padding inside each item */
-    cursor: pointer;
-    transition: background-color 0.3s;
+    width: 100%;
+    padding: 1em;
+    margin: 0;
 }
 
-.folder-item:hover {
-    background-color: #f1f3f4;
-    /* Light gray background on hover */
+.mail-folder-list li:hover {
+    border-top-right-radius: 100vh;
+    border-bottom-right-radius: 100vh;
+    background-color: #bb8082;
 }
 
-.folder-name {
-    font-size: 14px;
-    /* Size of the text */
-    color: #202124;
-    /* Dark gray color for the text */
+.mail-folder-list .active-folder {
+    border-top-right-radius: 100vh;
+    border-bottom-right-radius: 100vh;
+    background-color: rgb(243, 226, 226);
 }

@@ -1,12 +1,10 @@
 .mail-list {
-    width: 100%;
+
     max-width: 1000px;
-    margin: 20px auto;
-    /* Center the list horizontally */
     background-color: #fff;
-    /* White background */
     border: 1px solid #ddd;
-    /* Light gray border */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    /* Light shadow for depth */
+    border-radius: 20px;
+    overflow-y: scroll;
+    max-height: 100vh;
 }

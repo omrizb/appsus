@@ -1,8 +1,9 @@
 const { useState, useEffect } = React
 const { useParams, useNavigate } = ReactRouter
+const { Link } = ReactRouterDOM
 
 import { mailService } from '../services/mail.service.js'
-import { showErrorMsg } from '../../../services/event-bus.service.js'
+import { eventBusService, showErrorMsg, showSuccessMsg } from '../../../services/event-bus.service.js'
 
 export function MailCompose() {
 
@@ -18,7 +19,7 @@ export function MailCompose() {
     }, [])
 
     function handleChange({ target }) {
-        const { name, value } = target;
+        const { name, value } = target
         setMail(prevMail => ({ ...prevMail, [name]: value }))
 
     }
@@ -26,10 +27,13 @@ export function MailCompose() {
     function onSaveAsDraft(ev) {
         ev.preventDefault()
         mailService.save(mail, 'drafts')
-            .then(() => navigate('/mail'))
+            .then(() => {
+                showSuccessMsg(`Your mail was moved to draft...`)
+                navigate('/mail')
+            })
             .catch(() => {
                 showErrorMsg('Could not save as draft')
-                navigate('/mail');
+                navigate('/mail')
             })
     }
 
@@ -38,49 +42,58 @@ export function MailCompose() {
         ev.preventDefault();
         const mailToSend = { ...mail, sentAt: Date.now() }
         mailService.save(mailToSend, 'sent')
-            .then(() => navigate('/mail'))
+            .then(() => {
+                showSuccessMsg(`Your mail was sent...`)
+                navigate('/mail')
+            })
             .catch(() => {
                 showErrorMsg('Could not send email')
-                navigate('/mail');
+                navigate('/mail')
             })
     }
 
     return (
         <section className="mail-compose">
-
-            <form>
-                <div>
-                    <label htmlFor="to">To:</label>
-                    <input
-                        type="email"
-                        id="to"
-                        name="to"
-                        value={mail.to}
-                        onChange={handleChange}
-                    />
-                </div>
-                <div>
-                    <label htmlFor="subject">Subject:</label>
-                    <input
-                        type="text"
-                        id="subject"
-                        name="subject"
-                        value={mail.subject}
-                        onChange={handleChange}
-                    />
-                </div>
-                <div>
-                    <label htmlFor="body">Body:</label>
-                    <textarea
-                        id="body"
-                        name="body"
-                        value={mail.body}
-                        onChange={handleChange}
-                    />
-                </div>
-                <button onClick={onSaveAsDraft}>Save as Draft</button>
-                <button onClick={onSend}>Send</button>
-            </form>
+            <div className="mail-modal">
+                <Link to="/mail"><button className="close-modal-btn">x</button></Link>
+                <form>
+                    <div>
+                        <label htmlFor="to">To:</label>
+                        <input
+                            type="email"
+                            id="to"
+                            name="to"
+                            value={mail.to}
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="subject">Subject:</label>
+                        <input
+                            type="text"
+                            id="subject"
+                            name="subject"
+                            value={mail.subject}
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="body">Body:</label>
+                        <textarea
+                            id="body"
+                            name="body"
+                            cols='70'
+                            rows='20'
+                            value={mail.body}
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <section className="actions">
+                        <button onClick={onSaveAsDraft}>Save as Draft</button>
+                        <button onClick={onSend}>Send</button>
+                    </section>
+                </form>
+            </div>
         </section>
     )
 }
