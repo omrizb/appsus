@@ -42,11 +42,11 @@ export function MailFilter({ filterBy, onFilter }) {
 
     }
 
-    selectedValue = 'all';
-    if (filterBy.isRead === true) selectedValue = 'read';
-    else if (filterBy.isRead === false) selectedValue = 'unread';
-    else if (filterBy.isStarred === true) selectedValue = 'starred';
-    else if (filterBy.isStarred === false) selectedValue = 'unstarred';
+    selectedValue = 'all'
+    if (filterBy.isRead === true) selectedValue = 'read'
+    else if (filterBy.isRead === false) selectedValue = 'unread'
+    else if (filterBy.isStarred === true) selectedValue = 'starred'
+    else if (filterBy.isStarred === false) selectedValue = 'unstarred'
     // console.log('selectedValue:', selectedValue)
 
     return (
