@@ -1,18 +1,32 @@
 .mail-preview.unread {
-    color: blue;
+    color: #bb8082;
 }
 
 .mail-preview {
-    display: flex;
-    align-items: center;
+
     padding: 10px 20px;
-    /* Padding inside each item */
     border-bottom: 1px solid #ddd;
-    /* Light gray border between items */
     transition: background-color 0.3s;
 }
 
 .mail-preview:hover {
     background-color: #f1f3f4;
-    /* Light gray background on hover */
+}
+
+.mail-preview .mail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.mail-preview .mail-content {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    gap: 10px;
+    align-items: center;
+
+}
+
+.mail-preview .mail-subject {
+    font-weight: bold;
 }
