@@ -4,15 +4,41 @@
     gap: 10px;
 }
 
-.mail-index .mail-folder-list {
+.mail-index aside {
     grid-column: 1;
-    grid-row: 1 / 3;
+    display: flex;
+    flex-direction: column;
 }
 
-.mail-index .mail-filter {
+.mail-index main {
     grid-column: 2;
+    display: flex;
+    flex-direction: column;
 }
 
-.mail-index .mail-list {
-    grid-column: 2;
+.mail-index .mail-compose-btn {
+    padding: 1em;
+}
+
+.mail-index h1 {
+    display: flex;
+    gap: 1em;
+    padding: 1em;
+    font-size: 1.5em;
+    color: #bb8082;
+}
+
+.mail-index button {
+    border: 1px solid black;
+    border-radius: 6px;
+    background-color: whitesmoke;
+    padding: 7px 20px;
+    font-weight: 700;
+    color: #bb8082;
+}
+
+.mail-index button:hover {
+    background-color: #bb8082;
+    opacity: 0.8;
+    color: black;
 }

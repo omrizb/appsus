@@ -24,7 +24,7 @@ export function MailIndex() {
 
     useEffect(() => {
         mailService.getUnreadCountByFolder()
-            .then(counts => setUnreadCounts(counts));
+            .then(counts => setUnreadCounts(counts))
     }, [])
 
     function onSetFilterBy(newFilter) {
@@ -38,14 +38,21 @@ export function MailIndex() {
     const isMails = mails.length > 0
     return (
         <section className="mail-index">
-            <Link to="/mail/compose"><button>Compose Mail</button></Link>
-            <MailFolderList onFolderClick={handleFolderClick} unreadCounts={unreadCounts} />
+            <aside>
+                <h1>My Mail</h1>
+                <Link className="mail-compose-btn" to="/mail/compose"><button>Compose Mail</button></Link>
+                <MailFolderList onFolderClick={handleFolderClick} unreadCounts={unreadCounts} activeFolder={filterBy.folder} />
+            </aside>
+            <main>
+                <section className="mail-filter-sort">
+                    <MailFilter filterBy={filterBy} onFilter={onSetFilterBy} />
+                </section>
+                {isMails
+                    ? <MailList mails={mails} />
+                    : <div>No mails to show...</div>
+                }
+            </main>
 
-            <MailFilter filterBy={filterBy} onFilter={onSetFilterBy} />
-            {isMails
-                ? <MailList mails={mails} />
-                : <div>No mails to show...</div>
-            }
         </section >
     )
 }
