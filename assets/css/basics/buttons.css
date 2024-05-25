@@ -12,6 +12,8 @@
     color: var(--clr-btn-text);
     font-weight: 600;
     text-transform: uppercase;
+    word-spacing: 0.3em;
+    letter-spacing: 0.15em;
     background-color: var(--clr-btn-background);
 
     cursor: pointer;

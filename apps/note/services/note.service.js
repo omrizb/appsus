@@ -25,6 +25,7 @@ export const noteService = {
     remove,
     save,
     setTrashProp,
+    removeAllTrash,
     getEmptyNote,
     getEmptyFilter,
     getFilterFromSearchParams,
@@ -72,6 +73,10 @@ function setTrashProp(noteId, isTrashed = true) {
             note.isTrashed = isTrashed
             return save(note)
         })
+}
+
+function removeAllTrash() {
+    return storageService.removeAll(NOTE_KEY, 'isTrashed', true)
 }
 
 function getEmptyNote(type) {

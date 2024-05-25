@@ -3,8 +3,9 @@ const { useOutletContext } = ReactRouterDOM
 
 import { NoteMenu } from "./NoteMenu.jsx"
 import { NotePreview } from "./NotePreview.jsx"
+import { TrashMenu } from "./TrashMenu.jsx"
 
-export function NoteList() {
+export function NoteList({ isTrash }) {
 
     const { notes, activeElement } = useOutletContext()
     const [hoveredNoteId, setHoveredNoteId] = useState(null)
@@ -32,10 +33,16 @@ export function NoteList() {
                         style={noteStyle}
                     >
                         <NotePreview note={note} />
-                        <NoteMenu
-                            isHovered={isHovered}
-                            note={note}
-                        />
+                        {(isTrash)
+                            ? <TrashMenu
+                                isHovered={isHovered}
+                                note={note}
+                            />
+                            : <NoteMenu
+                                isHovered={isHovered}
+                                note={note}
+                            />
+                        }
                     </li>
                 )
             }

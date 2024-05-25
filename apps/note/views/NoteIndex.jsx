@@ -93,6 +93,41 @@ export function NoteIndex() {
             })
     }
 
+    function removeAllTrash() {
+        setNotes([])
+        noteService.removeAllTrash()
+            .then(() => {
+                showSuccessMsg('All trash removed.')
+            })
+            .catch(err => {
+                console.error('Error:', err)
+                showErrorMsg('Remove all trash failed.')
+            })
+    }
+
+    function removeNote(noteId) {
+        setNotes(prevNotes => prevNotes.filter(note => note.id !== noteId))
+        noteService.remove(noteId)
+            .then(() => {
+                showSuccessMsg('Note removed.')
+            })
+            .catch(err => {
+                console.error('Error:', err)
+                showErrorMsg('Note remove failed.')
+            })
+    }
+
+    function undoTrash(noteToUndo) {
+        setNotes(prevNotes => prevNotes.filter(note => note.id !== noteToUndo.id))
+        noteService.save({ ...noteToUndo, isTrashed: false })
+            .then(() => showSuccessMsg('Note is back to Notes.'))
+            .catch(err => {
+                console.error('Error:', err);
+                showErrorMsg('Failed to return note to Notes.');
+                updateNoteLocally(noteToUndo);
+            })
+    }
+
     function handleElementToggle(noteId, item) {
         if (activeElement.noteId === noteId && activeElement.item === item) {
             setActiveElement({ noteId: null, item: null })
@@ -120,7 +155,10 @@ export function NoteIndex() {
                     onElementToggle: handleElementToggle,
                     onAddNote: addNote,
                     onSaveNote: saveNote,
-                    onSendToTrash: sendNoteToTrash
+                    onSendToTrash: sendNoteToTrash,
+                    onRemoveAllTrash: removeAllTrash,
+                    onRemoveNote: removeNote,
+                    onUndoTrash: undoTrash
                 }} />
             }
         </section>

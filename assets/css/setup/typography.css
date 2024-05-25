@@ -66,3 +66,7 @@
 .fa-solid.i-more::before {
     content: "\f142";
 }
+
+.fa-solid.i-undo::before {
+    content: "\f2ea";
+}

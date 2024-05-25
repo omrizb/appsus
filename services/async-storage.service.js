@@ -4,6 +4,7 @@ export const storageService = {
     post,
     put,
     remove,
+    removeAll
 }
 
 function query(entityType, delay = 500) {
@@ -48,6 +49,22 @@ function remove(entityType, entityId) {
         if (idx < 0) throw new Error(`Remove failed, cannot find entity with id: ${entityId} in: ${entityType}`)
         entities.splice(idx, 1)
         _save(entityType, entities)
+        return entityId
+    })
+}
+
+function removeAll(entityType, key, value) {
+    return query(entityType).then(entities => {
+        const indexes = []
+        entities.forEach((entity, idx) => {
+            if (entity[key] === value) indexes.push(idx)
+        })
+        if (indexes.length === 0) throw new Error(`Remove failed, cannot find entities with ${key}: ${value} in: ${entityType}`)
+        for (let i = indexes.length - 1; i >= 0; i--) {
+            entities.splice(indexes[i], 1);
+        }
+        _save(entityType, entities)
+        return indexes.length
     })
 }
 
