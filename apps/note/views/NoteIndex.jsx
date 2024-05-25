@@ -17,14 +17,15 @@ export function NoteIndex() {
     const containerRef = useRef(null)
 
     useEffect(() => {
-        noteService.query(filterBy)
-            .then(setNotes)
-    }, [filterBy])
-
-    useEffect(() => {
+        document.querySelector('#favicon').href = '../../../assets/favicons/note-favicon.png'
         document.addEventListener('click', handleClickOutside)
         return () => document.removeEventListener('click', handleClickOutside)
     }, [])
+
+    useEffect(() => {
+        noteService.query(filterBy)
+            .then(setNotes)
+    }, [filterBy])
 
     function onSetFilterBy(newFilter) {
         setFilterBy({ ...newFilter })
