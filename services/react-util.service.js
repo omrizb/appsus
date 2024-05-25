@@ -18,5 +18,18 @@ function handleChange({ target }, stateSetter) {
             break;
     }
 
-    stateSetter(prevStateVar => ({ ...prevStateVar, [name]: value }))
+    if (name.includes('-')) {
+        const keys = name.split('-')
+        const newProp = keys.reduceRight((acc, key, idx) => {
+            if (idx === keys.length - 1) {
+                acc[key] = value
+            } else {
+                acc = { [key]: { ...acc } }
+            }
+            return acc
+        }, {})
+        stateSetter(prevStateVar => ({ ...prevStateVar, ...newProp }))
+    } else {
+        stateSetter(prevStateVar => ({ ...prevStateVar, [name]: value }))
+    }
 }
