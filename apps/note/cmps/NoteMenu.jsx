@@ -3,7 +3,7 @@ const { Link, useOutletContext } = ReactRouterDOM
 import { ColorPalette } from "./ColorPalette.jsx"
 import { MoreNoteOptions } from "./MoreNoteOptions.jsx"
 
-export function NoteMenu({ isHovered, note }) {
+export function NoteMenu({ isHovered, note, onSetNewNote }) {
 
     const { activeElement, onElementToggle, onSendToTrash } = useOutletContext()
 
@@ -22,7 +22,7 @@ export function NoteMenu({ isHovered, note }) {
             onClick={() => onElementToggle(note.id, 'palette')}
         >
             <div className="fa-solid i-color-palette"></div>
-            {isPaletteOpen && <ColorPalette note={note} />}
+            {isPaletteOpen && <ColorPalette note={note} onSetNewNote={onSetNewNote} />}
         </div>
 
         <Link to={''}><div className="fa-solid i-image"></div></Link>

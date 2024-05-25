@@ -13,6 +13,7 @@ export function NoteIndex() {
     const [activeElement, setActiveElement] = useState({ noteId: null, item: null })
     const [searchParams] = useSearchParams()
     const [isLoading, setIsLoading] = useState(true)
+    const newNote = useRef(noteService.getEmptyNote('NoteTxt'))
     const containerRef = useRef(null)
     const currFolder = useRef(null)
     const location = useLocation()
@@ -52,15 +53,38 @@ export function NoteIndex() {
         setFilterBy(prevFilter => ({ ...prevFilter, ...newFilter }))
     }
 
-    function saveNote(note, newProps) {
-        noteService.save({ ...note, ...newProps })
-            .then(() => setFilterBy({ ...filterBy }))
+    function updateNoteLocally(updatedNote) {
+        setNotes(prevNotes => prevNotes.map(note => note.id === updatedNote.id ? updatedNote : note))
+    }
+
+    function addNote(note) {
+        delete note.id
+        noteService.save(note)
+            .then(() => showSuccessMsg('Note added successfully.'))
+            .catch(err => {
+                console.error('Error:', err);
+                showErrorMsg('Failed to add note.');
+            })
+            .finally(() => setFilterBy({ ...filterBy }))
+    }
+
+    function saveNote(note, newProps = {}) {
+        const updatedNote = { ...note, ...newProps }
+        updateNoteLocally(updatedNote)
+
+        noteService.save(updatedNote)
+            .then(() => showSuccessMsg('Note updated successfully.'))
+            .catch(err => {
+                console.error('Error:', err);
+                showErrorMsg('Failed to update note.');
+                updateNoteLocally(note);
+            })
     }
 
     function sendNoteToTrash(noteId) {
+        setNotes(prevNotes => prevNotes.filter(note => note.id !== noteId))
         noteService.setTrashProp(noteId)
             .then(() => {
-                setFilterBy({ ...filterBy })
                 showSuccessMsg('Note sent to Trash.')
             })
             .catch(err => {
@@ -91,8 +115,10 @@ export function NoteIndex() {
                 ? <p>Loading...</p>
                 : <Outlet context={{
                     notes,
+                    newNote,
                     activeElement,
                     onElementToggle: handleElementToggle,
+                    onAddNote: addNote,
                     onSaveNote: saveNote,
                     onSendToTrash: sendNoteToTrash
                 }} />
