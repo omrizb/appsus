@@ -1,13 +1,12 @@
 const { useState } = React
 const { useOutletContext } = ReactRouterDOM
 
-import { NoteAdd } from "./NoteAdd.jsx"
 import { NoteMenu } from "./NoteMenu.jsx"
 import { NotePreview } from "./NotePreview.jsx"
 
 export function NoteList() {
 
-    const { notes, activeElement, onElementToggle, onSaveNote, onSendToTrash } = useOutletContext()
+    const { notes, activeElement } = useOutletContext()
     const [hoveredNoteId, setHoveredNoteId] = useState(null)
 
     function handleMouseEnter(noteId) {
@@ -34,12 +33,8 @@ export function NoteList() {
                     >
                         <NotePreview note={note} />
                         <NoteMenu
-                            activeElement={activeElement}
-                            onElementToggle={onElementToggle}
-                            onSaveNote={onSaveNote}
-                            onSendToTrash={onSendToTrash}
                             isHovered={isHovered}
-                            noteId={note.id}
+                            note={note}
                         />
                     </li>
                 )

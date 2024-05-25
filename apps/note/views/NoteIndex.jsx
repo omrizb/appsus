@@ -52,9 +52,9 @@ export function NoteIndex() {
         setFilterBy(prevFilter => ({ ...prevFilter, ...newFilter }))
     }
 
-    function saveNote(newProps, noteId) {
-        const noteToSave = { ...notes.find(note => note.id === noteId), ...newProps }
-        noteService.save(noteToSave)
+    function saveNote(note, newProps) {
+        noteService.save({ ...note, ...newProps })
+            .then(() => setFilterBy({ ...filterBy }))
     }
 
     function sendNoteToTrash(noteId) {

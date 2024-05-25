@@ -1,16 +1,14 @@
-const { Link } = ReactRouterDOM
+const { Link, useOutletContext } = ReactRouterDOM
 
 import { ColorPalette } from "./ColorPalette.jsx"
 import { MoreNoteOptions } from "./MoreNoteOptions.jsx"
 
-export function NoteMenu({ activeElement, onElementToggle, onSaveNote, onSendToTrash, isHovered, noteId }) {
+export function NoteMenu({ isHovered, note }) {
 
-    const isPaletteOpen = activeElement.noteId === noteId && activeElement.item === 'palette'
-    const isMoreOptionsOpen = activeElement.noteId === noteId && activeElement.item === 'more-options'
+    const { activeElement, onElementToggle, onSendToTrash } = useOutletContext()
 
-    function setNoteColor(color) {
-        onSaveNote({ style: { backgroundColor: color } }, noteId)
-    }
+    const isPaletteOpen = activeElement.noteId === note.id && activeElement.item === 'palette'
+    const isMoreOptionsOpen = activeElement.noteId === note.id && activeElement.item === 'more-options'
 
     const isHidden = !(isHovered || isPaletteOpen || isMoreOptionsOpen)
 
@@ -21,10 +19,10 @@ export function NoteMenu({ activeElement, onElementToggle, onSaveNote, onSendToT
         <Link to={''}><div className="fa-solid i-bell"></div></Link>
 
         <div className={`color-palette-btn${isPaletteOpen ? ' active' : ''}`}
-            onClick={() => onElementToggle(noteId, 'palette')}
+            onClick={() => onElementToggle(note.id, 'palette')}
         >
             <div className="fa-solid i-color-palette"></div>
-            {isPaletteOpen && <ColorPalette setNoteColor={setNoteColor} />}
+            {isPaletteOpen && <ColorPalette note={note} />}
         </div>
 
         <Link to={''}><div className="fa-solid i-image"></div></Link>
@@ -32,10 +30,10 @@ export function NoteMenu({ activeElement, onElementToggle, onSaveNote, onSendToT
         <Link to={''}><div className="fa-solid i-archive"></div></Link>
 
         <div className={`more-options-btn${isMoreOptionsOpen ? ' active' : ''}`}
-            onClick={() => onElementToggle(noteId, 'more-options')}
+            onClick={() => onElementToggle(note.id, 'more-options')}
         >
             <div className="fa-solid i-more"></div>
-            {isMoreOptionsOpen && <MoreNoteOptions noteId={noteId} onSendToTrash={onSendToTrash} />}
+            {isMoreOptionsOpen && <MoreNoteOptions noteId={note.id} onSendToTrash={onSendToTrash} />}
         </div>
 
     </div>
