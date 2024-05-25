@@ -1,5 +1,5 @@
 const { useState, useEffect, useRef } = React
-const { Outlet, useSearchParams } = ReactRouterDOM
+const { Outlet, useSearchParams, useLocation } = ReactRouterDOM
 
 import { noteService } from "../services/note.service.js"
 import { showErrorMsg, showSuccessMsg } from "../../../services/event-bus.service.js"
@@ -11,16 +11,34 @@ export function NoteIndex() {
 
     const [notes, setNotes] = useState([])
     const [activeElement, setActiveElement] = useState({ noteId: null, item: null })
-    const [searchParams, setSearchParams] = useSearchParams()
-    const [filterBy, setFilterBy] = useState({ ...noteService.getFilterFromSearchParams(searchParams), isTrashed: false })
-
+    const [searchParams] = useSearchParams()
     const containerRef = useRef(null)
+    const currFolder = useRef(null)
+    const location = useLocation()
 
     useEffect(() => {
         document.querySelector('#favicon').href = '../../../assets/favicons/note-favicon.png'
         document.addEventListener('click', handleClickOutside)
         return () => document.removeEventListener('click', handleClickOutside)
     }, [])
+
+
+    const [filterBy, setFilterBy] = useState({
+        ...noteService.getEmptyFilter(),
+        ...noteService.getFilterFromSearchParams(searchParams),
+        isTrashed: false
+    })
+
+    useEffect(() => {
+        const pathElements = location.pathname.split('/')
+        const locationFolder = `/${pathElements[1]}/${pathElements[2]}/`
+
+        if (currFolder.current === locationFolder) return
+
+        currFolder.current = locationFolder
+        const isTrashed = currFolder.current.includes('trash')
+        setFilterBy(prevFilter => ({ ...prevFilter, isTrashed }))
+    }, [location])
 
     useEffect(() => {
         noteService.query(filterBy)
@@ -31,7 +49,12 @@ export function NoteIndex() {
         setFilterBy({ ...newFilter })
     }
 
-    function sendToTrash(noteId) {
+    function saveNote(newProps, noteId) {
+        const noteToSave = { ...notes.find(note => note.id === noteId), ...newProps }
+        noteService.save(noteToSave)
+    }
+
+    function sendNoteToTrash(noteId) {
         noteService.setTrashProp(noteId)
             .then(() => {
                 setFilterBy({ ...filterBy })
@@ -65,7 +88,8 @@ export function NoteIndex() {
                 notes,
                 activeElement,
                 onElementToggle: handleElementToggle,
-                onSendToTrash: sendToTrash
+                onSaveNote: saveNote,
+                onSendToTrash: sendNoteToTrash
             }} />
         </section>
     </section>

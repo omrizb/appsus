@@ -3,16 +3,18 @@ const { Link } = ReactRouterDOM
 import { ColorPalette } from "./ColorPalette.jsx"
 import { MoreNoteOptions } from "./MoreNoteOptions.jsx"
 
-export function NoteMenu({ menuClasses, activeElement, onElementToggle, onSendToTrash, noteId, saveNote }) {
+export function NoteMenu({ activeElement, onElementToggle, onSaveNote, onSendToTrash, isHovered, noteId }) {
 
     const isPaletteOpen = activeElement.noteId === noteId && activeElement.item === 'palette'
     const isMoreOptionsOpen = activeElement.noteId === noteId && activeElement.item === 'more-options'
 
     function setNoteColor(color) {
-        saveNote({ style: { backgroundColor: color } })
+        onSaveNote({ style: { backgroundColor: color } }, noteId)
     }
 
-    return <div className={`note-menu ${menuClasses.join(' ')}`}>
+    const isHidden = !(isHovered || isPaletteOpen || isMoreOptionsOpen)
+
+    return <div className={`note-menu${(isHidden) ? ' hide' : ''}`}>
 
         <div className="pin-btn"><div className="fa-solid i-pin"></div></div>
 

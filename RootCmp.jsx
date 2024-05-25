@@ -8,7 +8,7 @@ import { MailIndex } from "./apps/mail/views/MailIndex.jsx"
 import { MailDetails } from "./apps/mail/views/MailDetails.jsx"
 import { MailCompose } from "./apps/mail/views/MailCompose.jsx"
 import { NoteIndex } from "./apps/note/views/NoteIndex.jsx"
-import { NoteList } from "./apps/note/views/NoteList.jsx"
+import { Notes } from "./apps/note/views/Notes.jsx"
 import { Reminders } from "./apps/note/views/Reminders.jsx"
 import { LabelEdit } from "./apps/note/views/LabelEdit.jsx"
 import { Archive } from "./apps/note/views/Archive.jsx"
@@ -27,8 +27,8 @@ export function App() {
                 <Route path="/mail/compose/" element={<MailCompose />} />
                 <Route path="/mail/compose/:mailId" element={<MailCompose />} />
                 <Route path="/note" element={<NoteIndex />}>
-                    <Route path="" element={<Navigate to="notes" />} index />
-                    <Route path="notes" element={<NoteList />} index />
+                    <Route path="" element={<Navigate to="notes" />} />
+                    <Route path="notes" element={<Notes />} />
                     <Route path="reminders" element={<Reminders />} />
                     <Route path="edit-labels" element={<LabelEdit />} />
                     <Route path="archive" element={<Archive />} />
