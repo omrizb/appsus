@@ -12,6 +12,7 @@ export function NoteIndex() {
     const [notes, setNotes] = useState([])
     const [activeElement, setActiveElement] = useState({ noteId: null, item: null })
     const [searchParams] = useSearchParams()
+    const [isLoading, setIsLoading] = useState(true)
     const containerRef = useRef(null)
     const currFolder = useRef(null)
     const location = useLocation()
@@ -41,12 +42,14 @@ export function NoteIndex() {
     }, [location])
 
     useEffect(() => {
+        setIsLoading(true)
         noteService.query(filterBy)
             .then(setNotes)
+            .finally(() => setIsLoading(false))
     }, [filterBy])
 
     function onSetFilterBy(newFilter) {
-        setFilterBy({ ...newFilter })
+        setFilterBy(prevFilter => ({ ...prevFilter, ...newFilter }))
     }
 
     function saveNote(newProps, noteId) {
@@ -84,13 +87,16 @@ export function NoteIndex() {
         <NoteHeader filterBy={filterBy} onFilter={onSetFilterBy} />
         <NoteSideNav />
         <section className="note-main-view">
-            <Outlet context={{
-                notes,
-                activeElement,
-                onElementToggle: handleElementToggle,
-                onSaveNote: saveNote,
-                onSendToTrash: sendNoteToTrash
-            }} />
+            {isLoading
+                ? <p>Loading...</p>
+                : <Outlet context={{
+                    notes,
+                    activeElement,
+                    onElementToggle: handleElementToggle,
+                    onSaveNote: saveNote,
+                    onSendToTrash: sendNoteToTrash
+                }} />
+            }
         </section>
     </section>
 }
