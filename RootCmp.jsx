@@ -4,6 +4,8 @@ const Router = ReactRouterDOM.HashRouter
 import { AppHeader } from "./cmps/AppHeader.jsx"
 import { About } from "./views/About.jsx"
 import { Home } from "./views/Home.jsx"
+import { Modal } from "./cmps/Modal.jsx"
+import { UserMsg } from "./cmps/UserMsg.jsx"
 import { MailIndex } from "./apps/mail/views/MailIndex.jsx"
 import { MailDetails } from "./apps/mail/views/MailDetails.jsx"
 import { MailCompose } from "./apps/mail/views/MailCompose.jsx"
@@ -14,7 +16,6 @@ import { Reminders } from "./apps/note/views/Reminders.jsx"
 import { LabelEdit } from "./apps/note/views/LabelEdit.jsx"
 import { Archive } from "./apps/note/views/Archive.jsx"
 import { Trash } from "./apps/note/views/Trash.jsx"
-import { UserMsg } from "./cmps/UserMsg.jsx"
 
 
 export function App() {
@@ -39,6 +40,7 @@ export function App() {
                 </Route>
             </Routes>
         </section>
+        <Modal />
         <UserMsg />
     </Router>
 }

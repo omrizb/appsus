@@ -21,6 +21,7 @@
 
 @import "./apps/note/views/Archive.css";
 @import "./apps/note/views/LabelEdit.css";
+@import "./apps/note/views/NoteDetails.css";
 @import "./apps/note/views/NoteIndex.css";
 @import "./apps/note/views/Notes.css";
 @import "./apps/note/views/Reminders.css";
@@ -35,6 +36,7 @@
 @import "./cmps/AppHeader.css";
 @import "./cmps/LabelPicker.css";
 @import "./cmps/LongTxt.css";
+@import "./cmps/Modal.css";
 
 /* @import './apps/mail/cmps/MailList.css'; */
 

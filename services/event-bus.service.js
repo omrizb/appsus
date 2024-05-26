@@ -1,7 +1,7 @@
 function createEventEmitter() {
     const listenersMap = {}
     // Trick for DEBUG
-    // window.mapmap = listenersMap
+    window.mapmap = listenersMap
     return {
         on(evName, listener) {
             listenersMap[evName] = (listenersMap[evName]) ? [...listenersMap[evName], listener] : [listener]
@@ -18,15 +18,20 @@ function createEventEmitter() {
 
 export const eventBusService = createEventEmitter()
 
-export function showUserMsg(msg) {
-    eventBusService.emit('show-user-msg', msg)
-}
 
 export function showSuccessMsg(txt) {
     showUserMsg({ txt, type: 'success' })
 }
 export function showErrorMsg(txt) {
     showUserMsg({ txt, type: 'error' })
+}
+
+function showUserMsg(msg) {
+    eventBusService.emit('show-user-msg', msg)
+}
+
+export function showModal() {
+    eventBusService.emit('show-modal')
 }
 
 
