@@ -26,7 +26,7 @@ export function MailCompose() {
 
     function onSaveAsDraft(ev) {
         ev.preventDefault()
-        mailService.save(mail, 'drafts')
+        mailService.save(mail, 'draft')
             .then(() => {
                 showSuccessMsg(`Your mail was moved to draft...`)
                 navigate('/mail')

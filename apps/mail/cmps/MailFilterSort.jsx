@@ -60,12 +60,15 @@ export function MailFilterSort({ filterBy, onFilter, sortBy, onSort }) {
 
     return (
         <section className="mail-filter-sort">
-            <input
-                onChange={handleFilterChange}
-                value={filterBy.txt}
-                name="txt"
-                type="text"
-                placeholder="Search" />
+            <label>
+                <div className="fa-solid i-search"></div>
+                <input
+                    onChange={handleFilterChange}
+                    value={filterBy.txt}
+                    name="txt"
+                    type="text"
+                    placeholder="Search" />
+            </label>
             <label>
                 filterBy:
                 <select
@@ -85,7 +88,7 @@ export function MailFilterSort({ filterBy, onFilter, sortBy, onSort }) {
                     {['inbox', 'trash'].includes(filterBy.folder) && (
                         <option value="from">From</option>
                     )}
-                    {['drafts', 'sent', 'trash'].includes(filterBy.folder) && (
+                    {['draft', 'sent', 'trash'].includes(filterBy.folder) && (
                         <option value="to">To</option>
                     )}
                 </select>

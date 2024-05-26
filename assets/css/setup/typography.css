@@ -66,3 +66,53 @@
 .fa-solid.i-more::before {
     content: "\f142";
 }
+
+.fa-solid.i-inbox::before {
+    content: "\f01c";
+}
+
+/* mail folder list */
+.fa-solid.i-inbox::before {
+    content: "\f01c";
+}
+
+.fa-regular.i-starred::before {
+    content: "\f005";
+}
+
+.fa-regular.i-sent::before {
+    content: "\f1d8";
+}
+
+.fa-regular.i-draft::before {
+    content: "\f15b";
+}
+
+.fa-regular.i-trash::before {
+    content: "\f2ed";
+}
+
+/* mail actions list */
+.fa-solid.i-search::before {
+    content: "\f002";
+}
+
+.fa-solid.i-compose::before {
+    content: "\f303";
+}
+
+.fa-solid.i-star::before {
+    content: "\f005";
+}
+
+.fa-regular.i-unstar::before {
+    content: "\f005";
+}
+
+.fa-regular.i-read::before {
+    content: "\f2b6";
+}
+
+.fa-regular.i-unread::before {
+    content: "\f0e0";
+}
