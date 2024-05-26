@@ -67,6 +67,14 @@
     content: "\f142";
 }
 
+.fa-solid.i-undo::before {
+    content: "\f2ea";
+}
+
+.fa-solid.i-undo::before {
+    content: "\f2ea";
+}
+
 .fa-solid.i-inbox::before {
     content: "\f01c";
 }

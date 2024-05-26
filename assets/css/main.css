@@ -40,11 +40,13 @@
 
 @import "./apps/note/cmps/ColorPalette.css";
 @import "./apps/note/cmps/MoreNoteOptions.css";
+@import "./apps/note/cmps/NoteAdd.css";
 @import "./apps/note/cmps/NoteHeader.css";
 @import "./apps/note/cmps/NoteList.css";
 @import "./apps/note/cmps/NoteMenu.css";
 @import "./apps/note/cmps/NotePreview.css";
 @import "./apps/note/cmps/NoteSideNav.css";
+@import "./apps/note/cmps/TrashMenu.css";
 @import "./apps/mail/cmps/MailFolderList.css";
 @import "./apps/mail/cmps/MailList.css";
 @import "./apps/mail/cmps/MailPreview.css";

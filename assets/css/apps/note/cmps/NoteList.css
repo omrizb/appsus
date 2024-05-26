@@ -7,6 +7,7 @@
 
 .note-list li {
     position: relative;
+    width: 100%;
     padding: 10px;
     border-radius: 1em;
     border: 1px solid var(--clr-border-primary);

@@ -13,6 +13,7 @@ export function NoteIndex() {
     const [activeElement, setActiveElement] = useState({ noteId: null, item: null })
     const [searchParams] = useSearchParams()
     const [isLoading, setIsLoading] = useState(true)
+    const newNote = useRef(noteService.getEmptyNote('NoteTxt'))
     const containerRef = useRef(null)
     const currFolder = useRef(null)
     const location = useLocation()
@@ -52,20 +53,78 @@ export function NoteIndex() {
         setFilterBy(prevFilter => ({ ...prevFilter, ...newFilter }))
     }
 
-    function saveNote(newProps, noteId) {
-        const noteToSave = { ...notes.find(note => note.id === noteId), ...newProps }
-        noteService.save(noteToSave)
+    function updateNoteLocally(updatedNote) {
+        setNotes(prevNotes => prevNotes.map(note => note.id === updatedNote.id ? updatedNote : note))
+    }
+
+    function addNote(note) {
+        delete note.id
+        noteService.save(note)
+            .then(() => showSuccessMsg('Note added successfully.'))
+            .catch(err => {
+                console.error('Error:', err);
+                showErrorMsg('Failed to add note.');
+            })
+            .finally(() => setFilterBy({ ...filterBy }))
+    }
+
+    function saveNote(note, newProps = {}) {
+        const updatedNote = { ...note, ...newProps }
+        updateNoteLocally(updatedNote)
+
+        noteService.save(updatedNote)
+            .then(() => showSuccessMsg('Note updated successfully.'))
+            .catch(err => {
+                console.error('Error:', err);
+                showErrorMsg('Failed to update note.');
+                updateNoteLocally(note);
+            })
     }
 
     function sendNoteToTrash(noteId) {
+        setNotes(prevNotes => prevNotes.filter(note => note.id !== noteId))
         noteService.setTrashProp(noteId)
             .then(() => {
-                setFilterBy({ ...filterBy })
                 showSuccessMsg('Note sent to Trash.')
             })
             .catch(err => {
                 console.error('Error:', err)
                 showErrorMsg('Send note to Trash failed.')
+            })
+    }
+
+    function removeAllTrash() {
+        setNotes([])
+        noteService.removeAllTrash()
+            .then(() => {
+                showSuccessMsg('All trash removed.')
+            })
+            .catch(err => {
+                console.error('Error:', err)
+                showErrorMsg('Remove all trash failed.')
+            })
+    }
+
+    function removeNote(noteId) {
+        setNotes(prevNotes => prevNotes.filter(note => note.id !== noteId))
+        noteService.remove(noteId)
+            .then(() => {
+                showSuccessMsg('Note removed.')
+            })
+            .catch(err => {
+                console.error('Error:', err)
+                showErrorMsg('Note remove failed.')
+            })
+    }
+
+    function undoTrash(noteToUndo) {
+        setNotes(prevNotes => prevNotes.filter(note => note.id !== noteToUndo.id))
+        noteService.save({ ...noteToUndo, isTrashed: false })
+            .then(() => showSuccessMsg('Note is back to Notes.'))
+            .catch(err => {
+                console.error('Error:', err);
+                showErrorMsg('Failed to return note to Notes.');
+                updateNoteLocally(noteToUndo);
             })
     }
 
@@ -91,10 +150,15 @@ export function NoteIndex() {
                 ? <p>Loading...</p>
                 : <Outlet context={{
                     notes,
+                    newNote,
                     activeElement,
                     onElementToggle: handleElementToggle,
+                    onAddNote: addNote,
                     onSaveNote: saveNote,
-                    onSendToTrash: sendNoteToTrash
+                    onSendToTrash: sendNoteToTrash,
+                    onRemoveAllTrash: removeAllTrash,
+                    onRemoveNote: removeNote,
+                    onUndoTrash: undoTrash
                 }} />
             }
         </section>
