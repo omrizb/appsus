@@ -30,11 +30,6 @@ function showUserMsg(msg) {
     eventBusService.emit('show-user-msg', msg)
 }
 
-export function showModal() {
-    eventBusService.emit('show-modal')
-}
-
-
 // Service Testing:
 // eventBusService.on('muk', (data) => {
 //     console.log('Got Muk with data:', data)
