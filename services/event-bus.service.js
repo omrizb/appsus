@@ -1,7 +1,7 @@
 function createEventEmitter() {
     const listenersMap = {}
     // Trick for DEBUG
-    window.mapmap = listenersMap
+    // window.mapmap = listenersMap
     return {
         on(evName, listener) {
             listenersMap[evName] = (listenersMap[evName]) ? [...listenersMap[evName], listener] : [listener]
@@ -31,9 +31,11 @@ export function showErrorMsg(txt) {
 
 
 // Service Testing:
-// eventBus.on('muk', (data)=>{
+// eventBusService.on('muk', (data) => {
 //     console.log('Got Muk with data:', data)
 // })
+
+// eventBusService.emit('muk', 'asdf')
 // eventBus.on('muk', console.log)
 // eventBus.on('puk', (level)=>{
 //     console.log('Got puk with level:', level)

@@ -9,10 +9,12 @@ import { MailDetails } from "./apps/mail/views/MailDetails.jsx"
 import { MailCompose } from "./apps/mail/views/MailCompose.jsx"
 import { NoteIndex } from "./apps/note/views/NoteIndex.jsx"
 import { Notes } from "./apps/note/views/Notes.jsx"
+import { NoteDetails } from "./apps/note/views/NoteDetails.jsx"
 import { Reminders } from "./apps/note/views/Reminders.jsx"
 import { LabelEdit } from "./apps/note/views/LabelEdit.jsx"
 import { Archive } from "./apps/note/views/Archive.jsx"
 import { Trash } from "./apps/note/views/Trash.jsx"
+import { UserMsg } from "./cmps/UserMsg.jsx"
 
 
 export function App() {
@@ -29,6 +31,7 @@ export function App() {
                 <Route path="/note" element={<NoteIndex />}>
                     <Route path="" element={<Navigate to="notes" />} />
                     <Route path="notes" element={<Notes />} />
+                    <Route path="notes/:noteId" element={<NoteDetails />} />
                     <Route path="reminders" element={<Reminders />} />
                     <Route path="edit-labels" element={<LabelEdit />} />
                     <Route path="archive" element={<Archive />} />
@@ -36,5 +39,6 @@ export function App() {
                 </Route>
             </Routes>
         </section>
+        <UserMsg />
     </Router>
 }
