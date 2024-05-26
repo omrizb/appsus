@@ -1,12 +1,12 @@
-.mail-filter {
+.mail-filter-sort {
     display: flex;
     gap: 1em;
     padding: 1em;
-    font-size: 1.5em;
+    font-size: 1em;
     color: #bb8082;
 }
 
-.mail-filter select {
+.mail-filter-sort select {
     margin-inline-start: 1em;
     border-radius: 100vh;
     border: 1px solid #ddd;
@@ -14,7 +14,7 @@
     color: #bb8082;
 }
 
-.mail-filter input {
+.mail-filter-sort input {
     border-radius: 100vh;
     border: 1px solid #ddd;
     padding: 1em;

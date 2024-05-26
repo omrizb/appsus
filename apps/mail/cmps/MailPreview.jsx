@@ -7,7 +7,7 @@ export function MailPreview({ mail }) {
                 {(mail.folder === 'inbox') && (
                     <p>From: {mail.from}</p>
                 )}
-                {((mail.folder === 'drafts' && mail.to) || mail.folder === 'sent') && (
+                {((mail.folder === 'draft' && mail.to) || mail.folder === 'sent') && (
                     <p>To: {mail.to}</p>
                 )}
                 {mail.folder === 'trash' && (

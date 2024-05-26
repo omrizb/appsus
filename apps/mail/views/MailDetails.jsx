@@ -88,7 +88,7 @@ export function MailDetails() {
                 <div className='mail-container'>
                     <button onClick={onGoBack}>Go back</button>
                     <button onClick={onRemoveMail}> {folder === 'trash' ? 'Delete Permanently' : 'Delete'} </button>
-                    {folder === 'drafts' && (
+                    {folder === 'draft' && (
                         <Link to={`/mail/compose/${mail.id}`}><button>Edit</button></Link>
                     )}
                     <hr />
