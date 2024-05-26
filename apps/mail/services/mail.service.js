@@ -78,11 +78,8 @@ function query(filterBy = {}, sortBy = {}) {
                     mails.sort((a, b) => b.to.localeCompare(a.to))
                 }
             }
-
             return mails
         })
-
-
 }
 
 function get(mailId) {
@@ -93,13 +90,14 @@ function getEmptyMail(
     subject = '',
     body = '',
     isRead = false,
+    isStarred = false,
     sentAt = null,
     removedAt = null,
     from = loggedinUser.email,
     to = '',
     folder = 'draft'
 ) {
-    return { subject, body, isRead, sentAt, removedAt, from, to, folder }
+    return { subject, body, isRead, isStarred, sentAt, removedAt, from, to, folder }
 
 }
 
@@ -185,6 +183,7 @@ function _createMail(subject, body, from, to) {
         subject,
         body,
         isRead: false,
+        isStarred: false,
         sentAt: utilService.randomTimestamp(2023),
         removedAt: null,
         from,
