@@ -3,7 +3,7 @@ const { useSearchParams, Link } = ReactRouterDOM
 
 import { mailService } from '../services/mail.service.js'
 import { MailList } from '../cmps/MailList.jsx'
-import { MailFilter } from '../cmps/MailFilter.jsx'
+import { MailFilterSort } from '../cmps/MailFilterSort.jsx'
 import { MailFolderList } from '../cmps/MailFolderList.jsx'
 
 
@@ -12,15 +12,15 @@ export function MailIndex() {
     const [unreadCounts, setUnreadCounts] = useState({})
 
     const [searchParams, setSearchParams] = useSearchParams()
-    const [filterBy, setFilterBy] = useState(mailService.getFilterFromSearchParams(searchParams))
-    // console.log('mailService.getFilterFromSearchParams(searchParams):', mailService.getFilterFromSearchParams(searchParams))
-    // …filterBy, …sortBy
+    const { filterBy: initialFilterBy, sortBy: initialSortBy } = mailService.getFilterSortFromSearchParams(searchParams)
+    const [filterBy, setFilterBy] = useState(initialFilterBy)
+    const [sortBy, setSortBy] = useState(initialSortBy)
+
     useEffect(() => {
-        // console.log('filterBy:', filterBy)
-        setSearchParams(filterBy)
-        mailService.query(filterBy)
+        setSearchParams({ ...filterBy, ...sortBy })
+        mailService.query(filterBy, sortBy)
             .then(mails => setMails(mails))
-    }, [filterBy])
+    }, [filterBy, sortBy])
 
     useEffect(() => {
         mailService.getUnreadCountByFolder()
@@ -29,6 +29,10 @@ export function MailIndex() {
 
     function onSetFilterBy(newFilter) {
         setFilterBy({ ...newFilter })
+    }
+
+    function onSetSortBy(newSort) {
+        setSortBy(newSort)
     }
 
     function handleFolderClick(folder) {
@@ -40,12 +44,14 @@ export function MailIndex() {
         <section className="mail-index">
             <aside>
                 <h1>My Mail</h1>
-                <Link className="mail-compose-btn" to="/mail/compose"><button>Compose Mail</button></Link>
+                <Link className="mail-compose-btn" to="/mail/compose">
+                    <button>Compose Mail</button>
+                </Link>
                 <MailFolderList onFolderClick={handleFolderClick} unreadCounts={unreadCounts} activeFolder={filterBy.folder} />
             </aside>
             <main>
                 <section className="mail-filter-sort">
-                    <MailFilter filterBy={filterBy} onFilter={onSetFilterBy} />
+                    <MailFilterSort filterBy={filterBy} onFilter={onSetFilterBy} sortBy={sortBy} onSort={onSetSortBy} />
                 </section>
                 {isMails
                     ? <MailList mails={mails} />

@@ -1,17 +1,21 @@
 const { useState, useEffect } = React
 
-export function MailFilter({ filterBy, onFilter }) {
+export function MailFilterSort({ filterBy, onFilter, sortBy, onSort }) {
 
     let selectedValue
     const [filterByToEdit, setFilterByToEdit] = useState({ ...filterBy })
+    const [sortByToEdit, setSortByToEdit] = useState({ ...sortBy })
 
     useEffect(() => {
-
         onFilter(filterByToEdit)
-
     }, [filterByToEdit])
 
-    function handleChange({ target }) {
+
+    useEffect(() => {
+        onSort(sortByToEdit);
+    }, [sortByToEdit])
+
+    function handleFilterChange({ target }) {
         let value = target.value
         let updatedFilter
         if (target.type === "text") {
@@ -42,6 +46,11 @@ export function MailFilter({ filterBy, onFilter }) {
 
     }
 
+    function handleSortChange({ target }) {
+        const { name, value } = target;
+        setSortByToEdit(prevSortBy => ({ ...prevSortBy, [name]: value }))
+    }
+
     selectedValue = 'all'
     if (filterBy.isRead === true) selectedValue = 'read'
     else if (filterBy.isRead === false) selectedValue = 'unread'
@@ -50,10 +59,9 @@ export function MailFilter({ filterBy, onFilter }) {
     // console.log('selectedValue:', selectedValue)
 
     return (
-
-        <section className="mail-filter">
+        <section className="mail-filter-sort">
             <input
-                onChange={handleChange}
+                onChange={handleFilterChange}
                 value={filterBy.txt}
                 name="txt"
                 type="text"
@@ -61,14 +69,33 @@ export function MailFilter({ filterBy, onFilter }) {
             <label>
                 filterBy:
                 <select
-                    onChange={handleChange} value={selectedValue}>
+                    onChange={handleFilterChange} value={selectedValue}>
                     <option value="all">All</option>
                     <option value="read">Read</option>
                     <option value="unread">Unread</option>
                     <option value="starred">Starred</option>
                     <option value="unstarred">Unstarred</option>
                 </select>
-
+            </label>
+            <label>
+                Sort By:
+                <select name="sortBy" onChange={handleSortChange} value={sortBy.sortBy}>
+                    <option value="date">Date</option>
+                    <option value="subject">Subject</option>
+                    {['inbox', 'trash'].includes(filterBy.folder) && (
+                        <option value="from">From</option>
+                    )}
+                    {['drafts', 'sent', 'trash'].includes(filterBy.folder) && (
+                        <option value="to">To</option>
+                    )}
+                </select>
+            </label>
+            <label>
+                Direction:
+                <select name="direction" onChange={handleSortChange} value={sortBy.direction}>
+                    <option value="asc">Ascending</option>
+                    <option value="desc">Descending</option>
+                </select>
             </label>
         </section>
     )

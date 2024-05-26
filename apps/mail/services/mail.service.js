@@ -12,7 +12,7 @@ export const mailService = {
     get,
     remove,
     save,
-    getFilterFromSearchParams,
+    getFilterSortFromSearchParams,
     getEmptyMail,
     getUnreadCountByFolder
 }
@@ -65,6 +65,18 @@ function query(filterBy = {}, sortBy = {}) {
                 } else if (sortBy.direction === 'desc') {
                     mails.sort((a, b) => b.subject.localeCompare(a.subject))
                 }
+            } else if (sortBy.sortBy === 'from') {
+                if (sortBy.direction === 'asc') {
+                    mails.sort((a, b) => a.from.localeCompare(b.from))
+                } else if (sortBy.direction === 'desc') {
+                    mails.sort((a, b) => b.from.localeCompare(a.from))
+                }
+            } else if (sortBy.sortBy === 'to') {
+                if (sortBy.direction === 'asc') {
+                    mails.sort((a, b) => a.to.localeCompare(b.to))
+                } else if (sortBy.direction === 'desc') {
+                    mails.sort((a, b) => b.to.localeCompare(a.to))
+                }
             }
 
             return mails
@@ -107,13 +119,20 @@ function save(mail, folder) {
 //     return { folder: filterBy.folder, txt: filterBy.txt, isRead: filterBy.isRead, isStarred: filterBy.isStarred }
 // }
 
-function getFilterFromSearchParams(searchParams) {
-    return {
+function getFilterSortFromSearchParams(searchParams) {
+    const filterBy = {
         folder: searchParams.get('folder') || 'inbox',
         txt: searchParams.get('txt') || '',
         isRead: searchParams.get('isRead') || '',
         isStarred: searchParams.get('isStarred') || '',
     }
+
+    const sortBy = {
+        sortBy: searchParams.get('sortBy') || 'date',
+        direction: searchParams.get('direction') || 'asc',
+    }
+
+    return { filterBy, sortBy }
 }
 
 function getUnreadCountByFolder() {
