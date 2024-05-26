@@ -3,14 +3,17 @@ const { Link, useOutletContext } = ReactRouterDOM
 import { ColorPalette } from "./ColorPalette.jsx"
 import { MoreNoteOptions } from "./MoreNoteOptions.jsx"
 
-export function NoteMenu({ isHovered, note, onSetNewNote }) {
+export function NoteMenu({ isHovered, note, onSetNewNote, btnRef }) {
 
     const { activeElement, onElementToggle, onSendToTrash } = useOutletContext()
 
     const isPaletteOpen = activeElement.noteId === note.id && activeElement.item === 'palette'
     const isMoreOptionsOpen = activeElement.noteId === note.id && activeElement.item === 'more-options'
-
     const isHidden = !(isHovered || isPaletteOpen || isMoreOptionsOpen)
+
+    function handleBtnClick() {
+        if (btnRef) btnRef.current.click()
+    }
 
     return <div className={`note-menu${(isHidden) ? ' hide' : ''}`}>
 
@@ -35,6 +38,8 @@ export function NoteMenu({ isHovered, note, onSetNewNote }) {
             <div className="fa-solid i-more"></div>
             {isMoreOptionsOpen && <MoreNoteOptions noteId={note.id} onSendToTrash={onSendToTrash} />}
         </div>
+
+        {onSetNewNote && <button className="btn new-note-btn" onClick={handleBtnClick}>Close</button>}
 
     </div>
 }

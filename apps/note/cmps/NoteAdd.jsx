@@ -1,4 +1,4 @@
-const { useState } = React
+const { useState, useRef } = React
 const { useOutletContext } = ReactRouterDOM
 
 import { reactUtilService } from "../../../services/react-util.service.js"
@@ -10,6 +10,7 @@ export function NoteAdd() {
     const { activeElement, newNote, onAddNote } = useOutletContext()
     const [newNoteToSave, setNewNoteToSave] = useState({ ...newNote.current, id: 'new-note' })
     const [hoveredNoteId, setHoveredNoteId] = useState(null)
+    const addNoteBtnRef = useRef(null)
     const isHovered = newNoteToSave.id === hoveredNoteId
 
     function handleMouseEnter(noteId) {
@@ -53,9 +54,9 @@ export function NoteAdd() {
                     type="text"
                     placeholder="Take a note..."
                 />
-                <button type="submit">Save</button>
+                <button ref={addNoteBtnRef} type="submit" hidden></button>
             </form>
-            <NoteMenu note={newNoteToSave} isHovered={isHovered} onSetNewNote={setNewNote} />
+            <NoteMenu note={newNoteToSave} isHovered={isHovered} onSetNewNote={setNewNote} btnRef={addNoteBtnRef} />
         </div>
     </div>
 }

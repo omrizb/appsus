@@ -7,6 +7,13 @@
     cursor: default;
 }
 
+.add-note .note form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0.5em 2em 0.5em 0.5em;
+}
+
 .add-note .note:hover .note-menu {
     transition: opacity 200ms;
 }
