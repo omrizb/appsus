@@ -8,17 +8,24 @@
     overflow: auto;
     background-color: #474e5d7a;
     padding-top: 50px;
+    color: #041e49;
 }
 
 .mail-compose .mail-modal {
     position: relative;
-    /* Make this element a containing block for absolutely positioned elements */
     background-color: #fefefe;
     margin: 5% auto;
     border: 1px solid #888;
     width: 70%;
-    padding: 1em;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.mail-compose h2 {
+    padding: 1em;
+    background-color: rgb(211, 227, 253);
+    font-weight: 500;
+    font-size: 0.875rem;
+    font-family: "Google Sans", Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
 }
 
 .mail-compose .close-modal-btn {
@@ -27,31 +34,32 @@
     right: 10px;
     background-color: transparent;
     border: none;
-    font-size: 1.5em;
+    font-size: 0.875rem;
     cursor: pointer;
-    color: #bb8082;
+    height: 16px;
+    width: 16px;
 }
 
 .mail-compose form {
     display: flex;
     flex-direction: column;
+    padding: 1em;
     gap: 1em;
+}
+
+.mail-compose label {
+    display: flex;
+    flex-direction: row;
+    border-bottom: 1px solid #ccc;
+    gap: 10px;
 }
 
 .mail-compose input,
 .mail-compose textarea {
-    margin: 10px;
+    all: unset;
     width: calc(100% - 20px);
-    padding: 0.5em;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 1em;
-}
-
-.mail-compose label {
-    color: #bb8082;
-    padding: 0.5em 0;
-    display: block;
+    font-size: 0.875rem;
+    padding-bottom: 1em;
 }
 
 .actions {
@@ -61,16 +69,27 @@
 }
 
 .mail-compose .actions button {
-    border: 1px solid black;
-    border-radius: 6px;
-    background-color: whitesmoke;
-    padding: 7px 20px;
-    font-weight: 700;
-    color: #bb8082;
-}
+    all: unset;
 
-.mail-compose .actions button:hover {
-    background-color: #bb8082;
-    opacity: 0.8;
-    color: black;
+    align-items: center;
+    display: inline-flex;
+    justify-content: center;
+
+    margin: 0;
+    padding: 0 16px;
+    max-width: 104px;
+    min-width: 72px;
+    height: 36px;
+    line-height: 18px;
+
+    border-radius: 18px;
+    background-color: #0b57d0;
+    cursor: pointer;
+
+
+    color: #fff;
+    font-weight: 500;
+    font-family: "Google Sans", Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
+    font-size: 0.875rem;
+
 }
