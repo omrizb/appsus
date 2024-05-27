@@ -12,7 +12,7 @@
 }
 
 .user-msg {
-    position: absolute;
+    position: fixed;
     bottom: 10%;
     left: 15%;
     display: flex;

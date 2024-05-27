@@ -87,7 +87,7 @@ function getEmptyNote(type) {
         isTrashed: false,
         info: { ..._getNoteInfo(type) },
         style: {
-            backgroundColor: '#fff'
+            backgroundColor: { name: 'none', color: '#ffffff' }
         }
     }
 }
