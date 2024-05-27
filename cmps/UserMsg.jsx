@@ -27,8 +27,8 @@ export function UserMsg() {
     if (!msg) return <span></span>
     return (
         <section className={`user-msg ${msg.type}`}>
+            <p>{msg.txt}</p>
             <button className="btn" onClick={closeMsg}>Close</button>
-            {msg.txt}
         </section>
     )
 }
