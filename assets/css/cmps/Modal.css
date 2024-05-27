@@ -1,0 +1,57 @@
+:root {
+    --clr-modal-background: #ffffff;
+    --clr-modal-text: var(--gray-8);
+    --clr-modal-btn: var(--gray-1);
+    --clr-modal-btn-border: var(--gray-3);
+    --clr-modal-btn-hover: var(--gray-2);
+}
+
+.modal .modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 1000;
+}
+
+.modal .modal-content {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%);
+    padding: 1em;
+    border-radius: 0.5em;
+    max-width: 50%;
+    max-height: 50%;
+    padding: 2em;
+    background-color: #ffffff;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    overflow: auto;
+}
+
+.modal .modal-close-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    border: 1px solid var(--clr-modal-btn-border);
+    color: var(--clr-modal-text);
+    background-color: var(--clr-modal-btn);
+    cursor: pointer;
+}
+
+.modal .modal-close-btn:hover {
+    background-color: var(--clr-modal-btn-hover);
+}

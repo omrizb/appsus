@@ -6,7 +6,7 @@ export function TrashMenu({ isHovered, note }) {
 
     const isHidden = !isHovered
 
-    return <div className={`trash-menu${(isHidden) ? ' hide' : ''}`}>
+    return <div className={`trash-menu${(isHidden) ? ' hide' : ''}`} onClick={ev => ev.stopPropagation()}>
         <div className="remove-btn">
             <div
                 className="fa-solid i-trash"

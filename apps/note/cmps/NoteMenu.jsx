@@ -15,7 +15,7 @@ export function NoteMenu({ isHovered, note, onSetNewNote, btnRef }) {
         if (btnRef) btnRef.current.click()
     }
 
-    return <div className={`note-menu${(isHidden) ? ' hide' : ''}`}>
+    return <div className={`note-menu${(isHidden) ? ' hide' : ''}`} onClick={ev => ev.stopPropagation()}>
 
         <div className="pin-btn"><div className="fa-solid i-pin"></div></div>
 

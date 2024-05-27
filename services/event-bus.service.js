@@ -18,9 +18,6 @@ function createEventEmitter() {
 
 export const eventBusService = createEventEmitter()
 
-export function showUserMsg(msg) {
-    eventBusService.emit('show-user-msg', msg)
-}
 
 export function showSuccessMsg(txt) {
     showUserMsg({ txt, type: 'success' })
@@ -29,11 +26,16 @@ export function showErrorMsg(txt) {
     showUserMsg({ txt, type: 'error' })
 }
 
+function showUserMsg(msg) {
+    eventBusService.emit('show-user-msg', msg)
+}
 
 // Service Testing:
-// eventBus.on('muk', (data)=>{
+// eventBusService.on('muk', (data) => {
 //     console.log('Got Muk with data:', data)
 // })
+
+// eventBusService.emit('muk', 'asdf')
 // eventBus.on('muk', console.log)
 // eventBus.on('puk', (level)=>{
 //     console.log('Got puk with level:', level)
