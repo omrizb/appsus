@@ -10,6 +10,7 @@ export function NoteAdd() {
     const { activeElement, newNote, onAddNote } = useOutletContext()
     const [newNoteToSave, setNewNoteToSave] = useState({ ...newNote.current, id: 'new-note' })
     const [hoveredNoteId, setHoveredNoteId] = useState(null)
+    const textareaRef = useRef(null)
     const addNoteBtnRef = useRef(null)
     const isHovered = newNoteToSave.id === hoveredNoteId
 
@@ -24,6 +25,12 @@ export function NoteAdd() {
 
     function setNewNote(newProps) {
         setNewNoteToSave({ ...newNoteToSave, ...newProps })
+    }
+
+    function adjustTextareaHeight() {
+        const textarea = textareaRef.current
+        textarea.style.height = 'auto'
+        textarea.style.height = `${textarea.scrollHeight}px`
     }
 
     function onSubmit(ev) {
@@ -47,11 +54,14 @@ export function NoteAdd() {
                     type="text"
                     placeholder="Title"
                 />
-                <input
+                <textarea
+                    ref={textareaRef}
                     onChange={ev => reactUtilService.handleChange(ev, setNewNoteToSave)}
+                    onInput={adjustTextareaHeight}
                     value={newNoteToSave.info.txt}
                     name="info-txt"
                     type="text"
+                    rows="1"
                     placeholder="Take a note..."
                 />
                 <button ref={addNoteBtnRef} type="submit" hidden></button>

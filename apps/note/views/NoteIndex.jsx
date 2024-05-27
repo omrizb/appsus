@@ -60,12 +60,11 @@ export function NoteIndex() {
     function addNote(note) {
         delete note.id
         noteService.save(note)
-            .then(() => showSuccessMsg('Note added successfully.'))
+            .then(savedNote => setNotes([...notes, savedNote]))
             .catch(err => {
                 console.error('Error:', err);
                 showErrorMsg('Failed to add note.');
             })
-            .finally(() => setFilterBy({ ...filterBy }))
     }
 
     function saveNote(note, newProps = {}) {
