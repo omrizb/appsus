@@ -39,7 +39,7 @@ export function MailIndex() {
     }
 
     function handleFolderClick(folder) {
-        setFilterBy({ folder, txt: '', isRead: '', isStarred: '' })
+        (folder === 'starred') ? setFilterBy({ isStarred: true }) : setFilterBy({ folder, txt: '', isRead: '', isStarred: '' })
     }
 
     function handleMailStarToggle(mail) {
@@ -72,25 +72,19 @@ export function MailIndex() {
     const isMails = mails.length > 0
     return (
         <section className="mail-index">
-            <aside>
-                <h1>My Mail</h1>
-                <Link className="mail-compose-btn" to="/mail/compose">
-                    <label>
-                        <button>Compose Mail</button>
-                        <div className="fa-solid i-compose"></div>
-                    </label>
-                </Link>
-                <MailFolderList onFolderClick={handleFolderClick} unreadCounts={unreadCounts} activeFolder={filterBy.folder} />
-            </aside>
-            <main>
-                <section className="mail-filter-sort">
-                    <MailFilterSort filterBy={filterBy} onFilter={onSetFilterBy} sortBy={sortBy} onSort={onSetSortBy} />
-                </section>
-                {isMails
-                    ? <MailList isLoading={isLoading} mails={mails} onMailStarToggle={handleMailStarToggle} onMailReadToggle={handleMailReadToggle} />
-                    : <div>No mails to show...</div>
-                }
-            </main>
+            <h1>My Mail</h1>
+            <MailFilterSort filterBy={filterBy} onFilter={onSetFilterBy} sortBy={sortBy} onSort={onSetSortBy} />
+            <Link to="/mail/compose">
+                <label className="mail-compose-btn">
+                    <div className="fa-solid i-compose"></div>
+                    <button>Compose</button>
+                </label>
+            </Link>
+            {isMails
+                ? <MailList isLoading={isLoading} mails={mails} onMailStarToggle={handleMailStarToggle} onMailReadToggle={handleMailReadToggle} />
+                : <div>No mails to show...</div>
+            }
+            <MailFolderList onFolderClick={handleFolderClick} unreadCounts={unreadCounts} activeFolder={filterBy.folder} />
 
         </section >
     )
