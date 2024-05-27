@@ -41,6 +41,9 @@ export function NoteList({ isTrash }) {
     }
 
     function handleNoteClick(noteId) {
+        if (isTrash) {
+            return
+        }
         navigate(`/note/notes/${noteId}`)
     }
 
