@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     font-family: "Google Sans", Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
-    height: 32px;
+
     background-color: #f2f6fc;
 }
 
@@ -17,6 +17,7 @@
     align-items: center;
     width: 100%;
     padding: 0 12px 0 26px;
+    height: 32px;
 
 }
 
@@ -39,6 +40,14 @@
 }
 
 .mail-folder-list .active-folder {
+    border-top-right-radius: 100vh;
+    border-bottom-right-radius: 100vh;
+    border-top-left-radius: 100vh;
+    border-bottom-left-radius: 100vh;
+    background-color: rgb(211, 227, 253);
+}
+
+.mail-folder-list .active-folder:hover {
     border-top-right-radius: 100vh;
     border-bottom-right-radius: 100vh;
     border-top-left-radius: 100vh;
