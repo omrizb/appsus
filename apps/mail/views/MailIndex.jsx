@@ -35,7 +35,7 @@ export function MailIndex() {
     }
 
     function onSetSortBy(newSort) {
-        setSortBy(newSort)
+        setSortBy({ ...newSort })
     }
 
     function handleFolderClick(folder) {
@@ -71,22 +71,24 @@ export function MailIndex() {
 
     const isMails = mails.length > 0
     return (
-        <section className="mail-index">
-            <h1>My Mail</h1>
-            <MailFilterSort filterBy={filterBy} onFilter={onSetFilterBy} sortBy={sortBy} onSort={onSetSortBy} />
-            <Link to="/mail/compose">
-                <label className="mail-compose-btn">
-                    <div className="fa-solid i-compose"></div>
-                    <button>Compose</button>
-                </label>
-            </Link>
-            {isMails
-                ? <MailList isLoading={isLoading} mails={mails} onMailStarToggle={handleMailStarToggle} onMailReadToggle={handleMailReadToggle} />
-                : <div>No mails to show...</div>
-            }
-            <MailFolderList onFolderClick={handleFolderClick} unreadCounts={unreadCounts} activeFolder={filterBy.folder} />
+        <div className="mail-index-wrapper">
+            <section className="mail-index">
+                <h1>My Mail</h1>
+                <MailFilterSort filterBy={filterBy} onFilter={onSetFilterBy} sortBy={sortBy} onSort={onSetSortBy} />
+                <Link to="/mail/compose">
+                    <label className="mail-compose-btn">
+                        <div className="fa-solid i-compose"></div>
+                        <button>Compose</button>
+                    </label>
+                </Link>
+                {isMails
+                    ? <MailList isLoading={isLoading} mails={mails} onMailStarToggle={handleMailStarToggle} onMailReadToggle={handleMailReadToggle} />
+                    : <div>No mails to show...</div>
+                }
+                <MailFolderList onFolderClick={handleFolderClick} unreadCounts={unreadCounts} activeFolder={filterBy.folder} />
 
-        </section >
+            </section >
+        </div>
     )
 }
 

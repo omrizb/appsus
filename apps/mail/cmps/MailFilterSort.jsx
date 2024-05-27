@@ -12,7 +12,7 @@ export function MailFilterSort({ filterBy, onFilter, sortBy, onSort }) {
 
 
     useEffect(() => {
-        onSort(sortByToEdit);
+        onSort(sortByToEdit)
     }, [sortByToEdit])
 
     function handleFilterChange({ target }) {
@@ -37,19 +37,32 @@ export function MailFilterSort({ filterBy, onFilter, sortBy, onSort }) {
                     break
                 case 'all':
                     updatedFilter = { isRead: null, isStarred: null }
-                    break;
+                    break
             }
         }
 
         setFilterByToEdit(prevFilterBy => ({ ...prevFilterBy, ...updatedFilter }))
-
-
     }
 
-    function handleSortChange({ target }) {
-        const { name, value } = target;
-        setSortByToEdit(prevSortBy => ({ ...prevSortBy, [name]: value }))
+    function handleSortChange(sortField) {
+        let newValue = sortByToEdit[sortField]
+
+        // If the value is ' ', change it to 'asc'
+        if (newValue === '') {
+            newValue = 'asc'
+        }
+        // If the value is 'asc', change it to 'desc'
+        else if (newValue === 'asc') {
+            newValue = 'desc'
+        }
+        // If the value is 'desc', change it to ' '
+        else if (newValue === 'desc') {
+            newValue = ''
+        }
+
+        setSortByToEdit(prevSortBy => ({ ...prevSortBy, [sortField]: newValue }))
     }
+
 
     selectedValue = 'all'
     if (filterBy.isRead === true) selectedValue = 'read'
@@ -58,48 +71,50 @@ export function MailFilterSort({ filterBy, onFilter, sortBy, onSort }) {
     else if (filterBy.isStarred === false) selectedValue = 'unstarred'
     // console.log('selectedValue:', selectedValue)
 
+    const sortOptions = {
+        date: ['inbox', 'sent', 'draft', 'trash'],
+        subject: ['inbox', 'sent', 'draft', 'trash'],
+        from: ['inbox', 'trash'],
+        to: ['sent', 'draft', 'trash']
+    }
+
     return (
         <section className="mail-filter-sort">
-            <label>
+            <label className="mail-filter-search">
                 <div className="fa-solid i-search"></div>
                 <input
                     onChange={handleFilterChange}
                     value={filterBy.txt}
                     name="txt"
                     type="text"
-                    placeholder="Search" />
+                    placeholder="Search mail" />
             </label>
-            <label>
-                filterBy:
-                <select
-                    onChange={handleFilterChange} value={selectedValue}>
-                    <option value="all">All</option>
-                    <option value="read">Read</option>
-                    <option value="unread">Unread</option>
-                    <option value="starred">Starred</option>
-                    <option value="unstarred">Unstarred</option>
-                </select>
-            </label>
-            <label>
-                Sort By:
-                <select name="sortBy" onChange={handleSortChange} value={sortBy.sortBy}>
-                    <option value="date">Date</option>
-                    <option value="subject">Subject</option>
-                    {['inbox', 'trash'].includes(filterBy.folder) && (
-                        <option value="from">From</option>
-                    )}
-                    {['draft', 'sent', 'trash'].includes(filterBy.folder) && (
-                        <option value="to">To</option>
-                    )}
-                </select>
-            </label>
-            <label>
-                Direction:
-                <select name="direction" onChange={handleSortChange} value={sortBy.direction}>
-                    <option value="asc">Ascending</option>
-                    <option value="desc">Descending</option>
-                </select>
-            </label>
+            <div className="mail-filter-sort-options">
+                <label>
+                    <select className="mail-filter"
+                        onChange={handleFilterChange} value={selectedValue}>
+                        <option value="all">All</option>
+                        <option value="read">Read</option>
+                        <option value="unread">Unread</option>
+                        <option value="starred">Starred</option>
+                        <option value="unstarred">Unstarred</option>
+                    </select>
+                </label>
+                {Object.keys(sortOptions).map((sortField) => (
+                    sortOptions[sortField].includes(filterBy.folder) && (
+                        <label key={sortField} className="sort-btn" className={`sort-btn ${sortBy[sortField] ? 'sorted' : ''}`}>
+                            {sortBy[sortField] &&
+                                ((sortBy[sortField] === 'asc')
+                                    ? <div className="fa-solid i-sort-asc"></div>
+                                    : <div className="fa-solid i-sort-desc"></div>)
+                            }
+                            <button onClick={() => handleSortChange(sortField)}>
+                                {sortField.charAt(0).toUpperCase() + sortField.slice(1)}
+                            </button>
+                        </label>
+                    )
+                ))}
+            </div>
         </section>
     )
 }

@@ -1,21 +1,89 @@
 .mail-filter-sort {
     display: flex;
-    gap: 1em;
-    padding: 1em;
-    font-size: 1em;
-    color: #bb8082;
+    flex-direction: column;
+    gap: 0.875rem;
+    font-size: 0.875rem;
+    color: #001D35;
+    background-color: #f2f6fc;
 }
 
-.mail-filter-sort select {
+.mail-filter-sort .mail-filter-search input {
+    all: unset;
+
+}
+
+.mail-filter-sort .mail-filter-search {
+    align-items: center;
+    display: inline-flex;
+
+    padding: 0 12px 0 26px;
+    gap: 10px;
+    max-width: 50%;
+    min-width: 96px;
+    height: 56px;
+    line-height: 32px;
+
+    border: none;
+    border-radius: 16px;
+    background-color: #eaf1fb;
+    cursor: pointer;
+
+
+    /* color: #001D35; */
+    font-weight: 500;
+    font-family: "Google Sans", Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
+    font-size: 0.875rem;
+}
+
+.mail-filter-sort .i-search:hover {
+    background-color: rgb(0, 0, 0, 0.2);
+    width: 30px;
+    height: 30px;
+    border-radius: 100vh;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.mail-filter-sort .mail-filter-sort-options {
+    display: flex;
+    gap: 0.875rem;
+    font-size: 0.875rem;
+}
+
+.mail-filter-sort .mail-filter {
     margin-inline-start: 1em;
     border-radius: 100vh;
-    border: 1px solid #ddd;
-    padding: 1em;
-    color: #bb8082;
+    padding: 5px 12px 5px 12px;
+
 }
 
-.mail-filter-sort input {
-    border-radius: 100vh;
-    border: 1px solid #ddd;
-    padding: 1em;
+.mail-filter-sort .mail-filter-sort-options button {
+    all: unset;
+}
+
+.mail-filter-sort .sort-btn {
+    align-items: center;
+    display: inline-flex;
+    text-align: center;
+
+    padding: 5px 12px 5px 12px;
+    gap: 10px;
+
+    max-width: 104px;
+    min-width: 72px;
+
+    border: 1px solid black;
+    border-radius: 16px;
+    background-color: white;
+    cursor: pointer;
+
+
+    color: #001D35;
+    font-weight: 500;
+    font-family: "Google Sans", Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
+    font-size: 0.875rem;
+
 }

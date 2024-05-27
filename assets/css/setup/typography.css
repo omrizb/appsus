@@ -124,3 +124,11 @@
 .fa-regular.i-unread::before {
     content: "\f0e0";
 }
+
+.fa-solid.i-sort-asc::before {
+    content: "\f0de";
+}
+
+.fa-solid.i-sort-desc::before {
+    content: "\f0dd";
+}
