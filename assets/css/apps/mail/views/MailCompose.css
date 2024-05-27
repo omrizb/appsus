@@ -62,7 +62,7 @@
     padding-bottom: 1em;
 }
 
-.actions {
+.mail-compose .actions {
     display: flex;
     gap: 1em;
     padding: 1em;
