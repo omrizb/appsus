@@ -51,7 +51,7 @@ export function MailDetails() {
                 .finally(() => setIsLoading(false))
 
         } else {
-            const mailRemoved = { ...mail, removedAt: Date.now() }
+            const mailRemoved = { ...mail, isStarred: false, removedAt: Date.now() }
             mailService.save(mailRemoved, 'trash')
                 .then(() => {
                     showSuccessMsg(`Your mail was moved to trash...`)
