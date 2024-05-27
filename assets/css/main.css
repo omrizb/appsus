@@ -15,6 +15,7 @@
 @import "./basics/layout.css";
 
 /* Views */
+@import "./views/app.css";
 @import "./views/home.css";
 
 /* @import './apps/note/views/NoteIndex.css'; */
