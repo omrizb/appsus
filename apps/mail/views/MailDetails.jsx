@@ -86,11 +86,13 @@ export function MailDetails() {
         <section>
             <div className='mail-details'>
                 <div className='mail-container'>
-                    <button onClick={onGoBack}>Go back</button>
-                    <button onClick={onRemoveMail}> {folder === 'trash' ? 'Delete Permanently' : 'Delete'} </button>
-                    {folder === 'draft' && (
-                        <Link to={`/mail/compose/${mail.id}`}><button>Edit</button></Link>
-                    )}
+                    <section className="mail-details-actions">
+                        <button onClick={onGoBack}>Go back</button>
+                        <button onClick={onRemoveMail}> {folder === 'trash' ? 'Delete Permanently' : 'Delete'} </button>
+                        {folder === 'draft' && (
+                            <Link to={`/mail/compose/${mail.id}`}><button>Edit</button></Link>
+                        )}
+                    </section>
                     <hr />
                     <h3>{subject}</h3>
                     <p>From: {from}

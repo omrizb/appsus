@@ -13,21 +13,42 @@
     line-height: 1.5;
 }
 
+.mail-details .actions {
+    display: flex;
+    gap: 1em;
+    padding-top: 1em;
+    padding-bottom: 1em;
+}
+
 .mail-details button {
-    margin-right: 10px;
-    margin-top: 20px;
-    border: 1px solid black;
-    border-radius: 6px;
-    background-color: whitesmoke;
-    padding: 7px 20px;
-    font-weight: 700;
-    color: #bb8082;
+    all: unset;
+
+    align-items: center;
+    display: inline-flex;
+    justify-content: center;
+
+    margin: 0;
+    padding: 0 16px;
+    max-width: 130px;
+    min-width: 72px;
+    height: 36px;
+    line-height: 18px;
+
+    border-radius: 18px;
+    background-color: #0b57d0;
+    cursor: pointer;
+
+
+    color: #fff;
+    font-weight: 500;
+    font-family: "Google Sans", Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
+    font-size: 0.875rem;
 
 
 }
 
-.mail-details button:hover {
+/* .mail-details button:hover {
     background-color: #bb8082;
     opacity: 0.8;
     color: black;
-}
+} */
