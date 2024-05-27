@@ -20,7 +20,7 @@
 }
 
 .btn:hover {
-    background-color: var(--clr-btn-background-hover);
+    background-color: rgba(0, 0, 0, 0.08);
 }
 
 .btn-remove {

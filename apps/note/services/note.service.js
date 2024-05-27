@@ -116,11 +116,18 @@ function _getNoteInfo(type) {
                 txt: ''
             }
         case 'NoteImg':
-            return {}
+            return {
+                url: ''
+            }
         case 'NoteVideo':
-            return {}
+            return {
+                thumbnail: '',
+                url: ''
+            }
         case 'NoteTodos':
-            return {}
+            return [
+                { txt: '', doneAt: null }
+            ]
         default:
             throw new Error('Unknown note type. Type should be one of the following: NoteTxt, NoteImg, NoteVideo, NoteTodos.')
     }
@@ -140,13 +147,26 @@ function _createNotes(size) {
 }
 
 function _createNote() {
-    const note = getEmptyNote('NoteTxt')
+    const noteTypes = ['NoteTxt', 'NoteImg']
+    const noteType = utilService.getRandomItems(noteTypes)
+    const note = getEmptyNote(noteType)
 
     note.title = utilService.makeLorem(2)
     note.isPinned = (Math.random() > 0.7)
-    note.info.txt = utilService.makeLorem(10)
     note.style.backgroundColor = utilService.getRandomItems(BACKGROUND_COLORS)
     note.id = utilService.makeId(5)
+
+    switch (noteType) {
+        case 'NoteTxt':
+            note.info.txt = utilService.makeLorem(10)
+            break
+        case 'NoteImg':
+            const randWidth = utilService.getRandomIntInclusive(150, 400)
+            const randHeight = utilService.getRandomIntInclusive(150, 400)
+            note.info.url = `https://picsum.photos/${randWidth}/${randHeight}`
+            note.info.txt = utilService.makeLorem(10)
+            break
+    }
 
     return note
 }

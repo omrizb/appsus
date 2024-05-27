@@ -1,0 +1,16 @@
+.text-note-preview,
+.text-note-details {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.text-note-preview > *:first-child,
+.text-note-details > *:first-child {
+    margin-top: 0.8em;
+}
+
+.text-note-preview > *,
+.text-note-details > * {
+    padding-inline: 0.5em;
+}

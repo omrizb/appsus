@@ -1,0 +1,23 @@
+.image-note-preview,
+.image-note-details {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.image-note-preview > *:not(:first-child),
+.image-note-details > *:not(:first-child) {
+    padding-inline: 0.5em;
+}
+
+.image-note-preview img,
+.image-note-details img {
+    border-top-left-radius: 1em;
+    border-top-right-radius: 1em;
+}
+
+.image-note-preview img,
+.image-note-details img {
+    border-top-left-radius: 1em;
+    border-top-right-radius: 1em;
+}
