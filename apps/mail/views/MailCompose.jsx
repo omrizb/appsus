@@ -39,7 +39,7 @@ export function MailCompose() {
 
 
     function onSend(ev) {
-        ev.preventDefault();
+        ev.preventDefault()
         const mailToSend = { ...mail, sentAt: Date.now() }
         mailService.save(mailToSend, 'sent')
             .then(() => {
@@ -55,39 +55,43 @@ export function MailCompose() {
     return (
         <section className="mail-compose">
             <div className="mail-modal">
-                <Link to="/mail"><button className="close-modal-btn">x</button></Link>
+                <h2>New Message</h2>
+                <Link to="/mail">
+                    <button className="close-modal-btn">x</button>
+                </Link>
                 <form>
+                    <div>From: {mail.from}</div>
                     <div>
-                        <label htmlFor="to">To:</label>
-                        <input
-                            type="email"
-                            id="to"
-                            name="to"
-                            value={mail.to}
-                            onChange={handleChange}
-                        />
+                        <label>To:
+                            <input
+                                type="email"
+                                id="to"
+                                name="to"
+                                value={mail.to}
+                                onChange={handleChange}
+                            />
+                        </label>
                     </div>
                     <div>
-                        <label htmlFor="subject">Subject:</label>
-                        <input
-                            type="text"
-                            id="subject"
-                            name="subject"
-                            value={mail.subject}
-                            onChange={handleChange}
-                        />
+                        <label>
+                            <input
+                                type="text"
+                                id="subject"
+                                name="subject"
+                                value={mail.subject}
+                                onChange={handleChange}
+                                placeholder="Subject:"
+                            />
+                        </label>
                     </div>
-                    <div>
-                        <label htmlFor="body">Body:</label>
-                        <textarea
-                            id="body"
-                            name="body"
-                            cols='70'
-                            rows='20'
-                            value={mail.body}
-                            onChange={handleChange}
-                        />
-                    </div>
+                    <textarea
+                        id="body"
+                        name="body"
+                        cols='70'
+                        rows='20'
+                        value={mail.body}
+                        onChange={handleChange}
+                    />
                     <section className="actions">
                         <button onClick={onSaveAsDraft}>Save as Draft</button>
                         <button onClick={onSend}>Send</button>

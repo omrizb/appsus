@@ -21,7 +21,7 @@ window.ms = mailService
 
 
 function query(filterBy = {}, sortBy = {}) {
-    // console.log({ filterBy });
+    // console.log({ filterBy })
     return storageService.query(MAIL_KEY)
         .then(mails => {
             if (filterBy.folder) {
@@ -39,9 +39,9 @@ function query(filterBy = {}, sortBy = {}) {
             }
 
             if (filterBy.isRead !== null && filterBy.isRead !== '' && filterBy.isRead !== undefined) {
-                // console.log('mails before isRead filter', { mails });
+                // console.log('mails before isRead filter', { mails })
                 mails = mails.filter(mail => mail.isRead === filterBy.isRead)
-                // console.log('mails after isRead filter', { mails });
+                // console.log('mails after isRead filter', { mails })
             }
 
             if (filterBy.isStarred !== null && filterBy.isStarred !== '' && filterBy.isStarred !== undefined) {
@@ -53,28 +53,28 @@ function query(filterBy = {}, sortBy = {}) {
             //     mails = mails.filter(mail => filterBy.labels.some(label => mail.labels.includes(label)))
             // }
 
-            if (sortBy.sortBy === 'date') {
-                if (sortBy.direction === 'asc') {
+            if (sortBy.date !== null && sortBy.date !== '' && sortBy.date !== undefined) {
+                if (sortBy.date === 'asc') {
                     mails.sort((a, b) => new Date(a.sentAt) - new Date(b.sentAt))
-                } else if (sortBy.direction === 'desc') {
+                } else if (sortBy.date === 'desc') {
                     mails.sort((a, b) => new Date(b.sentAt) - new Date(a.sentAt))
                 }
-            } else if (sortBy.sortBy === 'subject') {
-                if (sortBy.direction === 'asc') {
+            } else if (sortBy.subject !== null && sortBy.subject !== '' && sortBy.subject !== undefined) {
+                if (sortBy.subject === 'asc') {
                     mails.sort((a, b) => a.subject.localeCompare(b.subject))
-                } else if (sortBy.direction === 'desc') {
+                } else if (sortBy.subject === 'desc') {
                     mails.sort((a, b) => b.subject.localeCompare(a.subject))
                 }
-            } else if (sortBy.sortBy === 'from') {
-                if (sortBy.direction === 'asc') {
+            } else if (sortBy.from !== null && sortBy.from !== '' && sortBy.from !== undefined) {
+                if (sortBy.from === 'asc') {
                     mails.sort((a, b) => a.from.localeCompare(b.from))
-                } else if (sortBy.direction === 'desc') {
+                } else if (sortBy.from === 'desc') {
                     mails.sort((a, b) => b.from.localeCompare(a.from))
                 }
-            } else if (sortBy.sortBy === 'to') {
-                if (sortBy.direction === 'asc') {
+            } else if (sortBy.to !== null && sortBy.to !== '' && sortBy.to !== undefined) {
+                if (sortBy.to === 'asc') {
                     mails.sort((a, b) => a.to.localeCompare(b.to))
-                } else if (sortBy.direction === 'desc') {
+                } else if (sortBy.to === 'desc') {
                     mails.sort((a, b) => b.to.localeCompare(a.to))
                 }
             }
@@ -126,8 +126,10 @@ function getFilterSortFromSearchParams(searchParams) {
     }
 
     const sortBy = {
-        sortBy: searchParams.get('sortBy') || 'date',
-        direction: searchParams.get('direction') || 'asc',
+        date: searchParams.get('date') || 'desc',
+        subject: searchParams.get('subject') || '',
+        from: searchParams.get('from') || '',
+        to: searchParams.get('to') || '',
     }
 
     return { filterBy, sortBy }
@@ -151,9 +153,9 @@ function _createMails() {
     let mails = utilService.loadFromStorage(MAIL_KEY)
     if (!mails || !mails.length) {
         mails = []
-        const subjects = ['Miss you!', 'Meeting Reminder', 'Check out this offer', 'Updates on the project'];
-        // const bodies = ['Would love to catch up sometimes', 'Just a friendly reminder about our meeting tomorrow', 'Don\'t miss out on our latest deals!', 'Here are the latest updates on the project'];
-        const mailsAddresses = ['momo@momo.com', 'john@example.com', 'jane@example.com', 'info@example.com'];
+        const subjects = ['Miss you!', 'Meeting Reminder', 'Check out this offer', 'Updates on the project']
+        // const bodies = ['Would love to catch up sometimes', 'Just a friendly reminder about our meeting tomorrow', 'Don\'t miss out on our latest deals!', 'Here are the latest updates on the project']
+        const mailsAddresses = ['momo@momo.com', 'john@example.com', 'jane@example.com', 'info@example.com']
 
         for (let i = 0; i < 11; i++) {
             const subject = subjects[i % subjects.length]

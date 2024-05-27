@@ -5,14 +5,14 @@ export function MailPreview({ mail }) {
         <article className={`mail-preview ${mail.isRead ? 'read' : 'unread'}`}>
             <div className="mail-header">
                 {(mail.folder === 'inbox') && (
-                    <p>From: {mail.from}</p>
+                    <p>{mail.from.split('@')[0]}</p>
                 )}
                 {((mail.folder === 'draft' && mail.to) || mail.folder === 'sent') && (
-                    <p>To: {mail.to}</p>
+                    <p>To: {mail.to.split('@')[0]}</p>
                 )}
                 {mail.folder === 'trash' && (
-                    <p>From: {mail.from}
-                        {mail.to ? ` | to: ${mail.to}` : ''}
+                    <p>{mail.from.split('@')[0]}
+                        {mail.to ? ` | to: ${mail.to.split('@')[0]}` : ''}
                     </p>
                 )}
                 <small>{utilService.formatDateDynamic(mail.sentAt)}</small>
