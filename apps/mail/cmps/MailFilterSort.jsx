@@ -2,7 +2,6 @@ const { useState, useEffect } = React
 
 export function MailFilterSort({ filterBy, onFilter, sortBy, onSort }) {
 
-    let selectedValue
     const [filterByToEdit, setFilterByToEdit] = useState({ ...filterBy })
     const [sortByToEdit, setSortByToEdit] = useState({ ...sortBy })
 
@@ -20,55 +19,52 @@ export function MailFilterSort({ filterBy, onFilter, sortBy, onSort }) {
         let updatedFilter
         if (target.type === "text") {
             updatedFilter = { txt: value }
-        }
-        else {
+        } else {
             switch (value) {
                 case 'read':
                     updatedFilter = { isRead: true, isStarred: null }
                     break
                 case 'unread':
-                    updatedFilter = { isRead: false, isStarred: null }
+                    updatedFilter = { folder: filterBy.folder, isRead: false, isStarred: null }
                     break
                 case 'starred':
-                    updatedFilter = { isRead: null, isStarred: true }
+                    updatedFilter = { folder: filterBy.folder, isRead: null, isStarred: true }
                     break
                 case 'unstarred':
-                    updatedFilter = { isRead: null, isStarred: false }
+                    updatedFilter = { folder: filterBy.folder, isRead: null, isStarred: false }
                     break
                 case 'all':
-                    updatedFilter = { isRead: null, isStarred: null }
+                    updatedFilter = { folder: filterBy.folder, isRead: null, isStarred: null }
                     break
             }
         }
 
-        setFilterByToEdit(prevFilterBy => ({ ...prevFilterBy, ...updatedFilter }))
+        setFilterByToEdit(prevFilterBy => {
+            return { ...prevFilterBy, ...updatedFilter }
+        })
     }
 
     function handleSortChange(sortField) {
         let newValue = sortByToEdit[sortField]
-
-        // If the value is ' ', change it to 'asc'
         if (newValue === '') {
             newValue = 'asc'
-        }
-        // If the value is 'asc', change it to 'desc'
-        else if (newValue === 'asc') {
+        } else if (newValue === 'asc') {
             newValue = 'desc'
-        }
-        // If the value is 'desc', change it to ' '
-        else if (newValue === 'desc') {
+        } else if (newValue === 'desc') {
             newValue = ''
         }
-
         setSortByToEdit(prevSortBy => ({ ...prevSortBy, [sortField]: newValue }))
     }
 
 
-    selectedValue = 'all'
-    if (filterBy.isRead === true) selectedValue = 'read'
-    else if (filterBy.isRead === false) selectedValue = 'unread'
-    else if (filterBy.isStarred === true) selectedValue = 'starred'
-    else if (filterBy.isStarred === false) selectedValue = 'unstarred'
+    let selectedValue = 'all'
+    if (filterBy.isRead === true) {
+        selectedValue = 'read'
+    } else if (filterBy.isRead === false) {
+        selectedValue = 'unread'
+    } else if (filterBy.isStarred === true) {
+        selectedValue = 'starred'
+    } else if (filterBy.isStarred === false) { selectedValue = 'unstarred' }
     // console.log('selectedValue:', selectedValue)
 
     const sortOptions = {
@@ -102,7 +98,7 @@ export function MailFilterSort({ filterBy, onFilter, sortBy, onSort }) {
                 </label>
                 {Object.keys(sortOptions).map((sortField) => (
                     sortOptions[sortField].includes(filterBy.folder) && (
-                        <label key={sortField} className="sort-btn" className={`sort-btn ${sortBy[sortField] ? 'sorted' : ''}`}>
+                        <label key={sortField} className={`sort-btn sort-btn ${sortBy[sortField] ? 'sorted' : ''}`}>
                             {sortBy[sortField] &&
                                 ((sortBy[sortField] === 'asc')
                                     ? <div className="fa-solid i-sort-asc"></div>
