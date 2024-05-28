@@ -7,9 +7,9 @@ import { NoteMenu } from "./NoteMenu.jsx"
 import { NotePreview } from "./NotePreview.jsx"
 import { TrashMenu } from "./TrashMenu.jsx"
 
-export function NoteList({ isTrash }) {
+export function NoteList({ notes, isTrash }) {
 
-    const { notes, activeElement } = useOutletContext()
+    const { activeElement } = useOutletContext()
     const [hoveredNoteId, setHoveredNoteId] = useState(null)
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [modalNote, setModalNote] = useState({})
