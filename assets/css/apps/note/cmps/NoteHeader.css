@@ -1,6 +1,30 @@
 .note-header {
     display: flex;
+    align-items: center;
     gap: 1em;
 
     padding: 1em;
+}
+
+.note-header .note-logo-image {
+    width: 50px;
+}
+
+.note-header h1 {
+    font-size: 2em;
+}
+
+.note-header .search-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 500px;
+    margin-inline-start: 60px;
+    border-radius: 1em;
+    padding: 1em;
+    background-color: var(--gray-2);
+}
+
+.note-header .search-box input {
+    background-color: var(--gray-2);
 }
