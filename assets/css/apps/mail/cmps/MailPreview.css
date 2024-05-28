@@ -1,5 +1,6 @@
 .mail-preview.unread {
-    color: #041e49;
+    /* color: #041e49; */
+    color: red;
 }
 
 .mail-preview {
