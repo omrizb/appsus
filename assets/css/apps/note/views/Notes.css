@@ -11,4 +11,5 @@
 
 .notes > * {
     grid-column: 2;
+    margin-block-end: 1.5em;
 }

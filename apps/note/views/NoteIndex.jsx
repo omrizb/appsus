@@ -17,6 +17,7 @@ export function NoteIndex() {
     const containerRef = useRef(null)
     const currFolder = useRef(null)
     const location = useLocation()
+    const navigate = useNavigate()
 
     useEffect(() => {
         document.querySelector('#favicon').href = '../../../assets/favicons/note-favicon.png'
@@ -138,6 +139,7 @@ export function NoteIndex() {
     function handleClickOutside(ev) {
         if (containerRef.current && !containerRef.current.contains(ev.target)) {
             setActiveElement({ noteId: null, item: null })
+            navigate(currFolder.current)
         }
     }
 
