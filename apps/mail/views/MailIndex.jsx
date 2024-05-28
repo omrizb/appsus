@@ -75,7 +75,7 @@ export function MailIndex() {
             <section className="mail-index">
                 <h1>My Mail</h1>
                 <MailFilterSort filterBy={filterBy} onFilter={onSetFilterBy} sortBy={sortBy} onSort={onSetSortBy} />
-                <Link to="/mail/compose">
+                <Link to={`/mail/compose/`}>
                     <label className="mail-compose-btn">
                         <div className="fa-solid i-compose"></div>
                         <button>Compose</button>
