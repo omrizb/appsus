@@ -7,7 +7,7 @@ export function MailFolderList({ onFolderClick, unreadCounts, activeFolder }) {
         <section className="mail-folder-list">
             <ul>
                 {folders.map(folder => (
-                    <Link key={folder} to="#" onClick={() => onFolderClick(folder)}>
+                    <Link key={folder} to='/mail' onClick={() => onFolderClick(folder)}>
                         <li className={`${activeFolder === folder ? 'active-folder' : ''}`}>
                             <label className={folder === 'inbox' ? `fa-solid i-${folder}` : `fa-regular i-${folder}`}></label>
                             <div className="folder-info">

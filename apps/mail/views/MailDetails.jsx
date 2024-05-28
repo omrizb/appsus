@@ -29,8 +29,8 @@ export function MailDetails() {
                 }
             })
             .catch(() => {
-                showErrorMsg('Couldnt get car...')
-                navigate('/car')
+                showErrorMsg('Couldnt get mail...')
+                onGoBack()
             })
             .finally(() => {
                 setIsLoading(false)
@@ -47,6 +47,7 @@ export function MailDetails() {
                 .catch(err => {
                     console.log('err:', err)
                     showErrorMsg('There was a problem')
+                    onGoBack()
                 })
                 .finally(() => setIsLoading(false))
 
@@ -60,6 +61,7 @@ export function MailDetails() {
                 .catch(err => {
                     console.log('err:', err)
                     showErrorMsg('There was a problem')
+                    onGoBack()
                 })
                 .finally(() => setIsLoading(false))
         }

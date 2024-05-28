@@ -9,6 +9,11 @@ export function MailList({ mails, isLoading, onMailStarToggle, onMailReadToggle 
             <ul>
                 {mails.map(mail =>
                     <li key={mail.id}>
+                        <label className="select-mail-checkbox">
+                            <input
+                                type="checkbox"
+                            />
+                        </label>
                         <label className="star-checkbox">
                             <div className={mail.isStarred ? `fa-solid i-star` : `fa-regular i-unstar`}></div>
                             <input
@@ -18,6 +23,9 @@ export function MailList({ mails, isLoading, onMailStarToggle, onMailReadToggle 
                                 onChange={() => onMailStarToggle(mail)}
                             />
                         </label>
+                        <Link to={`/mail/${mail.id}`}>
+                            <MailPreview mail={mail} />
+                        </Link>
                         <label className="read-checkbox">
                             <div className={mail.isRead ? `fa-regular i-read` : `fa-regular i-unread`}></div>
                             <input
@@ -27,7 +35,6 @@ export function MailList({ mails, isLoading, onMailStarToggle, onMailReadToggle 
                                 onChange={() => onMailReadToggle(mail)}
                             />
                         </label>
-                        <Link to={`/mail/${mail.id}`}><MailPreview mail={mail} /></Link>
                     </li>)
                 }
             </ul>

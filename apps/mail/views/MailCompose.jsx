@@ -29,11 +29,11 @@ export function MailCompose() {
         mailService.save(mail, 'draft')
             .then(() => {
                 showSuccessMsg(`Your mail was moved to draft...`)
-                navigate('/mail')
+                onGoBack()
             })
             .catch(() => {
                 showErrorMsg('Could not save as draft')
-                navigate('/mail')
+                onGoBack()
             })
     }
 
@@ -44,19 +44,22 @@ export function MailCompose() {
         mailService.save(mailToSend, 'sent')
             .then(() => {
                 showSuccessMsg(`Your mail was sent...`)
-                navigate('/mail')
+                onGoBack()
             })
             .catch(() => {
                 showErrorMsg('Could not send email')
-                navigate('/mail')
+                onGoBack()
             })
     }
 
+    function onGoBack() {
+        navigate('/mail')
+    }
     return (
         <section className="mail-compose">
             <div className="mail-modal">
                 <h2>New Message</h2>
-                <Link to="/mail">
+                <Link to='/mail'>
                     <button className="close-modal-btn">x</button>
                 </Link>
                 <form>
