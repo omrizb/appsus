@@ -59,19 +59,22 @@ function query(filterBy = {}, sortBy = {}) {
                 } else if (sortBy.date === 'desc') {
                     mails.sort((a, b) => new Date(b.sentAt) - new Date(a.sentAt))
                 }
-            } else if (sortBy.subject !== null && sortBy.subject !== '' && sortBy.subject !== undefined) {
+            }
+            if (sortBy.subject !== null && sortBy.subject !== '' && sortBy.subject !== undefined) {
                 if (sortBy.subject === 'asc') {
                     mails.sort((a, b) => a.subject.localeCompare(b.subject))
                 } else if (sortBy.subject === 'desc') {
                     mails.sort((a, b) => b.subject.localeCompare(a.subject))
                 }
-            } else if (sortBy.from !== null && sortBy.from !== '' && sortBy.from !== undefined) {
+            }
+            if (sortBy.from !== null && sortBy.from !== '' && sortBy.from !== undefined) {
                 if (sortBy.from === 'asc') {
                     mails.sort((a, b) => a.from.localeCompare(b.from))
                 } else if (sortBy.from === 'desc') {
                     mails.sort((a, b) => b.from.localeCompare(a.from))
                 }
-            } else if (sortBy.to !== null && sortBy.to !== '' && sortBy.to !== undefined) {
+            }
+            if (sortBy.to !== null && sortBy.to !== '' && sortBy.to !== undefined) {
                 if (sortBy.to === 'asc') {
                     mails.sort((a, b) => a.to.localeCompare(b.to))
                 } else if (sortBy.to === 'desc') {
@@ -119,20 +122,28 @@ function save(mail, folder) {
 
 function getFilterSortFromSearchParams(searchParams) {
     const filterBy = {
-        folder: searchParams.get('folder') || 'inbox',
-        txt: searchParams.get('txt') || '',
-        isRead: searchParams.get('isRead') || '',
-        isStarred: searchParams.get('isStarred') || '',
+        folder: parseBooleanOrNull(searchParams.get('folder')) || 'inbox',
+        txt: parseBooleanOrNull(searchParams.get('txt')) || '',
+        isRead: parseBooleanOrNull(searchParams.get('isRead')) || '',
+        isStarred: parseBooleanOrNull(searchParams.get('isStarred')) || '',
     }
 
     const sortBy = {
-        date: searchParams.get('date') || 'desc',
-        subject: searchParams.get('subject') || '',
-        from: searchParams.get('from') || '',
-        to: searchParams.get('to') || '',
+        date: parseBooleanOrNull(searchParams.get('date')) || 'desc',
+        subject: parseBooleanOrNull(searchParams.get('subject')) || '',
+        from: parseBooleanOrNull(searchParams.get('from')) || '',
+        to: parseBooleanOrNull(searchParams.get('to')) || '',
     }
 
     return { filterBy, sortBy }
+}
+
+function parseBooleanOrNull(value) {
+    if (value === 'true') return true
+    if (value === 'false') return false
+    if (value === 'null') return null
+    // if (value === 'null' || value === null) return null
+    return value
 }
 
 function getUnreadCountByFolder() {

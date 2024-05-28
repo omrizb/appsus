@@ -1,5 +1,5 @@
 const { useState, useEffect } = React
-const { useSearchParams, Link } = ReactRouterDOM
+const { useSearchParams, Link, useLocation } = ReactRouterDOM
 
 import { mailService } from '../services/mail.service.js'
 import { MailList } from '../cmps/MailList.jsx'
@@ -15,6 +15,8 @@ export function MailIndex() {
     const [unreadCounts, setUnreadCounts] = useState({})
 
     const [searchParams, setSearchParams] = useSearchParams()
+    const location = useLocation()
+
     const { filterBy: initialFilterBy, sortBy: initialSortBy } = mailService.getFilterSortFromSearchParams(searchParams)
     const [filterBy, setFilterBy] = useState(initialFilterBy)
     const [sortBy, setSortBy] = useState(initialSortBy)
@@ -75,7 +77,7 @@ export function MailIndex() {
             <section className="mail-index">
                 <h1>My Mail</h1>
                 <MailFilterSort filterBy={filterBy} onFilter={onSetFilterBy} sortBy={sortBy} onSort={onSetSortBy} />
-                <Link to={`/mail/compose/`}>
+                <Link to={`/mail/compose${location.search}`}>
                     <label className="mail-compose-btn">
                         <div className="fa-solid i-compose"></div>
                         <button>Compose</button>

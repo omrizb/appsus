@@ -1,16 +1,17 @@
 const { useState, useEffect } = React
 const { useParams, useNavigate } = ReactRouter
-const { Link } = ReactRouterDOM
+const { Link, useLocation } = ReactRouterDOM
 
 import { mailService } from '../services/mail.service.js'
 import { eventBusService, showErrorMsg, showSuccessMsg } from '../../../services/event-bus.service.js'
 
 export function MailCompose() {
-
+    console.log('im in compose')
     const [mail, setMail] = useState(mailService.getEmptyMail())
 
     const params = useParams()
     const navigate = useNavigate()
+    const location = useLocation()
 
     useEffect(() => {
         if (!params.mailId) return
@@ -53,15 +54,13 @@ export function MailCompose() {
     }
 
     function onGoBack() {
-        navigate('/mail')
+        navigate(`/mail${location.search}`)
     }
     return (
         <section className="mail-compose">
             <div className="mail-modal">
                 <h2>New Message</h2>
-                <Link to='/mail'>
-                    <button className="close-modal-btn">x</button>
-                </Link>
+                <button className="close-modal-btn" onClick={onGoBack}>x</button>
                 <form>
                     <div>From: {mail.from}</div>
                     <div>
