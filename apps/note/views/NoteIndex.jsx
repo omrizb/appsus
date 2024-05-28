@@ -6,9 +6,11 @@ import { showErrorMsg, showSuccessMsg } from "../../../services/event-bus.servic
 
 import { NoteHeader } from "../cmps/NoteHeader.jsx"
 import { NoteSideNav } from "../cmps/NoteSideNav.jsx"
-import { utilService } from "../../../services/util.service.js"
 
 export function NoteIndex() {
+
+    const location = useLocation()
+    const navigate = useNavigate()
 
     const [notes, setNotes] = useState([])
     const [activeElement, setActiveElement] = useState({ noteId: null, item: null })
@@ -16,16 +18,8 @@ export function NoteIndex() {
     const [isLoading, setIsLoading] = useState(true)
     const newNote = useRef(noteService.getEmptyNote('NoteTxt'))
     const containerRef = useRef(null)
-    const currFolder = useRef(null)
-    const location = useLocation()
-    const navigate = useNavigate()
-
-    useEffect(() => {
-        document.querySelector('#favicon').href = '../../../assets/favicons/note-favicon.png'
-        document.addEventListener('click', handleClickOutside)
-        return () => document.removeEventListener('click', handleClickOutside)
-    }, [])
-
+    const currFolder = useRef(getCurrFolder())
+    const skipFilterRender = useRef(true)
 
     const [filterBy, setFilterBy] = useState({
         ...noteService.getEmptyFilter(),
@@ -34,14 +28,19 @@ export function NoteIndex() {
     })
 
     useEffect(() => {
-        const pathElements = location.pathname.split('/')
-        const locationFolder = `/${pathElements[1]}/${pathElements[2]}/`
+        document.querySelector('#favicon').href = '../../../assets/favicons/note-favicon.png'
+        document.addEventListener('click', handleClickOutside)
+        return () => document.removeEventListener('click', handleClickOutside)
+    }, [])
 
-        if (currFolder.current === locationFolder) return
-
-        currFolder.current = locationFolder
-        const isTrashed = currFolder.current.includes('trash')
-        setFilterBy(prevFilter => ({ ...prevFilter, isTrashed }))
+    useEffect(() => {
+        const locationFolder = getCurrFolder()
+        if (currFolder.current !== locationFolder) {
+            currFolder.current = locationFolder
+            skipFilterRender.current = true
+            const isTrashed = currFolder.current.includes('trash')
+            setFilterBy(prevFilter => ({ ...prevFilter, isTrashed }))
+        }
     }, [location])
 
     useEffect(() => {
@@ -50,6 +49,13 @@ export function NoteIndex() {
             .then(setNotes)
             .finally(() => setIsLoading(false))
     }, [filterBy])
+
+    function getCurrFolder() {
+        const pathElements = location.pathname.split('/')
+        return (pathElements[2])
+            ? `/${pathElements[1]}/${pathElements[2]}`
+            : `/${pathElements[1]}`
+    }
 
     function onSetFilterBy(newFilter) {
         setFilterBy(prevFilter => ({ ...prevFilter, ...newFilter }))
@@ -76,7 +82,6 @@ export function NoteIndex() {
         updateNoteLocally(updatedNote)
 
         noteService.save(updatedNote)
-            .then(() => showSuccessMsg('Note updated successfully.'))
             .catch(err => {
                 console.error('Error:', err);
                 showErrorMsg('Failed to update note.');
@@ -147,7 +152,7 @@ export function NoteIndex() {
     }
 
     return <section ref={containerRef} className="note-index">
-        <NoteHeader filterBy={filterBy} onFilter={onSetFilterBy} />
+        <NoteHeader filterBy={filterBy} onFilter={onSetFilterBy} skipFilterRender={skipFilterRender} />
         <NoteSideNav />
         <section className="note-main-view">
             {isLoading

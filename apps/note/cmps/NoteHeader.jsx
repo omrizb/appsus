@@ -3,10 +3,9 @@ const { useState, useEffect, useRef } = React
 import { utilService } from "../../../services/util.service.js"
 import { reactUtilService } from "../../../services/react-util.service.js"
 
-export function NoteHeader({ filterBy, onFilter }) {
+export function NoteHeader({ filterBy, onFilter, skipFilterRender }) {
 
     const [filterByToEdit, setFilterByToEdit] = useState({ ...filterBy })
-
     const setSearchDebounce = useRef(utilService.debounce(onFilter, 500))
 
     useEffect(() => {
@@ -16,6 +15,10 @@ export function NoteHeader({ filterBy, onFilter }) {
     }, [filterBy])
 
     useEffect(() => {
+        if (skipFilterRender && skipFilterRender.current) {
+            skipFilterRender.current = false
+            return
+        }
         setSearchDebounce.current(filterByToEdit)
     }, [filterByToEdit])
 
