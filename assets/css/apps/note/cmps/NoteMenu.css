@@ -35,6 +35,15 @@
     right: 10px;
 }
 
+.note-menu .pin-btn.pinned {
+    border: 1px solid var(--gray-8);
+    background-color: rgb(255, 255, 255, 0.2);
+}
+
+.note-menu .pin-btn.pinned:hover {
+    background-color: rgb(255, 255, 255, 0.3);
+}
+
 .note-menu .color-palette-btn {
     position: relative;
 }
