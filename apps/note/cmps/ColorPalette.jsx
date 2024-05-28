@@ -11,7 +11,7 @@ export function ColorPalette({ note, onSetNewNote }) {
     const positionStyle = { top: '25px', left: '-150px' }
 
     function handleMouseEnter({ target }) {
-        target.style.border = '2px solid var(--clr-border-dark)'
+        target.style.border = '2px solid var(--gray-8)'
     }
 
     function handleMouseLeave({ target }) {
@@ -33,7 +33,7 @@ export function ColorPalette({ note, onSetNewNote }) {
 
     return <div className="color-palette outline-box1" style={positionStyle}>
         {colors.map(color => {
-            const borderColor = (color.name === 'none') ? 'var(--clr-border-light)' : color.color
+            const borderColor = (color.name === 'none') ? 'var(--gray-4)' : color.color
             const colorStyle = {
                 backgroundColor: color.color,
                 border: `2px solid ${borderColor}`

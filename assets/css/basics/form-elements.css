@@ -1,0 +1,17 @@
+input,
+textarea {
+    border: 0;
+    font-family: system-ui;
+    letter-spacing: 0.08em;
+    outline: none;
+}
+
+input {
+    font-size: 1em;
+    font-weight: 500;
+}
+
+textarea {
+    resize: none;
+    font-size: 0.9em;
+}

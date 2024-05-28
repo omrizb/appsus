@@ -1,0 +1,15 @@
+.notes {
+    --max-width: 2000px;
+    --min-margin: 2em;
+
+    display: grid;
+    grid-template-columns:
+        minmax(var(--min-margin), 1fr)
+        minmax(auto, var(--max-width))
+        minmax(var(--min-margin), 1fr);
+}
+
+.notes > * {
+    grid-column: 2;
+    margin-block-end: 1.5em;
+}

@@ -35,23 +35,3 @@
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     overflow: auto;
 }
-
-.modal .modal-close-btn {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 20px;
-    height: 20px;
-    border-radius: 5px;
-    border: 1px solid var(--clr-modal-btn-border);
-    color: var(--clr-modal-text);
-    background-color: var(--clr-modal-btn);
-    cursor: pointer;
-}
-
-.modal .modal-close-btn:hover {
-    background-color: var(--clr-modal-btn-hover);
-}

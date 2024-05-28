@@ -6,6 +6,7 @@ import { showErrorMsg, showSuccessMsg } from "../../../services/event-bus.servic
 
 import { NoteHeader } from "../cmps/NoteHeader.jsx"
 import { NoteSideNav } from "../cmps/NoteSideNav.jsx"
+import { utilService } from "../../../services/util.service.js"
 
 export function NoteIndex() {
 
@@ -17,6 +18,7 @@ export function NoteIndex() {
     const containerRef = useRef(null)
     const currFolder = useRef(null)
     const location = useLocation()
+    const navigate = useNavigate()
 
     useEffect(() => {
         document.querySelector('#favicon').href = '../../../assets/favicons/note-favicon.png'
@@ -54,18 +56,19 @@ export function NoteIndex() {
     }
 
     function updateNoteLocally(updatedNote) {
-        setNotes(prevNotes => prevNotes.map(note => note.id === updatedNote.id ? updatedNote : note))
+        setNotes(prevNotes => prevNotes
+            .map(note => note.id === updatedNote.id ? updatedNote : note)
+            .sort(noteService.sortPinnedFirst))
     }
 
     function addNote(note) {
         delete note.id
         noteService.save(note)
-            .then(() => showSuccessMsg('Note added successfully.'))
+            .then(savedNote => setNotes([...notes, savedNote]))
             .catch(err => {
                 console.error('Error:', err);
                 showErrorMsg('Failed to add note.');
             })
-            .finally(() => setFilterBy({ ...filterBy }))
     }
 
     function saveNote(note, newProps = {}) {
@@ -139,6 +142,7 @@ export function NoteIndex() {
     function handleClickOutside(ev) {
         if (containerRef.current && !containerRef.current.contains(ev.target)) {
             setActiveElement({ noteId: null, item: null })
+            navigate(currFolder.current)
         }
     }
 

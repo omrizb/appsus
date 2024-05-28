@@ -7,9 +7,9 @@ import { NoteMenu } from "./NoteMenu.jsx"
 import { NotePreview } from "./NotePreview.jsx"
 import { TrashMenu } from "./TrashMenu.jsx"
 
-export function NoteList({ isTrash }) {
+export function NoteList({ notes, isTrash }) {
 
-    const { notes, activeElement } = useOutletContext()
+    const { activeElement } = useOutletContext()
     const [hoveredNoteId, setHoveredNoteId] = useState(null)
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [modalNote, setModalNote] = useState({})
@@ -41,6 +41,9 @@ export function NoteList({ isTrash }) {
     }
 
     function handleNoteClick(noteId) {
+        if (isTrash) {
+            return
+        }
         navigate(`/note/notes/${noteId}`)
     }
 
@@ -51,7 +54,12 @@ export function NoteList({ isTrash }) {
     return <div className="note-list">
         <ul>
             {notes.map(note => {
-                const noteStyle = { backgroundColor: note.style.backgroundColor.color }
+                const bgColor = note.style.backgroundColor
+                const borderColor = (bgColor.name === 'none') ? 'var(--gray-4)' : bgColor.color
+                const noteStyle = {
+                    backgroundColor: bgColor.color,
+                    border: `1px solid ${borderColor}`
+                }
                 const isHovered = note.id === hoveredNoteId
                 const isActive = isHovered || activeElement.noteId === note.id
                 return (

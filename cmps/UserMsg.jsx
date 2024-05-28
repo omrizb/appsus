@@ -9,7 +9,6 @@ export function UserMsg() {
 
     useEffect(() => {
         const unsubscribe = eventBusService.on('show-user-msg', (msg) => {
-            console.log('Got msg', msg)
             setMsg(msg)
             if (timeoutIdRef.current) {
                 timeoutIdRef.current = null
@@ -27,8 +26,8 @@ export function UserMsg() {
     if (!msg) return <span></span>
     return (
         <section className={`user-msg ${msg.type}`}>
+            <p>{msg.txt}</p>
             <button className="btn" onClick={closeMsg}>Close</button>
-            {msg.txt}
         </section>
     )
 }

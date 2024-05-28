@@ -29,10 +29,11 @@ export const noteService = {
     getEmptyNote,
     getEmptyFilter,
     getFilterFromSearchParams,
-    getBackgroundColors
+    getBackgroundColors,
+    sortPinnedFirst
 }
 
-function query(filterBy = {}) {
+function query(filterBy = {}, sortByPinned = true) {
     return storageService.query(NOTE_KEY)
         .then(notes => {
             if (filterBy.txt) {
@@ -45,6 +46,10 @@ function query(filterBy = {}) {
 
             if (filterBy.isTrashed !== null) {
                 notes = notes.filter(note => note.isTrashed === filterBy.isTrashed)
+            }
+
+            if (sortByPinned) {
+                notes.sort(sortPinnedFirst)
             }
 
             return notes
@@ -87,7 +92,7 @@ function getEmptyNote(type) {
         isTrashed: false,
         info: { ..._getNoteInfo(type) },
         style: {
-            backgroundColor: '#fff'
+            backgroundColor: { name: 'none', color: '#ffffff' }
         }
     }
 }
@@ -109,6 +114,12 @@ function getBackgroundColors() {
     return BACKGROUND_COLORS
 }
 
+function sortPinnedFirst(note1, note2) {
+    if (note1.isPinned && !note2.isPinned) return -1
+    if (!note1.isPinned && note2.isPinned) return 1
+    return 0
+}
+
 function _getNoteInfo(type) {
     switch (type) {
         case 'NoteTxt':
@@ -116,11 +127,18 @@ function _getNoteInfo(type) {
                 txt: ''
             }
         case 'NoteImg':
-            return {}
+            return {
+                url: ''
+            }
         case 'NoteVideo':
-            return {}
+            return {
+                thumbnail: '',
+                url: ''
+            }
         case 'NoteTodos':
-            return {}
+            return [
+                { txt: '', doneAt: null }
+            ]
         default:
             throw new Error('Unknown note type. Type should be one of the following: NoteTxt, NoteImg, NoteVideo, NoteTodos.')
     }
@@ -140,13 +158,26 @@ function _createNotes(size) {
 }
 
 function _createNote() {
-    const note = getEmptyNote('NoteTxt')
+    const noteTypes = ['NoteTxt', 'NoteImg']
+    const noteType = utilService.getRandomItems(noteTypes)
+    const note = getEmptyNote(noteType)
 
     note.title = utilService.makeLorem(2)
     note.isPinned = (Math.random() > 0.7)
-    note.info.txt = utilService.makeLorem(10)
     note.style.backgroundColor = utilService.getRandomItems(BACKGROUND_COLORS)
     note.id = utilService.makeId(5)
+
+    switch (noteType) {
+        case 'NoteTxt':
+            note.info.txt = utilService.makeLorem(10)
+            break
+        case 'NoteImg':
+            const randWidth = utilService.getRandomIntInclusive(500, 800)
+            const randHeight = utilService.getRandomIntInclusive(300, 600)
+            note.info.url = `https://picsum.photos/${randWidth}/${randHeight}`
+            note.info.txt = utilService.makeLorem(10)
+            break
+    }
 
     return note
 }
