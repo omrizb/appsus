@@ -6,7 +6,7 @@ import { mailService } from '../services/mail.service.js'
 import { eventBusService, showErrorMsg, showSuccessMsg } from '../../../services/event-bus.service.js'
 
 export function MailCompose() {
-    console.log('im in compose')
+    // console.log('im in compose')
     const [mail, setMail] = useState(mailService.getEmptyMail())
 
     const params = useParams()

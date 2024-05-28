@@ -1,8 +1,8 @@
 const { useState, useEffect } = React
 
 export function MailFilterSort({ filterBy, onFilter, sortBy, onSort }) {
-    console.log('filterBy:', filterBy)
-    console.log('sortBy:', sortBy)
+    // console.log('filterBy:', filterBy)
+    // console.log('sortBy:', sortBy)
     const [filterByToEdit, setFilterByToEdit] = useState({ ...filterBy })
     const [sortByToEdit, setSortByToEdit] = useState({ ...sortBy })
 

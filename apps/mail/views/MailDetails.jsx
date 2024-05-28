@@ -1,5 +1,5 @@
 const { useState, useEffect } = React
-const { useNavigate, useParams, Link } = ReactRouterDOM
+const { useNavigate, useParams, Link, useLocation } = ReactRouterDOM
 
 import { utilService } from '../../../services/util.service.js'
 import { mailService } from '../services/mail.service.js'
@@ -13,6 +13,7 @@ export function MailDetails() {
 
     const params = useParams()
     const navigate = useNavigate()
+    const location = useLocation()
 
     useEffect(() => {
         loadMail()
@@ -68,7 +69,9 @@ export function MailDetails() {
     }
 
     function onGoBack() {
-        navigate('/mail')
+        // console.log('im in deatils');
+        // console.log('location.search:', location.search)
+        navigate(`/mail${location.search}`)
     }
 
     if (isLoading) return <h3>Loading...</h3>
