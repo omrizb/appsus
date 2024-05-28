@@ -1,9 +1,10 @@
-const { Link } = ReactRouterDOM
+const { Link, useLocation } = ReactRouterDOM
 
 import { MailPreview } from './MailPreview.jsx'
 import { mailService } from '../services/mail.service.js'
 
 export function MailList({ mails, isLoading, onMailStarToggle, onMailReadToggle }) {
+    const location = useLocation()
     return (
         <section style={{ opacity: isLoading ? 0.5 : 1 }} className="mail-list">
             <ul>
@@ -23,7 +24,7 @@ export function MailList({ mails, isLoading, onMailStarToggle, onMailReadToggle 
                                 onChange={() => onMailStarToggle(mail)}
                             />
                         </label>
-                        <Link to={`/mail/${mail.id}`}>
+                        <Link to={`/mail/${mail.id}${location.search}`}>
                             <MailPreview mail={mail} />
                         </Link>
                         <label className="read-checkbox">

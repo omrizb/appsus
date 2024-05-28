@@ -1,7 +1,8 @@
 const { useState, useEffect } = React
 
 export function MailFilterSort({ filterBy, onFilter, sortBy, onSort }) {
-
+    // console.log('filterBy:', filterBy)
+    // console.log('sortBy:', sortBy)
     const [filterByToEdit, setFilterByToEdit] = useState({ ...filterBy })
     const [sortByToEdit, setSortByToEdit] = useState({ ...sortBy })
 
@@ -22,7 +23,7 @@ export function MailFilterSort({ filterBy, onFilter, sortBy, onSort }) {
         } else {
             switch (value) {
                 case 'read':
-                    updatedFilter = { isRead: true, isStarred: null }
+                    updatedFilter = { folder: filterBy.folder, isRead: true, isStarred: null }
                     break
                 case 'unread':
                     updatedFilter = { folder: filterBy.folder, isRead: false, isStarred: null }
