@@ -1,7 +1,7 @@
-import { NoteTxt } from "./note-types/NoteTxt.jsx"
-import { NoteImg } from "./note-types/NoteImg.jsx"
-import { NoteTodos } from "./note-types/NoteTodos.jsx"
-import { NoteVideo } from "./note-types/NoteVideo.jsx"
+import { NoteTxt } from "./note-preview-types/NoteTxt.jsx"
+import { NoteImg } from "./note-preview-types/NoteImg.jsx"
+import { NoteTodos } from "./note-preview-types/NoteTodos.jsx"
+import { NoteVideo } from "./note-preview-types/NoteVideo.jsx"
 
 export function NotePreview({ note }) {
     return <div className="note-preview">
