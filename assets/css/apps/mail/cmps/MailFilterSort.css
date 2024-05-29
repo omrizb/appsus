@@ -35,16 +35,16 @@
     font-size: 0.875rem;
 }
 
+.mail-filter-sort .i-search {
+    height: 2rem;
+    width: 2rem;
+    padding: 10px;
+    border-radius: 100vh;
+}
+
 .mail-filter-sort .i-search:hover {
     background-color: rgb(0, 0, 0, 0.2);
-    width: 30px;
-    height: 30px;
-    border-radius: 100vh;
     cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
 }
 
 .mail-filter-sort .mail-filter-sort-options {

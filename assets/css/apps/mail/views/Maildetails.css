@@ -20,35 +20,37 @@
     padding-bottom: 1em;
 }
 
-.mail-details button {
-    all: unset;
-
+.mail-details .action-btn {
     align-items: center;
     display: inline-flex;
     justify-content: center;
-
-    margin: 0;
-    padding: 0 16px;
-    max-width: 130px;
-    min-width: 72px;
-    height: 36px;
-    line-height: 18px;
-
-    border-radius: 18px;
-    background-color: #0b57d0;
+    padding: 0 10px;
     cursor: pointer;
 
-
-    color: #fff;
     font-weight: 500;
     font-family: "Google Sans", Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
     font-size: 0.875rem;
-
-
 }
 
-/* .mail-details button:hover {
-    background-color: #bb8082;
-    opacity: 0.8;
-    color: black;
-} */
+.mail-details .action-btn:hover {
+    background-color: rgb(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+.mail-details button {
+    all: unset;
+}
+
+.mail-details .icon {
+    align-items: center;
+    display: inline-flex;
+    justify-content: center;
+    height: 30px;
+    width: 30px;
+}
+
+.mail-details .icon-btn :hover {
+    border-radius: 100vh;
+    background-color: rgb(0, 0, 0, 0.2);
+    cursor: pointer;
+}

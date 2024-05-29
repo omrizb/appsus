@@ -68,9 +68,11 @@
     padding: 1em;
 }
 
-.mail-compose .actions button {
+.mail-compose button {
     all: unset;
+}
 
+.mail-compose .action-btn {
     align-items: center;
     display: inline-flex;
     justify-content: center;
@@ -92,4 +94,18 @@
     font-family: "Google Sans", Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
     font-size: 0.875rem;
 
+}
+
+.mail-compose .actions .icon {
+    align-items: center;
+    display: inline-flex;
+    justify-content: center;
+    height: 30px;
+    width: 30px;
+}
+
+.mail-compose .actions .icon-btn :hover {
+    border-radius: 100vh;
+    background-color: rgb(0, 0, 0, 0.2);
+    cursor: pointer;
 }
