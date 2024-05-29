@@ -1,0 +1,40 @@
+.add-note {
+    width: 100%;
+}
+
+.add-note .note {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    margin-block: 1em;
+    margin-inline: auto;
+    padding: 0.5em;
+    position: relative;
+    width: 500px;
+    padding: 10px;
+    border-radius: 1em;
+
+    cursor: default;
+
+    transition-property: height;
+    transition-duration: 2s;
+}
+
+.add-note .note > * {
+    padding-block: 0.5em;
+}
+
+.add-note .note:hover .note-menu {
+    transition: opacity 200ms;
+}
+
+/* Handle open and close of the element */
+
+.add-note .note > *:not(.always-open) {
+    display: none;
+}
+
+.add-note .note.open > *:not(.always-open) {
+    display: flex;
+}

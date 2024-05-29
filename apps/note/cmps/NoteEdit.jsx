@@ -6,7 +6,7 @@ import { reactUtilService } from "../../../services/react-util.service.js"
 
 import { NoteMenu } from "./NoteMenu.jsx"
 
-export function NoteAdd() {
+export function NoteEdit() {
 
     const { activeElement, newNote, onAddNote } = useOutletContext()
     const [newNoteToSave, setNewNoteToSave] = useState({ ...newNote.current, id: 'new-note' })
@@ -72,21 +72,23 @@ export function NoteAdd() {
     const noteStyle = { backgroundColor: newNoteToSave.style.backgroundColor.color }
 
     return <div className="add-note">
-        <div ref={addNoteRef} className="note outline-box1"
-            onMouseEnter={() => handleMouseEnter(newNoteToSave.id)}
-            onMouseLeave={() => handleMouseLeave(newNoteToSave.id)}
-            style={noteStyle}
-        >
-            <form onSubmit={onSubmit}>
-                {isFocused && <input
+        <form onSubmit={onSubmit}>
+            <div ref={addNoteRef} className={`note outline-box1${isFocused ? ' open' : ''}`}
+                onMouseEnter={() => handleMouseEnter(newNoteToSave.id)}
+                onMouseLeave={() => handleMouseLeave(newNoteToSave.id)}
+                style={noteStyle}
+            >
+
+                <input
                     onChange={ev => reactUtilService.handleChange(ev, setNewNoteToSave)}
                     value={newNoteToSave.title}
                     name="title"
                     type="text"
                     placeholder="Title"
-                />}
+                />
                 <textarea
                     ref={textareaRef}
+                    className="always-open"
                     onFocus={() => setIsFocused(true)}
                     onChange={ev => reactUtilService.handleChange(ev, setNewNoteToSave)}
                     onInput={adjustTextareaHeight}
@@ -96,14 +98,14 @@ export function NoteAdd() {
                     rows="1"
                     placeholder="Take a note..."
                 />
-                <button ref={addNoteBtnRef} type="submit" hidden></button>
-            </form>
-            {isFocused && <NoteMenu
-                note={newNoteToSave}
-                isHovered={isHovered}
-                onSetNewNote={setNewNote}
-                btnRef={addNoteBtnRef}
-            />}
-        </div>
+                <NoteMenu
+                    note={newNoteToSave}
+                    isHovered={isHovered}
+                    onSetNewNote={setNewNote}
+                    btnRef={addNoteBtnRef}
+                />
+                <button ref={addNoteBtnRef} type="submit" style={{ display: 'none' }}></button>
+            </div>
+        </form>
     </div>
 }

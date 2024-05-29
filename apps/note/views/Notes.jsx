@@ -1,6 +1,6 @@
 const { useOutletContext } = ReactRouterDOM
 
-import { NoteAdd } from "../cmps/NoteAdd.jsx"
+import { NoteEdit } from "../cmps/NoteEdit.jsx"
 import { NoteList } from "../cmps/NoteList.jsx"
 
 export function Notes() {
@@ -9,7 +9,7 @@ export function Notes() {
     const hasPinned = notes.some(note => note.isPinned)
 
     return <div className="notes">
-        <NoteAdd />
+        <NoteEdit />
         {hasPinned && <div className="pinned-notes">
             <h3>Pinned</h3>
             <NoteList notes={notes.filter(note => note.isPinned)} />
