@@ -5,7 +5,7 @@ import { MoreNoteOptions } from "./MoreNoteOptions.jsx"
 
 export function NoteMenu({ isHovered, note, onSetNewNote, btnRef }) {
 
-    const { activeElement, onElementToggle, onSendToTrash } = useOutletContext()
+    const { activeElement, onElementToggle, onSaveNote, onSendToTrash } = useOutletContext()
 
     const isPaletteOpen = activeElement.noteId === note.id && activeElement.item === 'palette'
     const isMoreOptionsOpen = activeElement.noteId === note.id && activeElement.item === 'more-options'
@@ -17,11 +17,17 @@ export function NoteMenu({ isHovered, note, onSetNewNote, btnRef }) {
 
     return <div className={`note-menu${(isHidden) ? ' hide' : ''}`} onClick={ev => ev.stopPropagation()}>
 
-        <div className="pin-btn"><div className="fa-solid i-pin"></div></div>
+        <div
+            className={`pin-btn${note.isPinned ? ' pinned' : ''}`}
+            onClick={() => onSaveNote(note, { isPinned: !note.isPinned })}
+        >
+            <div className="fa-solid i-pin"></div>
+        </div>
 
         <Link to={''}><div className="fa-solid i-bell"></div></Link>
 
-        <div className={`color-palette-btn${isPaletteOpen ? ' active' : ''}`}
+        <div
+            className={`color-palette-btn${isPaletteOpen ? ' active' : ''}`}
             onClick={() => onElementToggle(note.id, 'palette')}
         >
             <div className="fa-solid i-color-palette"></div>
