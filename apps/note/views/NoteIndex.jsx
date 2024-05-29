@@ -16,7 +16,7 @@ export function NoteIndex() {
     const [activeElement, setActiveElement] = useState({ noteId: null, item: null })
     const [searchParams] = useSearchParams()
     const [isLoading, setIsLoading] = useState(true)
-    const newNote = useRef(noteService.getEmptyNote('NoteTxt'))
+    const newNotes = useRef(noteService.getEmptyNoteAllTypes())
     const containerRef = useRef(null)
     const currFolder = useRef(getCurrFolder())
     const skipFilterRender = useRef(true)
@@ -159,7 +159,7 @@ export function NoteIndex() {
                 ? <p>Loading...</p>
                 : <Outlet context={{
                     notes,
-                    newNote,
+                    newNotes,
                     activeElement,
                     onElementToggle: handleElementToggle,
                     onAddNote: addNote,

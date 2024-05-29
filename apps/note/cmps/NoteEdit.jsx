@@ -8,8 +8,8 @@ import { NoteMenu } from "./NoteMenu.jsx"
 
 export function NoteEdit() {
 
-    const { activeElement, newNote, onAddNote } = useOutletContext()
-    const [newNoteToSave, setNewNoteToSave] = useState({ ...newNote.current, id: 'new-note' })
+    const { activeElement, newNotes, onAddNote } = useOutletContext()
+    const [newNoteToSave, setNewNoteToSave] = useState({ ...newNotes.current.NoteTxt, id: 'new-note' })
     const [hoveredNoteId, setHoveredNoteId] = useState(null)
     const [isFocused, setIsFocused] = useState(false)
     const newNoteToSaveRef = useRef(null)
@@ -44,7 +44,7 @@ export function NoteEdit() {
             return
         }
 
-        const cleanNote = { ...newNote.current, id: 'new-note' }
+        const cleanNote = { ...newNotes.current.NoteTxt, id: 'new-note' }
 
         if (!utilService.deepEqual(newNoteToSaveRef.current, cleanNote)) {
             addNoteBtnRef.current.click()
@@ -62,10 +62,20 @@ export function NoteEdit() {
         textarea.style.height = `${textarea.scrollHeight}px`
     }
 
+    // console.log(newNoteToSave)
+
+    function addImage() {
+        setNewNoteToSave({
+            ...newNoteToSave,
+            type: NoteImg,
+            info: { ...newNotes.current.NoteImg.info }
+        })
+    }
+
     function onSubmit(ev) {
         ev.preventDefault()
         onAddNote(newNoteToSave)
-        setNewNoteToSave({ ...newNote.current, id: 'new-note' })
+        setNewNoteToSave({ ...newNotes.current.NoteTxt, id: 'new-note' })
         setIsFocused(false)
     }
 
@@ -97,6 +107,14 @@ export function NoteEdit() {
                     type="text"
                     rows="1"
                     placeholder="Take a note..."
+                />
+                <input
+                    className="add-image"
+                    onChange={ev => reactUtilService.handleChange(ev, setNewNoteToSave)}
+                    value={newNoteToSave.title}
+                    name="title"
+                    type="text"
+                    placeholder="Title"
                 />
                 <NoteMenu
                     note={newNoteToSave}
