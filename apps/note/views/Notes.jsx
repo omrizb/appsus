@@ -12,11 +12,11 @@ export function Notes() {
         <NoteEdit />
         {hasPinned && <div className="pinned-notes">
             <h3>Pinned</h3>
-            <NoteList notes={notes.filter(note => note.isPinned)} />
+            <NoteList notesToShow={notes.filter(note => note.isPinned)} allNotes={notes} />
         </div>}
         <div className="non-pinned-notes">
             {hasPinned && <h3>Others</h3>}
-            <NoteList notes={notes.filter(note => !note.isPinned)} />
+            <NoteList notesToShow={notes.filter(note => !note.isPinned)} allNotes={notes} />
         </div>
     </div>
 }

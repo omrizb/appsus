@@ -7,7 +7,7 @@ import { NoteMenu } from "./NoteMenu.jsx"
 import { NotePreview } from "./NotePreview.jsx"
 import { TrashMenu } from "./TrashMenu.jsx"
 
-export function NoteList({ notes, isTrash }) {
+export function NoteList({ notesToShow, allNotes, isTrash }) {
 
     const { activeElement } = useOutletContext()
     const [hoveredNoteId, setHoveredNoteId] = useState(null)
@@ -19,7 +19,7 @@ export function NoteList({ notes, isTrash }) {
     useEffect(() => {
         const pathElements = location.pathname.split('/')
         if (pathElements[3]) {
-            const note = notes.find(note => note.id === pathElements[3])
+            const note = allNotes.find(note => note.id === pathElements[3])
             if (!note) {
                 navigate('/note/notes')
                 return
@@ -53,7 +53,7 @@ export function NoteList({ notes, isTrash }) {
 
     return <div className="note-list">
         <ul>
-            {notes.map(note => {
+            {notesToShow.map(note => {
                 const bgColor = note.style.backgroundColor
                 const borderColor = (bgColor.name === 'none') ? 'var(--gray-4)' : bgColor.color
                 const noteStyle = {
