@@ -54,7 +54,7 @@ export function MailCompose() {
     }
 
     function onRemoveMail(ev) {
-        console.log('hi');
+        // console.log('hi');
         ev.preventDefault()
         const mailRemoved = { ...mail, isStarred: false, removedAt: Date.now() }
         mailService.save(mailRemoved, 'trash')
