@@ -18,10 +18,10 @@ export function MailIndex() {
 
     const [searchParams, setSearchParams] = useSearchParams()
     const location = useLocation()
-
     const { filterBy: initialFilterBy, sortBy: initialSortBy } = mailService.getFilterSortFromSearchParams(searchParams)
     const [filterBy, setFilterBy] = useState(initialFilterBy)
     const [sortBy, setSortBy] = useState(initialSortBy)
+    const [changeInFolder, setChangeInFolder] = useState(false)
 
     const [selectedMail, setSelectedMail] = useState(null)
     const [isShowComposeMailModal, setIsShowComposeMailModal] = useState(false)
@@ -30,13 +30,20 @@ export function MailIndex() {
     useEffect(() => {
         setSearchParams({ ...filterBy, ...sortBy })
         mailService.query(filterBy, sortBy)
-            .then(mails => setMails(mails))
-    }, [filterBy, sortBy])
+            .then(mails => {
+                setMails(mails)
+                setChangeInFolder(false)
+            }
+            )
+    }, [filterBy, sortBy, changeInFolder])
 
     useEffect(() => {
         mailService.getUnreadCountByFolder()
-            .then(counts => setUnreadCounts(counts))
-    }, [mails])
+            .then(counts => {
+                setUnreadCounts(counts)
+                setChangeInFolder(false)
+            })
+    }, [changeInFolder])
 
     function onSetFilterBy(newFilter) {
         setFilterBy({ ...newFilter })
@@ -47,16 +54,15 @@ export function MailIndex() {
     }
 
     function handleFolderClick(folder) {
-        (folder === 'starred') ? setFilterBy({ isStarred: true }) : setFilterBy({ folder, txt: '', isRead: '', isStarred: '' })
+        if (folder === 'starred') { setFilterBy({ isStarred: true }) }
+        else { setFilterBy({ folder, txt: '', isRead: '', isStarred: '' }) }
+        setChangeInFolder(true)
     }
 
     function onOpenModal(mail) {
-
         const selectedMail = (!mail.id) ? mailService.getEmptyMail() : mail
-        console.log('selectedMail:', selectedMail)
         setSelectedMail(selectedMail)
         setIsShowComposeMailModal(true)
-
     }
 
     function onCloseModal() {
@@ -73,6 +79,7 @@ export function MailIndex() {
 
             .then(() => {
                 setMails(prevMails => prevMails.map(mail => mail.id === orgMail.id ? updatedMail : mail))
+                setChangeInFolder(true)
                 if (successMsg) showSuccessMsg(successMsg)
             })
             .catch(err => {
