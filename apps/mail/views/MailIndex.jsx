@@ -5,10 +5,12 @@ import { mailService } from '../services/mail.service.js'
 import { MailList } from '../cmps/MailList.jsx'
 import { MailFilterSort } from '../cmps/MailFilterSort.jsx'
 import { MailFolderList } from '../cmps/MailFolderList.jsx'
+import { MailCompose } from '../cmps/MailCompose.jsx'
 import { eventBusService, showErrorMsg, showSuccessMsg } from '../../../services/event-bus.service.js'
 
 
 export function MailIndex() {
+
     const [mails, setMails] = useState([])
     const [isLoading, setIsLoading] = useState(false)
 
@@ -21,6 +23,10 @@ export function MailIndex() {
     const [filterBy, setFilterBy] = useState(initialFilterBy)
     const [sortBy, setSortBy] = useState(initialSortBy)
 
+    const [selectedMail, setSelectedMail] = useState(null)
+    const [isShowComposeMailModal, setIsShowComposeMailModal] = useState(false)
+
+
     useEffect(() => {
         setSearchParams({ ...filterBy, ...sortBy })
         mailService.query(filterBy, sortBy)
@@ -30,7 +36,7 @@ export function MailIndex() {
     useEffect(() => {
         mailService.getUnreadCountByFolder()
             .then(counts => setUnreadCounts(counts))
-    }, [])
+    }, [mails])
 
     function onSetFilterBy(newFilter) {
         setFilterBy({ ...newFilter })
@@ -44,29 +50,34 @@ export function MailIndex() {
         (folder === 'starred') ? setFilterBy({ isStarred: true }) : setFilterBy({ folder, txt: '', isRead: '', isStarred: '' })
     }
 
-    function handleMailStarToggle(mail) {
-        setIsLoading(true)
-        const updatedMail = { ...mail, isStarred: !mail.isStarred }
-        mailService.save(updatedMail, mail.folder)
-            .then(() => {
-                setMails(prevMails => prevMails.map(m => m.id === mail.id ? updatedMail : m))
-            })
-            .catch(err => {
-                console.log('err:', err)
-                showErrorMsg('There was a problem')
-            })
-            .finally(() => setIsLoading(false))
+    function onOpenModal(mail) {
+
+        const selectedMail = (!mail.id) ? mailService.getEmptyMail() : mail
+        console.log('selectedMail:', selectedMail)
+        setSelectedMail(selectedMail)
+        setIsShowComposeMailModal(true)
+
     }
 
-    function handleMailReadToggle(mail) {
-        const updatedMail = { ...mail, isRead: !mail.isRead }
-        mailService.save(updatedMail, mail.folder)
+    function onCloseModal() {
+        setIsShowComposeMailModal(false)
+        setSelectedMail(null)
+    }
+
+    function handleMailUpdate(orgMail, updates, successMsg, errorMsg) {
+        setIsLoading(true)
+        const updatedMail = { ...orgMail, ...updates }
+        const folder = updates.folder || orgMail.folder
+
+        mailService.save(updatedMail, folder)
+
             .then(() => {
-                setMails(prevMails => prevMails.map(m => m.id === mail.id ? updatedMail : m))
+                setMails(prevMails => prevMails.map(mail => mail.id === orgMail.id ? updatedMail : mail))
+                if (successMsg) showSuccessMsg(successMsg)
             })
             .catch(err => {
                 console.log('err:', err)
-                showErrorMsg('There was a problem')
+                showErrorMsg(errorMsg ? errorMsg : 'There was a problem')
             })
             .finally(() => setIsLoading(false))
     }
@@ -77,16 +88,25 @@ export function MailIndex() {
             <section className="mail-index">
                 <h1>My Mail</h1>
                 <MailFilterSort filterBy={filterBy} onFilter={onSetFilterBy} sortBy={sortBy} onSort={onSetSortBy} />
-                <Link to={`/mail/compose${location.search}`}>
-                    <label className="mail-compose-btn">
-                        <div className="fa-solid i-compose"></div>
-                        <button>Compose</button>
-                    </label>
-                </Link>
-                {isMails
-                    ? <MailList isLoading={isLoading} mails={mails} onMailStarToggle={handleMailStarToggle} onMailReadToggle={handleMailReadToggle} />
-                    : <div>No mails to show...</div>
-                }
+                <label className="mail-compose-btn">
+                    <div className="fa-solid i-compose"></div>
+                    <button onClick={onOpenModal}>Compose</button>
+                </label>
+                {(isMails) && (
+                    <MailList
+                        mails={mails}
+                        onMailUpdate={handleMailUpdate}
+                        onOpenModal={onOpenModal}
+                    />
+                )}
+                {(!isMails) && (<div>No mails to show...</div>)}
+                {(isShowComposeMailModal) && (
+                    <MailCompose
+                        selectedMail={selectedMail}
+                        onMailUpdate={handleMailUpdate}
+                        onCloseModal={onCloseModal}
+                    />
+                )}
                 <MailFolderList onFolderClick={handleFolderClick} unreadCounts={unreadCounts} activeFolder={filterBy.folder} />
 
             </section >

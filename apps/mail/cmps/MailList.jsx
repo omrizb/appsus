@@ -1,12 +1,18 @@
 const { Link, useLocation } = ReactRouterDOM
 
 import { MailPreview } from './MailPreview.jsx'
-import { mailService } from '../services/mail.service.js'
+import { eventBusService, showErrorMsg, showSuccessMsg } from '../../../services/event-bus.service.js'
 
-export function MailList({ mails, isLoading, onMailStarToggle, onMailReadToggle }) {
+export function MailList({ mails, onMailUpdate, onOpenModal }) {
     const location = useLocation()
+
+    function onSaveAsNote(mail) {
+        console.log('hi');
+
+    }
+
     return (
-        <section style={{ opacity: isLoading ? 0.5 : 1 }} className="mail-list">
+        <section className="mail-list">
             <ul>
                 {mails.map(mail =>
                     <li key={mail.id} className={`${mail.isRead ? 'read' : 'unread'}`}>
@@ -22,29 +28,52 @@ export function MailList({ mails, isLoading, onMailStarToggle, onMailReadToggle 
                                     hidden
                                     type="checkbox"
                                     checked={mail.isStarred}
-                                    onChange={() => onMailStarToggle(mail)}
+                                    onChange={() => onMailUpdate(mail, { isStarred: !mail.isStarred })}
                                 />
                             </label>
                         </section>
                         {(mail.folder === 'draft') && (
-                            <Link to={`/mail/compose/${mail.id}${location.search}`}>
+                            <div onClick={() => onOpenModal(mail)}>
                                 <MailPreview mail={mail} />
-                            </Link>
+                            </div>
                         )}
                         {(mail.folder !== 'draft') && (
                             <Link to={`/mail/${mail.id}${location.search}`}>
                                 <MailPreview mail={mail} />
                             </Link>
                         )}
-                        <label className="read-checkbox">
-                            <div className={mail.isRead ? `fa-regular i-read` : `fa-regular i-unread`}></div>
-                            <input
-                                hidden
-                                type="checkbox"
-                                checked={mail.isRead}
-                                onChange={() => onMailReadToggle(mail)}
-                            />
-                        </label>
+                        <section className="action-checkboxes">
+                            <label className="action-checkbox">
+                                <div className="fa-regular i-note icon"></div>
+                                <input
+                                    hidden
+                                    type="checkbox"
+                                    onChange={() => onSaveAsNote(mail)}
+                                />
+                            </label>
+                            <label className="action-checkbox">
+                                <div className={mail.isRead ? `fa-regular i-read` : `fa-regular i-unread`}></div>
+                                <input
+                                    hidden
+                                    type="checkbox"
+                                    checked={mail.isRead}
+                                    onChange={() => onMailUpdate(mail, { isRead: !mail.isRead })}
+                                />
+                            </label>
+                            <label className="action-checkbox">
+                                <div className="fa-regular i-trash icon"></div>
+                                <input
+                                    hidden
+                                    type="checkbox"
+                                    onChange={() =>
+                                        onMailUpdate(
+                                            mail,
+                                            { folder: 'trash', isStarred: false, removedAt: Date.now() },
+                                            `Your mail was moved to trash...`
+                                        )}
+                                />
+                            </label>
+                        </section>
                     </li>)
                 }
             </ul>
