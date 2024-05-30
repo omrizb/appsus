@@ -8,6 +8,6 @@ export function Trash() {
 
     return <div className="trash">
         <button className="btn" onClick={() => onRemoveAllTrash()}>Empty trash</button>
-        <NoteList isTrash={true} notes={notes} />
+        <NoteList isTrash={true} notesToShow={notes.filter(note => note.isTrashed)} allNotes={notes} />
     </div>
 }

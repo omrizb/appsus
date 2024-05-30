@@ -24,7 +24,6 @@ export function NoteIndex() {
     const [filterBy, setFilterBy] = useState({
         ...noteService.getEmptyFilter(),
         ...noteService.getFilterFromSearchParams(searchParams),
-        isTrashed: false
     })
 
     useEffect(() => {
@@ -38,8 +37,6 @@ export function NoteIndex() {
         if (currFolder.current !== locationFolder) {
             currFolder.current = locationFolder
             skipFilterRender.current = true
-            const isTrashed = currFolder.current.includes('trash')
-            setFilterBy(prevFilter => ({ ...prevFilter, isTrashed }))
         }
     }, [location])
 
@@ -90,7 +87,8 @@ export function NoteIndex() {
     }
 
     function sendNoteToTrash(noteId) {
-        setNotes(prevNotes => prevNotes.filter(note => note.id !== noteId))
+        const noteToTrash = notes.find(note => note.id === noteId)
+        updateNoteLocally({ ...noteToTrash, isTrashed: true })
         noteService.setTrashProp(noteId)
             .then(() => {
                 showSuccessMsg('Note sent to Trash.')
@@ -102,7 +100,7 @@ export function NoteIndex() {
     }
 
     function removeAllTrash() {
-        setNotes([])
+        setNotes(prevNotes => prevNotes.filter(note => !note.isTrashed))
         noteService.removeAllTrash()
             .then(() => {
                 showSuccessMsg('All trash removed.')
@@ -126,7 +124,7 @@ export function NoteIndex() {
     }
 
     function undoTrash(noteToUndo) {
-        setNotes(prevNotes => prevNotes.filter(note => note.id !== noteToUndo.id))
+        updateNoteLocally({ ...noteToUndo, isTrashed: false })
         noteService.save({ ...noteToUndo, isTrashed: false })
             .then(() => showSuccessMsg('Note is back to Notes.'))
             .catch(err => {
