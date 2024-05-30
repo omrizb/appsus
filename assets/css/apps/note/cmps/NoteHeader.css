@@ -26,5 +26,6 @@
 }
 
 .note-header .search-box input {
+    width: 100%;
     background-color: var(--gray-2);
 }

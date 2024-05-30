@@ -6,13 +6,13 @@ import { reactUtilService } from "../../../services/react-util.service.js"
 
 import { NoteMenu } from "./NoteMenu.jsx"
 
-export function NoteAdd() {
+export function NoteEdit() {
 
-    const { activeElement, newNote, onAddNote } = useOutletContext()
-    const [newNoteToSave, setNewNoteToSave] = useState({ ...newNote.current, id: 'new-note' })
+    const { activeElement, newNotes, onAddNote } = useOutletContext()
+    const [newNoteToSave, setNewNoteToSave] = useState({ ...newNotes.current.NoteTxt, id: 'new-note' })
     const [hoveredNoteId, setHoveredNoteId] = useState(null)
     const [isFocused, setIsFocused] = useState(false)
-    const newNoteToSaveRef = useRef(null)
+    const newNoteToSaveRef = useRef(newNoteToSave)
     const addNoteRef = useRef(null)
     const textareaRef = useRef(null)
     const addNoteBtnRef = useRef(null)
@@ -44,9 +44,10 @@ export function NoteAdd() {
             return
         }
 
-        const cleanNote = { ...newNote.current, id: 'new-note' }
+        const cleanNote = { ...newNotes.current.NoteTxt, id: 'new-note' }
 
         if (!utilService.deepEqual(newNoteToSaveRef.current, cleanNote)) {
+            newNoteToSaveRef.current = null
             addNoteBtnRef.current.click()
         }
         setIsFocused(false)
@@ -62,31 +63,50 @@ export function NoteAdd() {
         textarea.style.height = `${textarea.scrollHeight}px`
     }
 
+    function toggleAddImage() {
+        if (newNoteToSave.type === 'NoteImg') {
+            setNewNoteToSave({
+                ...newNoteToSave,
+                type: 'NoteTxt',
+                info: { ...newNotes.current.NoteTxt.info, txt: newNoteToSave.info.txt }
+            })
+            return
+        }
+        setNewNoteToSave({
+            ...newNoteToSave,
+            type: 'NoteImg',
+            info: { ...newNotes.current.NoteImg.info, txt: newNoteToSave.info.txt }
+        })
+    }
+
     function onSubmit(ev) {
-        ev.preventDefault()
+        if (ev) ev.preventDefault()
         onAddNote(newNoteToSave)
-        setNewNoteToSave({ ...newNote.current, id: 'new-note' })
+        setNewNoteToSave({ ...newNotes.current.NoteTxt, id: 'new-note' })
         setIsFocused(false)
     }
 
     const noteStyle = { backgroundColor: newNoteToSave.style.backgroundColor.color }
 
     return <div className="add-note">
-        <div ref={addNoteRef} className="note outline-box1"
-            onMouseEnter={() => handleMouseEnter(newNoteToSave.id)}
-            onMouseLeave={() => handleMouseLeave(newNoteToSave.id)}
-            style={noteStyle}
-        >
-            <form onSubmit={onSubmit}>
-                {isFocused && <input
+        <form onSubmit={onSubmit}>
+            <div ref={addNoteRef} className={`note outline-box1${isFocused ? ' open' : ''}`}
+                onMouseEnter={() => handleMouseEnter(newNoteToSave.id)}
+                onMouseLeave={() => handleMouseLeave(newNoteToSave.id)}
+                style={noteStyle}
+            >
+
+                <input
+                    className="big"
                     onChange={ev => reactUtilService.handleChange(ev, setNewNoteToSave)}
                     value={newNoteToSave.title}
                     name="title"
                     type="text"
                     placeholder="Title"
-                />}
+                />
                 <textarea
                     ref={textareaRef}
+                    className="always-open"
                     onFocus={() => setIsFocused(true)}
                     onChange={ev => reactUtilService.handleChange(ev, setNewNoteToSave)}
                     onInput={adjustTextareaHeight}
@@ -96,14 +116,24 @@ export function NoteAdd() {
                     rows="1"
                     placeholder="Take a note..."
                 />
-                <button ref={addNoteBtnRef} type="submit" hidden></button>
-            </form>
-            {isFocused && <NoteMenu
-                note={newNoteToSave}
-                isHovered={isHovered}
-                onSetNewNote={setNewNote}
-                btnRef={addNoteBtnRef}
-            />}
-        </div>
+                {newNoteToSave.type === 'NoteImg' && <input
+                    className="add-image"
+                    onChange={ev => reactUtilService.handleChange(ev, setNewNoteToSave)}
+                    value={newNoteToSave.info.url}
+                    name="info-url"
+                    type="text"
+                    placeholder="Image url"
+                />}
+                <NoteMenu
+                    isHovered={isHovered}
+                    note={newNoteToSave}
+                    newNoteToSave={newNoteToSave}
+                    onToggleAddImage={toggleAddImage}
+                    onSetNewNote={setNewNote}
+                    btnRef={addNoteBtnRef}
+                />
+                <button ref={addNoteBtnRef} type="submit" style={{ display: 'none' }}></button>
+            </div>
+        </form>
     </div>
 }

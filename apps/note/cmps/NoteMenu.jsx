@@ -1,24 +1,41 @@
+const { useState, useEffect } = React
 const { Link, useOutletContext } = ReactRouterDOM
 
 import { ColorPalette } from "./ColorPalette.jsx"
 import { MoreNoteOptions } from "./MoreNoteOptions.jsx"
 
-export function NoteMenu({ isHovered, note, onSetNewNote, btnRef }) {
+export function NoteMenu({ isHovered, note, newNoteToSave, onToggleAddImage, onSetNewNote, btnRef }) {
 
     const { activeElement, onElementToggle, onSaveNote, onSendToTrash } = useOutletContext()
 
+    const [selectedMenuButtons, setSelectedMenuButtons] = useState({
+        isPinned: note.isPinned,
+        isImage: newNoteToSave && newNoteToSave.type === 'NoteImg'
+    })
     const isPaletteOpen = activeElement.noteId === note.id && activeElement.item === 'palette'
     const isMoreOptionsOpen = activeElement.noteId === note.id && activeElement.item === 'more-options'
     const isHidden = !(isHovered || isPaletteOpen || isMoreOptionsOpen)
 
-    function handleBtnClick() {
+    useEffect(() => {
+        setSelectedMenuButtons({
+            isPinned: note.isPinned,
+            isImage: newNoteToSave && newNoteToSave.type === 'NoteImg'
+        })
+    }, [newNoteToSave])
+
+    function handleImageBtnClick() {
+        setSelectedMenuButtons({ ...selectedMenuButtons, isImage: !selectedMenuButtons.isImage })
+        onToggleAddImage()
+    }
+
+    function handleCloseBtnClick() {
         if (btnRef) btnRef.current.click()
     }
 
-    return <div className={`note-menu${(isHidden) ? ' hide' : ''}`} onClick={ev => ev.stopPropagation()}>
+    return <div className={`note-menu${isHidden ? ' hide' : ''}`} onClick={ev => ev.stopPropagation()}>
 
         <div
-            className={`pin-btn${note.isPinned ? ' pinned' : ''}`}
+            className={`pin-btn${selectedMenuButtons.isPinned ? ' selected' : ''}`}
             onClick={() => onSaveNote(note, { isPinned: !note.isPinned })}
         >
             <div className="fa-solid i-pin"></div>
@@ -34,7 +51,12 @@ export function NoteMenu({ isHovered, note, onSetNewNote, btnRef }) {
             {isPaletteOpen && <ColorPalette note={note} onSetNewNote={onSetNewNote} />}
         </div>
 
-        <Link to={''}><div className="fa-solid i-image"></div></Link>
+        <div
+            className={`add-image-btn${selectedMenuButtons.isImage ? ' selected' : ''}`}
+            onClick={() => handleImageBtnClick()}
+        >
+            <div className="fa-solid i-image"></div>
+        </div>
 
         <Link to={''}><div className="fa-solid i-archive"></div></Link>
 
@@ -45,7 +67,12 @@ export function NoteMenu({ isHovered, note, onSetNewNote, btnRef }) {
             {isMoreOptionsOpen && <MoreNoteOptions noteId={note.id} onSendToTrash={onSendToTrash} />}
         </div>
 
-        {onSetNewNote && <button className="btn new-note-btn" onClick={handleBtnClick}>Close</button>}
+        {onSetNewNote && <button
+            className="btn new-note-btn"
+            onClick={handleCloseBtnClick}
+            type="button">
+            Close
+        </button>}
 
     </div>
 }

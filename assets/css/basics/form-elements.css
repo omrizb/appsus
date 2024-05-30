@@ -6,7 +6,7 @@ textarea {
     outline: none;
 }
 
-input {
+input.big {
     font-size: 1em;
     font-weight: 500;
 }

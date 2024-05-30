@@ -27,6 +27,7 @@ export const noteService = {
     setTrashProp,
     removeAllTrash,
     getEmptyNote,
+    getEmptyNoteAllTypes,
     getEmptyFilter,
     getFilterFromSearchParams,
     getBackgroundColors,
@@ -95,6 +96,13 @@ function getEmptyNote(type) {
             backgroundColor: { name: 'none', color: '#ffffff' }
         }
     }
+}
+
+function getEmptyNoteAllTypes() {
+    const noteTypes = ['NoteTxt', 'NoteImg', 'NoteVideo', 'NoteTodos']
+    const emptyNotes = {}
+    noteTypes.forEach(type => emptyNotes[type] = getEmptyNote(type))
+    return emptyNotes
 }
 
 function getEmptyFilter() {
