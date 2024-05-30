@@ -12,7 +12,7 @@ export function NoteEdit() {
     const [newNoteToSave, setNewNoteToSave] = useState({ ...newNotes.current.NoteTxt, id: 'new-note' })
     const [hoveredNoteId, setHoveredNoteId] = useState(null)
     const [isFocused, setIsFocused] = useState(false)
-    const newNoteToSaveRef = useRef(null)
+    const newNoteToSaveRef = useRef(newNoteToSave)
     const addNoteRef = useRef(null)
     const textareaRef = useRef(null)
     const addNoteBtnRef = useRef(null)
@@ -47,6 +47,7 @@ export function NoteEdit() {
         const cleanNote = { ...newNotes.current.NoteTxt, id: 'new-note' }
 
         if (!utilService.deepEqual(newNoteToSaveRef.current, cleanNote)) {
+            newNoteToSaveRef.current = null
             addNoteBtnRef.current.click()
         }
         setIsFocused(false)
@@ -62,18 +63,25 @@ export function NoteEdit() {
         textarea.style.height = `${textarea.scrollHeight}px`
     }
 
-    // console.log(newNoteToSave)
-
-    function addImage() {
+    function toggleAddImage() {
+        if (newNoteToSave.type === 'NoteImg') {
+            setNewNoteToSave({
+                ...newNoteToSave,
+                type: 'NoteTxt',
+                info: { ...newNotes.current.NoteTxt.info, txt: newNoteToSave.info.txt }
+            })
+            return
+        }
         setNewNoteToSave({
             ...newNoteToSave,
-            type: NoteImg,
-            info: { ...newNotes.current.NoteImg.info }
+            type: 'NoteImg',
+            info: { ...newNotes.current.NoteImg.info, txt: newNoteToSave.info.txt }
         })
     }
 
     function onSubmit(ev) {
-        ev.preventDefault()
+        console.log('submitting', newNoteToSave)
+        if (ev) ev.preventDefault()
         onAddNote(newNoteToSave)
         setNewNoteToSave({ ...newNotes.current.NoteTxt, id: 'new-note' })
         setIsFocused(false)
@@ -90,6 +98,7 @@ export function NoteEdit() {
             >
 
                 <input
+                    className="big"
                     onChange={ev => reactUtilService.handleChange(ev, setNewNoteToSave)}
                     value={newNoteToSave.title}
                     name="title"
@@ -108,17 +117,19 @@ export function NoteEdit() {
                     rows="1"
                     placeholder="Take a note..."
                 />
-                <input
+                {newNoteToSave.type === 'NoteImg' && <input
                     className="add-image"
                     onChange={ev => reactUtilService.handleChange(ev, setNewNoteToSave)}
-                    value={newNoteToSave.title}
-                    name="title"
+                    value={newNoteToSave.info.url}
+                    name="info-url"
                     type="text"
-                    placeholder="Title"
-                />
+                    placeholder="Image url"
+                />}
                 <NoteMenu
-                    note={newNoteToSave}
                     isHovered={isHovered}
+                    note={newNoteToSave}
+                    newNoteToSave={newNoteToSave}
+                    onToggleAddImage={toggleAddImage}
                     onSetNewNote={setNewNote}
                     btnRef={addNoteBtnRef}
                 />
