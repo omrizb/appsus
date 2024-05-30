@@ -53,6 +53,22 @@ export function MailCompose() {
             })
     }
 
+    function onRemoveMail(ev) {
+        // console.log('hi');
+        ev.preventDefault()
+        const mailRemoved = { ...mail, isStarred: false, removedAt: Date.now() }
+        mailService.save(mailRemoved, 'trash')
+            .then(() => {
+                showSuccessMsg(`Your mail was moved to trash...`)
+                onGoBack()
+            })
+            .catch(err => {
+                console.log('err:', err)
+                showErrorMsg('There was a problem')
+                onGoBack()
+            })
+    }
+
     function onGoBack() {
         navigate(`/mail${location.search}`)
     }
@@ -95,8 +111,16 @@ export function MailCompose() {
                         onChange={handleChange}
                     />
                     <section className="actions">
-                        <button onClick={onSaveAsDraft}>Save as Draft</button>
-                        <button onClick={onSend}>Send</button>
+                        {(!mail.id) && (
+                            <button className="action-btn" onClick={onSaveAsDraft}>Save as Draft</button>
+                        )}
+                        <button className="action-btn" onClick={onSend}>Send</button>
+                        {(mail.id) && (
+                            <label className="icon-btn">
+                                <div className="fa-regular i-trash icon"></div>
+                                <button onClick={onRemoveMail}></button>
+                            </label>
+                        )}
                     </section>
                 </form>
             </div>

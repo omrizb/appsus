@@ -111,6 +111,7 @@
 
 .fa-solid.i-star::before {
     content: "\f005";
+    color: rgba(246, 229, 98, 0.89);
 }
 
 .fa-regular.i-unstar::before {
@@ -131,4 +132,8 @@
 
 .fa-solid.i-sort-desc::before {
     content: "\f0dd";
+}
+
+.fa-solid.i-goback::before {
+    content: "\f060";
 }
