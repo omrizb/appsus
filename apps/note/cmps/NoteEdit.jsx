@@ -80,7 +80,6 @@ export function NoteEdit() {
     }
 
     function onSubmit(ev) {
-        console.log('submitting', newNoteToSave)
         if (ev) ev.preventDefault()
         onAddNote(newNoteToSave)
         setNewNoteToSave({ ...newNotes.current.NoteTxt, id: 'new-note' })

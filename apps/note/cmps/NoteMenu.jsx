@@ -29,7 +29,6 @@ export function NoteMenu({ isHovered, note, newNoteToSave, onToggleAddImage, onS
     }
 
     function handleCloseBtnClick() {
-        console.log('clicked')
         if (btnRef) btnRef.current.click()
     }
 
