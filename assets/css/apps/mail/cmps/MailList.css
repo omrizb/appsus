@@ -1,5 +1,5 @@
 .mail-list {
-    max-width: 1000px;
+
     background-color: #fff;
     border: 1px solid #ddd;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -10,11 +10,14 @@
 
 .mail-list li {
     display: grid;
-    grid-template-columns: 1fr 3fr 1fr;
+    grid-template-columns: repeat(2, auto) 1fr repeat(3, auto);
+    gap: 10px;
     padding: 10px 20px;
     border-bottom: 1px solid hsl(0, 0%, 87%);
     transition: background-color 0.3s;
     color: rgb(32, 33, 36);
+
+    align-items: center;
 
 }
 
@@ -23,45 +26,25 @@
 }
 
 .mail-list li:hover {
-    /* background-color: #f1f3f4; */
-    /* box-shadow: inset 1px 0 0 #dadce0, inset -1px 0 0 #dadce0, 0 1px 2px 0 rgba(60, 64, 67, .3), 0 1px 3px 1px rgba(60, 64, 67, .15); */
     box-shadow: inset 2px 1px 1px #dadce0, inset -1px 1px 1px #dadce0, 0 1px 2px 0 rgba(60, 64, 67, .3), 0 1px 3px 1px rgba(60, 64, 67, .15);
 
 }
 
-.mail-checkboxes {
-    display: flex;
-    gap: 10px;
-
-}
-
-.mail-checkbox:hover {
-    background-color: rgb(0, 0, 0, 0.2);
-    cursor: pointer;
-}
-
-.mail-checkbox {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 2rem;
-    width: 2rem;
-    padding: 10px;
-    border-radius: 100vh;
-}
-
+.mail-checkboxes,
 .action-checkboxes {
     display: flex;
     gap: 10px;
 
 }
 
+.mail-checkbox:hover,
 .action-checkbox:hover {
     background-color: rgb(0, 0, 0, 0.2);
     cursor: pointer;
 }
 
-.action-checkbox {
+.mail-checkbox,
+.mail-list li:hover .action-checkbox {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -69,4 +52,8 @@
     width: 2rem;
     padding: 10px;
     border-radius: 100vh;
+}
+
+.action-checkbox {
+    display: none;
 }

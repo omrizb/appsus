@@ -137,3 +137,7 @@
 .fa-solid.i-goback::before {
     content: "\f060";
 }
+
+.fa-regular.i-note::before {
+    content: "\f249";
+}

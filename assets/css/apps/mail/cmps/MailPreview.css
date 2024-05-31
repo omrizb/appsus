@@ -1,12 +1,16 @@
 .mail-preview {
     display: grid;
-    grid-template-columns: 1fr 3fr 1fr;
+    grid-template-columns: minmax(80px, 200px) 1fr minmax(80px, 200px);
     gap: 10px;
 }
 
 .mail-preview .mail-content {
     display: flex;
-    justify-content: space-between;
+    flex: 1;
+    display: flex;
+    text-wrap: nowrap;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .mail-preview .unread-bold {

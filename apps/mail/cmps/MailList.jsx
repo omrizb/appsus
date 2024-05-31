@@ -3,7 +3,7 @@ const { Link, useLocation } = ReactRouterDOM
 import { MailPreview } from './MailPreview.jsx'
 import { eventBusService, showErrorMsg, showSuccessMsg } from '../../../services/event-bus.service.js'
 
-export function MailList({ mails, onMailUpdate, onOpenModal }) {
+export function MailList({ mails, onMailUpdate, onMailSelected, onOpenModal }) {
     const location = useLocation()
 
     function onSaveAsNote(mail) {
@@ -20,6 +20,8 @@ export function MailList({ mails, onMailUpdate, onOpenModal }) {
                             <label className="mail-checkbox">
                                 <input
                                     type="checkbox"
+                                    // checked={selectedMails.some(selectedMail => selectedMail.id === mail.id)}
+                                    onChange={() => onMailSelected(mail)}
                                 />
                             </label>
                             <label className="mail-checkbox">
