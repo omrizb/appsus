@@ -1,8 +1,7 @@
 const { useState, useEffect } = React
 
 export function MailFilterSort({ filterBy, onFilter, sortBy, onSort }) {
-    // console.log('filterBy:', filterBy)
-    // console.log('sortBy:', sortBy)
+
     const [filterByToEdit, setFilterByToEdit] = useState({ ...filterBy })
     const [sortByToEdit, setSortByToEdit] = useState({ ...sortBy })
 
@@ -66,7 +65,7 @@ export function MailFilterSort({ filterBy, onFilter, sortBy, onSort }) {
     } else if (filterBy.isStarred === true) {
         selectedValue = 'starred'
     } else if (filterBy.isStarred === false) { selectedValue = 'unstarred' }
-    // console.log('selectedValue:', selectedValue)
+
 
     const sortOptions = {
         date: ['inbox', 'sent', 'draft', 'trash'],

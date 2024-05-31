@@ -69,7 +69,9 @@ export function MailList({ mails, onMailUpdate, onOpenModal }) {
                                         onMailUpdate(
                                             mail,
                                             { folder: 'trash', isStarred: false, removedAt: Date.now() },
-                                            `Your mail was moved to trash...`
+                                            'Your mail was moved to trash...',
+                                            'There was a problem',
+                                            true
                                         )}
                                 />
                             </label>
