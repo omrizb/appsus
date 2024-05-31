@@ -53,6 +53,8 @@ function query(filterBy = {}, sortByPinned = true) {
                 notes.sort(sortPinnedFirst)
             }
 
+            notes.sort((note1, note2) => note1.updatedAt - note2.updatedAt)
+
             return notes
         })
 }
