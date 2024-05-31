@@ -6,7 +6,9 @@ export function NoteMenu({ children, isHovered, note }) {
     const { activeElement } = useOutletContext()
     const [selectedMenuButtons, setSelectedMenuButtons] = useState({
         pin: note.isPinned,
-        image: note.type === 'NoteImg'
+        image: note.type === 'NoteImg',
+        video: note.type === 'NoteVideo',
+        todo: note.type === 'NoteTodo'
     })
     const [openSideMenus, setOpenSideMenus] = useState({
         palette: activeElement.noteId === note.id && activeElement.item === 'palette',
@@ -24,7 +26,9 @@ export function NoteMenu({ children, isHovered, note }) {
     useEffect(() => {
         setSelectedMenuButtons({
             pin: note.isPinned,
-            image: note.type === 'NoteImg'
+            image: note.type === 'NoteImg',
+            video: note.type === 'NoteVideo',
+            todo: note.type === 'NoteTodo'
         })
     }, [note])
 

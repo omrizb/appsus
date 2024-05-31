@@ -9,6 +9,8 @@ import { MenuBtnPin } from "./menu-buttons/MenuBtnPin.jsx"
 import { MenuBtnReminder } from "./menu-buttons/MenuBtnReminder.jsx"
 import { MenuBtnColorPalette } from "./menu-buttons/MenuBtnColorPalette.jsx"
 import { MenuBtnAddImage } from "./menu-buttons/MenuBtnAddImage.jsx"
+import { MenuBtnAddVideo } from "./menu-buttons/MenuBtnAddVideo.jsx"
+import { MenuBtnAddTodo } from "./menu-buttons/MenuBtnAddTodo.jsx"
 import { MenuBtnCustom } from "./menu-buttons/MenuBtnCustom.jsx"
 
 export function NoteEdit() {
@@ -55,8 +57,8 @@ export function NoteEdit() {
         textarea.style.height = `${textarea.scrollHeight}px`
     }
 
-    function toggleAddImage() {
-        if (newNoteToSave.type === 'NoteImg') {
+    function toggleAddNoteType(type) {
+        if (newNoteToSave.type === type) {
             setNewNoteToSave({
                 ...newNoteToSave,
                 type: 'NoteTxt',
@@ -66,8 +68,8 @@ export function NoteEdit() {
         }
         setNewNoteToSave({
             ...newNoteToSave,
-            type: 'NoteImg',
-            info: { ...newNotes.current.NoteImg.info, txt: newNoteToSave.info.txt }
+            type,
+            info: { ...newNotes.current[type].info, txt: newNoteToSave.info.txt }
         })
     }
 
@@ -83,7 +85,7 @@ export function NoteEdit() {
     const menuBtnParams = {
         note: newNoteToSave,
         setNote: setNewNote,
-        onToggleAddImage: toggleAddImage,
+        onToggleAddNoteType: toggleAddNoteType,
         customBtnClick: () => addNoteBtnRef.current.click(),
         customBtnTxt: 'Close'
     }
@@ -125,6 +127,22 @@ export function NoteEdit() {
                     type="text"
                     placeholder="Image url"
                 />}
+                {newNoteToSave.type === 'NoteVideo' && <input
+                    className="add-video-url"
+                    onChange={ev => reactUtilService.handleChange(ev, setNewNoteToSave)}
+                    value={newNoteToSave.info.url}
+                    name="info-url"
+                    type="text"
+                    placeholder="Video url"
+                />}
+                {newNoteToSave.type === 'NoteVideo' && <input
+                    className="add-video-thumbnail"
+                    onChange={ev => reactUtilService.handleChange(ev, setNewNoteToSave)}
+                    value={newNoteToSave.info.thumbnail}
+                    name="info-thumbnail"
+                    type="text"
+                    placeholder="Video thumbnail"
+                />}
                 <NoteMenu
                     isHovered={isHovered}
                     note={newNoteToSave}
@@ -133,6 +151,8 @@ export function NoteEdit() {
                     <MenuBtnReminder btnParams={menuBtnParams} classes={['reminder-btn']} />
                     <MenuBtnColorPalette btnParams={menuBtnParams} classes={['color-palette-btn']} />
                     <MenuBtnAddImage btnParams={menuBtnParams} classes={['add-image-btn']} />
+                    <MenuBtnAddVideo btnParams={menuBtnParams} classes={['add-video-btn']} />
+                    <MenuBtnAddTodo btnParams={menuBtnParams} classes={['add-todo-btn']} />
                     <MenuBtnCustom btnParams={menuBtnParams} classes={['btn', 'new-note-btn']} />
                 </NoteMenu>
 

@@ -43,6 +43,14 @@
     content: "\f303";
 }
 
+.fa-solid.i-video::before {
+    content: "\f03d";
+}
+
+.fa-solid.i-todo::before {
+    content: "\f03a";
+}
+
 .fa-solid.i-archive::before {
     content: "\f187";
 }
