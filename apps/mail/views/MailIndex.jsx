@@ -143,8 +143,10 @@ export function MailIndex() {
     return (
         <div className="mail-index-wrapper">
             <section className="mail-index">
-                {/* <section className="action-checkboxes">
-                    <label className="action-checkbox">
+                <h1>My Mail</h1>
+                <MailFilterSort filterBy={filterBy} onFilter={onSetFilterBy} sortBy={sortBy} onSort={onSetSortBy} />
+                <section className="action-checkboxes">
+                    <label className="checkbox">
                         <div className="fa-regular i-note icon"></div>
                         <input
                             hidden
@@ -152,7 +154,7 @@ export function MailIndex() {
                         // onChange={onSaveAsNotes}
                         />
                     </label>
-                    <label className="mail-checkbox">
+                    <label className="checkbox">
                         <div className={(selectedMails && selectedMails.length > 0 && selectedMails[0].isStarred) ? `fa-solid i-star` : `fa-regular i-unstar`}></div>
                         <input
                             hidden
@@ -160,7 +162,7 @@ export function MailIndex() {
                             onChange={() => onMailsUpdate('isStarred')}
                         />
                     </label>
-                    <label className="action-checkbox">
+                    <label className="checkbox">
                         <div className={(selectedMails && selectedMails.length > 0 && selectedMails[0].isRead) ? `fa-regular i-read` : `fa-regular i-unread`}></div>
                         <input
                             hidden
@@ -168,7 +170,7 @@ export function MailIndex() {
                             onChange={() => onMailsUpdate('isRead')}
                         />
                     </label>
-                    <label className="action-checkbox">
+                    <label className="checkbox">
                         <div className="fa-regular i-trash icon"></div>
                         <input
                             hidden
@@ -177,9 +179,7 @@ export function MailIndex() {
                                 onMailsUpdate('trash')}
                         />
                     </label>
-                </section> */}
-                <h1>My Mail</h1>
-                <MailFilterSort filterBy={filterBy} onFilter={onSetFilterBy} sortBy={sortBy} onSort={onSetSortBy} />
+                </section>
                 <label className="mail-compose-btn">
                     <div className="fa-solid i-compose"></div>
                     <button onClick={() => onOpenModal(null)}>Compose</button>
@@ -192,7 +192,7 @@ export function MailIndex() {
                         onMailSelected={onMailSelected}
                     />
                 )}
-                {(!isMails) && (<div>No mails to show...</div>)}
+                {(!isMails) && (<div className="no-mail-list" >No mails to show...</div>)}
                 {(isShowComposeMailModal) && (
                     <MailCompose
                         selectedMail={selectedMail}

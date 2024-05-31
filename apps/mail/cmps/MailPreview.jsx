@@ -14,15 +14,11 @@ export function MailPreview({ mail }) {
                     <p style={{ color: 'red' }}>Draft</p>
                 )}
             </div>
-            <div className="mail-content">
-                {(mail.subject) && (
-                    <p className={`${mail.isRead ? 'read' : 'unread-bold'}`}>{mail.subject}</p>
-                )}
-                {(mail.body) && (
-                    <p className="mail-body">{mail.body.substring(0, 70)}...</p>
-                )}
+            <div className="content">
+                <div className={`${mail.isRead ? 'read' : 'unread-bold'}`}>{mail.subject}</div>
+                <div className="mail-body">{mail.body.substring(0, 70)}...</div>
             </div>
-            <small className={`${mail.isRead ? 'read' : 'unread-bold'}`}>{utilService.formatDateDynamic(mail.sentAt)}</small>
+            <div className={`${mail.isRead ? 'read' : 'unread-bold'}`}>{utilService.formatDateDynamic(mail.sentAt)}</div>
         </article>
     )
 }
