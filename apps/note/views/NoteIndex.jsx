@@ -79,7 +79,7 @@ export function NoteIndex() {
     function addNote(note) {
         delete note.id
         noteService.save(note)
-            .then(savedNote => setNotes([...notes, savedNote]))
+            .then(savedNote => setNotes([savedNote, ...notes]))
             .catch(err => {
                 console.error('Error:', err);
                 showErrorMsg('Failed to add note.');
