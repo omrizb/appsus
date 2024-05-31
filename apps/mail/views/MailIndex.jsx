@@ -26,6 +26,7 @@ export function MailIndex() {
     const [selectedMail, setSelectedMail] = useState(null)
     const [isShowComposeMailModal, setIsShowComposeMailModal] = useState(false)
 
+    const [selectedMails, setSelectedMails] = useState([])
 
     useEffect(() => {
         setSearchParams({ ...filterBy, ...sortBy })
@@ -76,6 +77,35 @@ export function MailIndex() {
         setSelectedMail(null)
     }
 
+    function onMailSelected(mail) {
+        setSelectedMails(prevSelectedMails => {
+            if (prevSelectedMails.some(selectedMail => selectedMail.id === mail.id)) {
+                return prevSelectedMails.filter(selectedMail => selectedMail.id !== mail.id)
+            } else {
+                return [...prevSelectedMails, mail]
+            }
+        })
+
+    }
+    console.log('SelectedMails:', selectedMails)
+    function onMailsUpdate(action) {
+        selectedMails.forEach(mail => {
+            if (action === 'isStarred') {
+                handleMailUpdate(mail, { isStarred: !mail.isStarred })
+            } else if (action === 'isRead') {
+                handleMailUpdate(mail, { isRead: !mail.isRead })
+            } else if (action === 'trash') {
+                handleMailUpdate(
+                    mail,
+                    { folder: 'trash', isStarred: false, removedAt: Date.now() },
+                    'Your mail was moved to trash...',
+                    'There was a problem',
+                    true
+                )
+            }
+        })
+    }
+
     function handleMailUpdate(orgMail, updates, successMsg, errorMsg, isRemove = false) {
         setIsLoading(true)
         const updatedMail = { ...orgMail, ...updates }
@@ -115,6 +145,41 @@ export function MailIndex() {
             <section className="mail-index">
                 <h1>My Mail</h1>
                 <MailFilterSort filterBy={filterBy} onFilter={onSetFilterBy} sortBy={sortBy} onSort={onSetSortBy} />
+                <section className="action-checkboxes">
+                    <label className="checkbox">
+                        <div className="fa-regular i-note icon"></div>
+                        <input
+                            hidden
+                            type="checkbox"
+                        // onChange={onSaveAsNotes}
+                        />
+                    </label>
+                    <label className="checkbox">
+                        <div className={(selectedMails && selectedMails.length > 0 && selectedMails[0].isStarred) ? `fa-solid i-star` : `fa-regular i-unstar`}></div>
+                        <input
+                            hidden
+                            type="checkbox"
+                            onChange={() => onMailsUpdate('isStarred')}
+                        />
+                    </label>
+                    <label className="checkbox">
+                        <div className={(selectedMails && selectedMails.length > 0 && selectedMails[0].isRead) ? `fa-regular i-read` : `fa-regular i-unread`}></div>
+                        <input
+                            hidden
+                            type="checkbox"
+                            onChange={() => onMailsUpdate('isRead')}
+                        />
+                    </label>
+                    <label className="checkbox">
+                        <div className="fa-regular i-trash icon"></div>
+                        <input
+                            hidden
+                            type="checkbox"
+                            onChange={() =>
+                                onMailsUpdate('trash')}
+                        />
+                    </label>
+                </section>
                 <label className="mail-compose-btn">
                     <div className="fa-solid i-compose"></div>
                     <button onClick={() => onOpenModal(null)}>Compose</button>
@@ -124,9 +189,10 @@ export function MailIndex() {
                         mails={mails}
                         onMailUpdate={handleMailUpdate}
                         onOpenModal={onOpenModal}
+                        onMailSelected={onMailSelected}
                     />
                 )}
-                {(!isMails) && (<div>No mails to show...</div>)}
+                {(!isMails) && (<div className="no-mail-list" >No mails to show...</div>)}
                 {(isShowComposeMailModal) && (
                     <MailCompose
                         selectedMail={selectedMail}

@@ -1,12 +1,26 @@
 .mail-preview {
     display: grid;
-    grid-template-columns: 1fr 3fr 1fr;
-    gap: 10px;
+    grid-template-columns: 1fr minmax(480px, 1fr) 1fr;
 }
 
-.mail-preview .mail-content {
+.mail-preview .content {
     display: flex;
-    justify-content: space-between;
+    gap: 5px;
+    grid-column: 2;
+    white-space: nowrap;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+}
+
+/* .mail-preview>*:first-child {
+    width: 200px;
+}
+*/
+
+.mail-preview>*:last-child {
+    margin-inline-start: auto;
 }
 
 .mail-preview .unread-bold {
