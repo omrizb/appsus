@@ -1,5 +1,4 @@
-.mail-list {
-
+.mail-main-view {
     background-color: #fff;
     border: 1px solid #ddd;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -8,7 +7,7 @@
     max-height: 100vh;
 }
 
-.mail-list li {
+.mail-main-view li {
     display: grid;
     grid-template-columns: repeat(2, auto) 1fr repeat(3, auto);
     gap: 10px;
@@ -21,11 +20,11 @@
 
 }
 
-.mail-list li.read {
+.mail-main-view li.read {
     background-color: #eaf1fb;
 }
 
-.mail-list li:hover {
+.mail-main-view li:hover {
     box-shadow: inset 2px 1px 1px #dadce0, inset -1px 1px 1px #dadce0, 0 1px 2px 0 rgba(60, 64, 67, .3), 0 1px 3px 1px rgba(60, 64, 67, .15);
 
 }
@@ -44,7 +43,7 @@
 }
 
 .mail-checkbox,
-.mail-list li:hover .action-checkbox {
+.mail-main-view li:hover .action-checkbox {
     display: flex;
     align-items: center;
     justify-content: center;

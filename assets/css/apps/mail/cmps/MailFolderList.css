@@ -1,4 +1,4 @@
-.mail-folder-list {
+.mail-side-nav {
     display: flex;
     flex-direction: column;
     font-family: "Google Sans", Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
@@ -6,22 +6,22 @@
     background-color: #f2f6fc;
 }
 
-.mail-folder-list ul {
+.mail-side-nav ul {
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
-.mail-folder-list li {
+.mail-side-nav li {
     display: flex;
     align-items: center;
-    width: 100%;
+    width: 240px;
     padding: 0 12px 0 26px;
     height: 32px;
 
 }
 
-.mail-folder-list .folder-info {
+.mail-side-nav .folder-info {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -31,7 +31,7 @@
     font-size: 0.875rem;
 }
 
-.mail-folder-list li:hover {
+.mail-side-nav li:hover {
     border-top-right-radius: 100vh;
     border-bottom-right-radius: 100vh;
     border-top-left-radius: 100vh;
@@ -39,7 +39,7 @@
     background-color: #e8eaed;
 }
 
-.mail-folder-list .active-folder {
+.mail-side-nav .active-folder {
     border-top-right-radius: 100vh;
     border-bottom-right-radius: 100vh;
     border-top-left-radius: 100vh;
@@ -47,7 +47,7 @@
     background-color: rgb(211, 227, 253);
 }
 
-.mail-folder-list .active-folder:hover {
+.mail-side-nav .active-folder:hover {
     border-top-right-radius: 100vh;
     border-bottom-right-radius: 100vh;
     border-top-left-radius: 100vh;

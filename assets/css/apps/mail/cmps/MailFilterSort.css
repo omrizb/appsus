@@ -7,18 +7,20 @@
     background-color: #f2f6fc;
 }
 
-.mail-filter-sort .mail-filter-search input {
+.mail-filter-sort .mail-search input {
     all: unset;
 
 }
 
-.mail-filter-sort .mail-filter-search {
+.mail-filter-sort .mail-search {
+    grid-area: search;
+
     align-items: center;
     display: inline-flex;
 
     padding: 0 12px 0 26px;
     gap: 10px;
-    max-width: 50%;
+    max-width: 100%;
     min-width: 96px;
     height: 56px;
     line-height: 32px;
@@ -48,6 +50,7 @@
 }
 
 .mail-filter-sort .mail-filter-sort-options {
+    grid-area: filter-sort-options;
     display: flex;
     gap: 0.875rem;
     font-size: 0.875rem;
