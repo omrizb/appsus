@@ -1,0 +1,30 @@
+.todos-note-preview,
+.todos-note-details {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.todos-note-preview > *:first-child,
+.todos-note-details > *:first-child {
+    margin-top: 0.8em;
+}
+
+.todos-note-preview > *,
+.todos-note-details > * {
+    padding-inline: 0.5em;
+}
+
+.todos-note-preview .todo-item {
+    display: flex;
+    align-items: start;
+    gap: 5px;
+}
+
+.todos-note-preview .todo-item:hover {
+    text-shadow: 0px 0px 2px rgb(134, 142, 150, 0.5);
+}
+
+.todos-note-preview .todo-list input[type="checkbox"]:checked + p {
+    text-decoration: line-through;
+}

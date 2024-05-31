@@ -153,9 +153,10 @@ function _getNoteInfo(type) {
                 url: ''
             }
         case 'NoteTodos':
-            return [
-                { txt: '', doneAt: null }
-            ]
+            return {
+                txt: '',
+                todos: { txt: '', doneAt: null }
+            }
         default:
             throw new Error('Unknown note type. Type should be one of the following: NoteTxt, NoteImg, NoteVideo, NoteTodos.')
     }
@@ -175,7 +176,7 @@ function _createNotes(size) {
 }
 
 function _createNote() {
-    const noteTypes = ['NoteTxt', 'NoteImg', 'NoteVideo']
+    const noteTypes = ['NoteTxt', 'NoteImg', 'NoteVideo', 'NoteTodos']
     const noteType = utilService.getRandomItems(noteTypes)
     const note = getEmptyNote(noteType)
 
@@ -202,7 +203,26 @@ function _createNote() {
             note.info.thumbnail = randVideo.thumbnail
             note.info.txt = utilService.makeLorem(10)
             break
+        case 'NoteTodos':
+            note.info.txt = utilService.makeLorem(6)
+            note.info.todos = _createTodos(utilService.getRandomIntInclusive(1, 4))
+            break
     }
 
     return note
+}
+
+function _createTodos(size) {
+    const todos = []
+    for (let i = 0; i < size; i++) {
+        const msecInWeek = 7 * 24 * 60 * 60 * 1000
+        const randomTime = utilService.getRandomIntInclusive(Date.now() - msecInWeek, Date.now())
+        const todo = {
+            txt: utilService.makeLorem(6),
+            doneAt: (Math.random() > 0.7) ? randomTime : null,
+            id: utilService.makeId(6)
+        }
+        todos.push(todo)
+    }
+    return todos
 }

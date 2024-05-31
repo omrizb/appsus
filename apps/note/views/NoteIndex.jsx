@@ -1,6 +1,7 @@
 const { useState, useEffect, useRef } = React
 const { Outlet, useSearchParams, useLocation, useNavigate } = ReactRouterDOM
 
+import { reactUtilService } from "../../../services/react-util.service.js"
 import { noteService } from "../services/note.service.js"
 import { showErrorMsg, showSuccessMsg } from "../../../services/event-bus.service.js"
 
@@ -87,10 +88,10 @@ export function NoteIndex() {
     }
 
     function saveNote(note, newProps = {}) {
-        const updatedNote = { ...note, ...newProps }
+        const updatedNote = reactUtilService.deepMerge(note, newProps)
         updateNoteLocally(updatedNote)
 
-        noteService.save(updatedNote)
+        return noteService.save(updatedNote)
             .catch(err => {
                 console.error('Error:', err);
                 showErrorMsg('Failed to update note.');

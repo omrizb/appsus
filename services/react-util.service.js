@@ -1,5 +1,6 @@
 export const reactUtilService = {
     handleChange,
+    deepMerge
 }
 
 function handleChange({ target }, stateSetter) {
@@ -46,7 +47,20 @@ function deepMerge(target, source) {
         const sourceValue = source[key]
 
         if (Array.isArray(targetValue) && Array.isArray(sourceValue)) {
-            target[key] = targetValue.concat(sourceValue)
+            sourceValue.forEach(item => {
+                if (isObject(item)) {
+                    const targetIndex = targetValue.findIndex(t => t.id === item.id)
+                    if (targetIndex > -1) {
+                        targetValue[targetIndex] = deepMerge(targetValue[targetIndex], item)
+                    } else {
+                        targetValue.push(item)
+                    }
+                } else {
+                    if (!targetValue.includes(item)) {
+                        targetValue.push(item)
+                    }
+                }
+            })
         } else if (isObject(targetValue) && isObject(sourceValue)) {
             target[key] = deepMerge(Object.assign({}, targetValue), sourceValue)
         } else {
