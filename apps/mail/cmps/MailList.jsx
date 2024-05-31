@@ -1,14 +1,15 @@
-const { Link, useLocation } = ReactRouterDOM
+const { Link, useLocation, useNavigate } = ReactRouterDOM
 
 import { MailPreview } from './MailPreview.jsx'
 import { eventBusService, showErrorMsg, showSuccessMsg } from '../../../services/event-bus.service.js'
 
 export function MailList({ mails, onMailUpdate, onMailSelected, onOpenModal }) {
     const location = useLocation()
+    const navigate = useNavigate()
 
     function onSaveAsNote(mail) {
         console.log('hi');
-
+        navigate(`/note/notes/add-note?title=${mail.subject}&txt=${mail.body}&isPinned='false'`)
     }
 
     return (
