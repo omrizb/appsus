@@ -2,7 +2,7 @@ export function MenuBtnAddTodo({ btnParams, classes, selectedMenuButtons, setSel
 
     function handleTodoBtnClick() {
         setSelectedMenuButton({ ...selectedMenuButtons, todo: !selectedMenuButtons.todo })
-        btnParams.onToggleAddTodo()
+        btnParams.onToggleAddNoteType('NoteTodo')
     }
 
     return <div

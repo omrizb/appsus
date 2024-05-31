@@ -2,7 +2,7 @@ export function MenuBtnAddImage({ btnParams, classes, selectedMenuButtons, setSe
 
     function handleImageBtnClick() {
         setSelectedMenuButton({ ...selectedMenuButtons, image: !selectedMenuButtons.image })
-        btnParams.onToggleAddImage()
+        btnParams.onToggleAddNoteType('NoteImg')
     }
 
     return <div

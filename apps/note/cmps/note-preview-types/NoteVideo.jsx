@@ -6,10 +6,12 @@ export function NoteVideo({ note, isPreview = false }) {
         return <div className="video-note-preview">
             <div className="thumbnail-container">
                 <img src="../../../../assets/img/play-video.svg" className="thumbnail" />
-                <img src={note.info.thumbnail} />
+                {(note.info.thumbnail)
+                    ? <img src={note.info.thumbnail} />
+                    : <div className="no-video-thumbnail"></div>}
             </div>
             <h2><ShortTxt txt={note.title} length={30} /></h2>
-            <p><ShortTxt txt={note.info.txt} length={100} /></p>
+            <ShortTxt txt={note.info.txt} length={100} />
         </div>
     }
 

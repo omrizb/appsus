@@ -1,6 +1,11 @@
 export function ShortTxt({ txt, length = 100 }) {
 
-    return (txt.length <= length)
-        ? <React.Fragment>{txt}</React.Fragment>
-        : <React.Fragment>{txt.substring(0, length) + '...'}</React.Fragment>
+    if (txt.length > length) {
+        txt = txt.substring(0, length) + '...'
+    }
+    const lines = txt.split('\n')
+
+    return <React.Fragment>
+        {lines.map((line, index) => <p key={index}>{line}</p>)}
+    </React.Fragment>
 }

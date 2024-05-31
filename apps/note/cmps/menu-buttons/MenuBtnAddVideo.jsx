@@ -2,7 +2,7 @@ export function MenuBtnAddVideo({ btnParams, classes, selectedMenuButtons, setSe
 
     function handleVideoBtnClick() {
         setSelectedMenuButton({ ...selectedMenuButtons, video: !selectedMenuButtons.video })
-        btnParams.onToggleAddVideo()
+        btnParams.onToggleAddNoteType('NoteVideo')
     }
 
     return <div
