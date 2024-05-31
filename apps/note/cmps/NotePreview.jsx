@@ -15,6 +15,9 @@ function NoteType(props) {
             return <NoteTxt {...props} />
         case 'NoteImg':
             return <NoteImg {...props} />
+        case 'NoteVideo':
+            return <NoteVideo {...props} />
+        case 'NoteTodos':
+            return <NoteTodos {...props} />
     }
-
 }
