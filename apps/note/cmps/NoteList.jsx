@@ -4,12 +4,18 @@ const { useOutletContext, useLocation, useNavigate } = ReactRouterDOM
 import { Modal } from "../../../cmps/Modal.jsx"
 import { NoteDetails } from "../views/NoteDetails.jsx"
 import { NoteMenu } from "./NoteMenu.jsx"
+import { MenuBtnPin } from "./menu-buttons/MenuBtnPin.jsx"
+import { MenuBtnReminder } from "./menu-buttons/MenuBtnReminder.jsx"
+import { MenuBtnColorPalette } from "./menu-buttons/MenuBtnColorPalette.jsx"
+import { MenuBtnArchive } from "./menu-buttons/MenuBtnArchive.jsx"
+import { MenuBtnMoreOptions } from "./menu-buttons/MenuBtnMoreOptions.jsx"
+import { MenuBtnRemoveNote } from "./menu-buttons/MenuBtnRemoveNote.jsx"
+import { MenuBtnUndoTrash } from "./menu-buttons/MenuBtnUndoTrash.jsx"
 import { NotePreview } from "./NotePreview.jsx"
-import { TrashMenu } from "./TrashMenu.jsx"
 
 export function NoteList({ notesToShow, allNotes, isTrash }) {
 
-    const { activeElement } = useOutletContext()
+    const { activeElement, onSaveNote, onRemoveNote, onUndoTrash } = useOutletContext()
     const [hoveredNoteId, setHoveredNoteId] = useState(null)
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [modalNote, setModalNote] = useState({})
@@ -54,6 +60,12 @@ export function NoteList({ notesToShow, allNotes, isTrash }) {
     return <div className="note-list">
         <ul>
             {notesToShow.map(note => {
+                const menuBtnParams = {
+                    note: note,
+                    setNote: onSaveNote,
+                    onRemoveNote: onRemoveNote,
+                    onUndoTrash: onUndoTrash
+                }
                 const bgColor = note.style.backgroundColor
                 const borderColor = (bgColor.name === 'none') ? 'var(--gray-4)' : bgColor.color
                 const noteStyle = {
@@ -72,15 +84,25 @@ export function NoteList({ notesToShow, allNotes, isTrash }) {
                     >
                         <NotePreview note={note} />
                         {(isTrash)
-                            ? <TrashMenu
+                            ? <NoteMenu
                                 isHovered={isHovered}
                                 note={note}
-                            />
+                            >
+                                <MenuBtnRemoveNote btnParams={menuBtnParams} classes={['remove-note-btn']} />
+                                <MenuBtnUndoTrash btnParams={menuBtnParams} classes={['undo-trash-btn']} />
+                            </NoteMenu>
                             : <NoteMenu
                                 isHovered={isHovered}
                                 note={note}
-                            />
+                            >
+                                <MenuBtnPin btnParams={menuBtnParams} classes={['pin-btn', 'top-right-btn']} />
+                                <MenuBtnReminder btnParams={menuBtnParams} classes={['reminder-btn']} />
+                                <MenuBtnColorPalette btnParams={menuBtnParams} classes={['color-palette-btn']} />
+                                <MenuBtnArchive btnParams={menuBtnParams} classes={['archive-btn']} />
+                                <MenuBtnMoreOptions btnParams={menuBtnParams} classes={['more-options-btn']} />
+                            </NoteMenu>
                         }
+
                     </li>
                 )
             }

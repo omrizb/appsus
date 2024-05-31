@@ -41,6 +41,18 @@ export function NoteIndex() {
     }, [location])
 
     useEffect(() => {
+        if (!location.pathname.includes('/note/notes/add-note')) {
+            return
+        }
+
+        const newNote = structuredClone(newNotes.current.NoteTxt)
+        newNote.title = searchParams.get('title') || 'New note'
+        newNote.isPinned = searchParams.get('isPinned') || false
+        newNote.info.txt = searchParams.get('txt') || 'This is a new note.'
+        addNote(newNote)
+    }, [location])
+
+    useEffect(() => {
         setIsLoading(true)
         noteService.query(filterBy)
             .then(setNotes)
