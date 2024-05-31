@@ -1,5 +1,7 @@
-import { utilService } from '../../../services/util.service.js'
-import { storageService } from '../../../services/async-storage.service.js'
+import { utilService } from "../../../services/util.service.js"
+import { storageService } from "../../../services/async-storage.service.js"
+
+import { videos } from "./videos.js"
 
 const BACKGROUND_COLORS = [
     { name: 'none', color: '#ffffff' },
@@ -17,7 +19,7 @@ const BACKGROUND_COLORS = [
 ]
 const NOTE_KEY = 'noteDB'
 
-_createNotes(10)
+_createNotes(12)
 
 export const noteService = {
     query,
@@ -31,8 +33,11 @@ export const noteService = {
     getEmptyFilter,
     getFilterFromSearchParams,
     getBackgroundColors,
-    sortPinnedFirst
+    sortPinnedFirst,
 }
+
+// Debug:
+// window.ns = noteService
 
 function query(filterBy = {}, sortByPinned = true) {
     return storageService.query(NOTE_KEY)
@@ -138,10 +143,12 @@ function _getNoteInfo(type) {
             }
         case 'NoteImg':
             return {
+                txt: '',
                 url: ''
             }
         case 'NoteVideo':
             return {
+                txt: '',
                 thumbnail: '',
                 url: ''
             }
@@ -168,7 +175,7 @@ function _createNotes(size) {
 }
 
 function _createNote() {
-    const noteTypes = ['NoteTxt', 'NoteImg']
+    const noteTypes = ['NoteTxt', 'NoteImg', 'NoteVideo']
     const noteType = utilService.getRandomItems(noteTypes)
     const note = getEmptyNote(noteType)
 
@@ -185,6 +192,12 @@ function _createNote() {
             const randWidth = utilService.getRandomIntInclusive(500, 800)
             const randHeight = utilService.getRandomIntInclusive(300, 600)
             note.info.url = `https://picsum.photos/${randWidth}/${randHeight}`
+            note.info.txt = utilService.makeLorem(10)
+            break
+        case 'NoteVideo':
+            const randVideo = utilService.getRandomItems(videos)
+            note.info.url = randVideo.videoUrl
+            note.info.thumbnail = randVideo.thumbnail
             note.info.txt = utilService.makeLorem(10)
             break
     }
