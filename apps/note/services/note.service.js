@@ -58,7 +58,7 @@ function query(filterBy = {}, sortByPinned = true) {
                 notes.sort(sortPinnedFirst)
             }
 
-            notes.sort((note1, note2) => note1.updatedAt - note2.updatedAt)
+            notes.sort((note1, note2) => note2.updatedAt - note1.updatedAt)
 
             return notes
         })
@@ -183,6 +183,8 @@ function _createNote() {
     note.isPinned = (Math.random() > 0.7)
     note.style.backgroundColor = utilService.getRandomItems(BACKGROUND_COLORS)
     note.id = utilService.makeId(5)
+    note.createdAt = Date.now()
+    note.updatedAt = Date.now()
 
     switch (noteType) {
         case 'NoteTxt':

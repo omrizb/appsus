@@ -9,6 +9,8 @@ import { MenuBtnPin } from "./menu-buttons/MenuBtnPin.jsx"
 import { MenuBtnReminder } from "./menu-buttons/MenuBtnReminder.jsx"
 import { MenuBtnColorPalette } from "./menu-buttons/MenuBtnColorPalette.jsx"
 import { MenuBtnAddImage } from "./menu-buttons/MenuBtnAddImage.jsx"
+import { MenuBtnAddVideo } from "./menu-buttons/MenuBtnAddVideo.jsx"
+import { MenuBtnAddTodo } from "./menu-buttons/MenuBtnAddTodo.jsx"
 import { MenuBtnCustom } from "./menu-buttons/MenuBtnCustom.jsx"
 
 export function NoteEdit() {
@@ -84,6 +86,8 @@ export function NoteEdit() {
         note: newNoteToSave,
         setNote: setNewNote,
         onToggleAddImage: toggleAddImage,
+        onToggleAddVideo: () => console.log('Add video!'),
+        onToggleAddTodo: () => console.log('Add todo!'),
         customBtnClick: () => addNoteBtnRef.current.click(),
         customBtnTxt: 'Close'
     }
@@ -133,6 +137,8 @@ export function NoteEdit() {
                     <MenuBtnReminder btnParams={menuBtnParams} classes={['reminder-btn']} />
                     <MenuBtnColorPalette btnParams={menuBtnParams} classes={['color-palette-btn']} />
                     <MenuBtnAddImage btnParams={menuBtnParams} classes={['add-image-btn']} />
+                    <MenuBtnAddVideo btnParams={menuBtnParams} classes={['add-video-btn']} />
+                    <MenuBtnAddTodo btnParams={menuBtnParams} classes={['add-todo-btn']} />
                     <MenuBtnCustom btnParams={menuBtnParams} classes={['btn', 'new-note-btn']} />
                 </NoteMenu>
 
