@@ -5,18 +5,22 @@ import { utilService } from "../../../services/util.service.js"
 import { reactUtilService } from "../../../services/react-util.service.js"
 
 import { NoteMenu } from "./NoteMenu.jsx"
+import { MenuBtnPin } from "./menu-buttons/MenuBtnPin.jsx"
+import { MenuBtnReminder } from "./menu-buttons/MenuBtnReminder.jsx"
+import { MenuBtnColorPalette } from "./menu-buttons/MenuBtnColorPalette.jsx"
+import { MenuBtnAddImage } from "./menu-buttons/MenuBtnAddImage.jsx"
+import { MenuBtnCustom } from "./menu-buttons/MenuBtnCustom.jsx"
 
 export function NoteEdit() {
 
-    const { activeElement, newNotes, onAddNote } = useOutletContext()
+    const { newNotes, onAddNote } = useOutletContext()
     const [newNoteToSave, setNewNoteToSave] = useState({ ...newNotes.current.NoteTxt, id: 'new-note' })
-    const [hoveredNoteId, setHoveredNoteId] = useState(null)
+    const [isHovered, setIsHovered] = useState(false)
     const [isFocused, setIsFocused] = useState(false)
     const newNoteToSaveRef = useRef(newNoteToSave)
     const addNoteRef = useRef(null)
     const textareaRef = useRef(null)
     const addNoteBtnRef = useRef(null)
-    const isHovered = newNoteToSave.id === hoveredNoteId
 
     useEffect(() => {
         document.addEventListener('click', handleClickOutside)
@@ -26,18 +30,6 @@ export function NoteEdit() {
     useEffect(() => {
         newNoteToSaveRef.current = newNoteToSave
     }, [newNoteToSave])
-
-    function handleMouseEnter(noteId) {
-        setHoveredNoteId(noteId)
-    }
-
-    function handleMouseLeave(noteId) {
-        if (activeElement.noteId === noteId) {
-            return
-        }
-        setHoveredNoteId(null)
-
-    }
 
     function handleClickOutside(ev) {
         if (addNoteRef.current && addNoteRef.current.contains(ev.target)) {
@@ -53,8 +45,8 @@ export function NoteEdit() {
         setIsFocused(false)
     }
 
-    function setNewNote(newProps) {
-        setNewNoteToSave({ ...newNoteToSave, ...newProps })
+    function setNewNote(note, newProps) {
+        setNewNoteToSave({ ...note, ...newProps })
     }
 
     function adjustTextareaHeight() {
@@ -88,11 +80,20 @@ export function NoteEdit() {
 
     const noteStyle = { backgroundColor: newNoteToSave.style.backgroundColor.color }
 
+    const menuBtnParams = {
+        note: newNoteToSave,
+        setNote: setNewNote,
+        onToggleAddImage: toggleAddImage,
+        customBtnClick: () => addNoteBtnRef.current.click(),
+        customBtnTxt: 'Close'
+    }
+
     return <div className="add-note">
         <form onSubmit={onSubmit}>
+            <button ref={addNoteBtnRef} type="submit" style={{ display: 'none' }}></button>
             <div ref={addNoteRef} className={`note outline-box1${isFocused ? ' open' : ''}`}
-                onMouseEnter={() => handleMouseEnter(newNoteToSave.id)}
-                onMouseLeave={() => handleMouseLeave(newNoteToSave.id)}
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
                 style={noteStyle}
             >
 
@@ -127,12 +128,15 @@ export function NoteEdit() {
                 <NoteMenu
                     isHovered={isHovered}
                     note={newNoteToSave}
-                    newNoteToSave={newNoteToSave}
-                    onToggleAddImage={toggleAddImage}
-                    onSetNewNote={setNewNote}
-                    btnRef={addNoteBtnRef}
-                />
-                <button ref={addNoteBtnRef} type="submit" style={{ display: 'none' }}></button>
+                >
+                    <MenuBtnPin btnParams={menuBtnParams} classes={['pin-btn', 'top-right-btn']} />
+                    <MenuBtnReminder btnParams={menuBtnParams} classes={['reminder-btn']} />
+                    <MenuBtnColorPalette btnParams={menuBtnParams} classes={['color-palette-btn']} />
+                    <MenuBtnAddImage btnParams={menuBtnParams} classes={['add-image-btn']} />
+                    <MenuBtnCustom btnParams={menuBtnParams} classes={['btn', 'new-note-btn']} />
+                </NoteMenu>
+
+
             </div>
         </form>
     </div>
