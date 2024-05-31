@@ -4,12 +4,20 @@ import { mailService } from '../services/mail.service.js'
 import { eventBusService, showErrorMsg, showSuccessMsg } from '../../../services/event-bus.service.js'
 
 export function MailCompose({ selectedMail, onMailUpdate, onCloseModal }) {
-    // console.log('im in compose')
+
     const inputRef = useRef()
     const [mail, setMail] = useState(selectedMail)
+    const [lastSaved, setLastSaved] = useState(null)
+    const autoSaveIntervalRef = useRef(null)
 
     useEffect(() => {
         inputRef.current.focus()
+
+        autoSaveIntervalRef.current = setInterval(() => {
+            onAutoSave()
+        }, 5000)
+
+        return () => clearInterval(autoSaveIntervalRef.current)
     }, [])
 
     function handleChange({ target }) {
@@ -17,14 +25,30 @@ export function MailCompose({ selectedMail, onMailUpdate, onCloseModal }) {
         setMail(prevMail => ({ ...prevMail, [name]: value }))
     }
 
+    function clearAutoSaveInterval() {
+        clearInterval(autoSaveIntervalRef.current)
+        setLastSaved(null)
+    }
+
+    function onAutoSave() {
+
+        onMailUpdate(
+            mail,
+            { folder: 'draft' },
+            'Auto save to draft...'
+        )
+        setLastSaved(Date.now())
+    }
+
     function onSaveAsDraft(ev) {
         ev.preventDefault()
-        console.log('mail:', mail)
+
         onMailUpdate(
             mail,
             { folder: 'draft' },
             'Your mail was moved to draft...'
         )
+        clearAutoSaveInterval()
         onCloseModal()
     }
 
@@ -36,6 +60,7 @@ export function MailCompose({ selectedMail, onMailUpdate, onCloseModal }) {
             { folder: 'sent', sentAt: Date.now() },
             'Your mail was sent...'
         )
+        clearAutoSaveInterval()
         onCloseModal()
     }
 
@@ -46,6 +71,7 @@ export function MailCompose({ selectedMail, onMailUpdate, onCloseModal }) {
             { folder: 'trash', isStarred: false, removedAt: Date.now() },
             'Your mail was moved to trash'
         )
+        clearAutoSaveInterval()
         onCloseModal()
     }
 
@@ -53,7 +79,7 @@ export function MailCompose({ selectedMail, onMailUpdate, onCloseModal }) {
         <section className="mail-compose">
             <div className="mail-modal">
                 <h2>New Message</h2>
-                <button className="close-modal-btn" onClick={onCloseModal}>x</button>
+                <button className="close-modal-btn" onClick={onSaveAsDraft}>x</button>
                 <form>
                     <div>From: {mail.from}</div>
                     <div>
@@ -90,9 +116,6 @@ export function MailCompose({ selectedMail, onMailUpdate, onCloseModal }) {
                         onChange={handleChange}
                     />
                     <section className="actions">
-                        {(!mail.id) && (
-                            <button className="action-btn" onClick={onSaveAsDraft}>Save as Draft</button>
-                        )}
                         <button className="action-btn" onClick={onSend}>Send</button>
                         {(mail.id) && (
                             <label className="icon-btn">

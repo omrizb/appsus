@@ -60,9 +60,15 @@ export function MailIndex() {
     }
 
     function onOpenModal(mail) {
-        const selectedMail = (!mail.id) ? mailService.getEmptyMail() : mail
-        setSelectedMail(selectedMail)
-        setIsShowComposeMailModal(true)
+        if (!mail || !mail.id) {
+            mailService.addMail().then(newMail => {
+                setSelectedMail(newMail)
+                setIsShowComposeMailModal(true)
+            })
+        } else {
+            setSelectedMail(mail);
+            setIsShowComposeMailModal(true)
+        }
     }
 
     function onCloseModal() {
@@ -70,23 +76,37 @@ export function MailIndex() {
         setSelectedMail(null)
     }
 
-    function handleMailUpdate(orgMail, updates, successMsg, errorMsg) {
+    function handleMailUpdate(orgMail, updates, successMsg, errorMsg, isRemove = false) {
         setIsLoading(true)
         const updatedMail = { ...orgMail, ...updates }
         const folder = updates.folder || orgMail.folder
+        if (isRemove && orgMail.folder === 'trash') {
+            mailService.remove(updatedMail.id)
+                .then(() => {
+                    setChangeInFolder(true)
+                    showSuccessMsg(`Your mail was deleted permanently!`)
+                })
+                .catch(err => {
+                    setChangeInFolder(true)
+                    console.log('err:', err)
+                    showErrorMsg('There was a problem')
+                })
+                .finally(() => setIsLoading(false))
+        }
+        else {
+            mailService.save(updatedMail, folder)
 
-        mailService.save(updatedMail, folder)
-
-            .then(() => {
-                setMails(prevMails => prevMails.map(mail => mail.id === orgMail.id ? updatedMail : mail))
-                setChangeInFolder(true)
-                if (successMsg) showSuccessMsg(successMsg)
-            })
-            .catch(err => {
-                console.log('err:', err)
-                showErrorMsg(errorMsg ? errorMsg : 'There was a problem')
-            })
-            .finally(() => setIsLoading(false))
+                .then(() => {
+                    setMails(prevMails => prevMails.map(mail => mail.id === orgMail.id ? updatedMail : mail))
+                    setChangeInFolder(true)
+                    if (successMsg) showSuccessMsg(successMsg)
+                })
+                .catch(err => {
+                    console.log('err:', err)
+                    showErrorMsg(errorMsg ? errorMsg : 'There was a problem')
+                })
+                .finally(() => setIsLoading(false))
+        }
     }
 
     const isMails = mails.length > 0
@@ -97,7 +117,7 @@ export function MailIndex() {
                 <MailFilterSort filterBy={filterBy} onFilter={onSetFilterBy} sortBy={sortBy} onSort={onSetSortBy} />
                 <label className="mail-compose-btn">
                     <div className="fa-solid i-compose"></div>
-                    <button onClick={onOpenModal}>Compose</button>
+                    <button onClick={() => onOpenModal(null)}>Compose</button>
                 </label>
                 {(isMails) && (
                     <MailList

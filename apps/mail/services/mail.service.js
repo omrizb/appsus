@@ -10,8 +10,9 @@ _createMails()
 export const mailService = {
     query,
     get,
-    remove,
+    addMail,
     save,
+    remove,
     getFilterSortFromSearchParams,
     getEmptyMail,
     getUnreadCountByFolder
@@ -21,7 +22,7 @@ window.ms = mailService
 
 
 function query(filterBy = {}, sortBy = {}) {
-    // console.log({ filterBy })
+
     return storageService.query(MAIL_KEY)
         .then(mails => {
             if (filterBy.folder) {
@@ -39,9 +40,7 @@ function query(filterBy = {}, sortBy = {}) {
             }
 
             if (filterBy.isRead !== null && filterBy.isRead !== '' && filterBy.isRead !== undefined) {
-                // console.log('mails before isRead filter', { mails })
                 mails = mails.filter(mail => mail.isRead === filterBy.isRead)
-                // console.log('mails after isRead filter', { mails })
             }
 
             if (filterBy.isStarred !== null && filterBy.isStarred !== '' && filterBy.isStarred !== undefined) {
@@ -90,6 +89,7 @@ function get(mailId) {
 }
 
 function getEmptyMail(
+    id = utilService.makeId(),
     subject = '',
     body = '',
     isRead = false,
@@ -100,25 +100,23 @@ function getEmptyMail(
     to = '',
     folder = 'draft'
 ) {
-    return { subject, body, isRead, isStarred, sentAt, removedAt, from, to, folder }
+    return { id, subject, body, isRead, isStarred, sentAt, removedAt, from, to, folder }
+}
 
+function addMail() {
+    const mail = getEmptyMail()
+    return storageService.post(MAIL_KEY, mail)
+}
+
+function save(mail, folder) {
+    mail.folder = folder
+    if (!mail.id) return
+    return storageService.put(MAIL_KEY, mail)
 }
 
 function remove(mailId) {
     return storageService.remove(MAIL_KEY, mailId)
 }
-
-function save(mail, folder) {
-    mail.folder = folder
-    if (mail.id) {
-        return storageService.put(MAIL_KEY, mail)
-    } else {
-        return storageService.post(MAIL_KEY, mail)
-    }
-}
-// function getDefaultFilter(filterBy = { folder: 'inbox', txt: '', isRead: '', isStarred: '' }) {
-//     return { folder: filterBy.folder, txt: filterBy.txt, isRead: filterBy.isRead, isStarred: filterBy.isStarred }
-// }
 
 function getFilterSortFromSearchParams(searchParams) {
     const filterBy = {
