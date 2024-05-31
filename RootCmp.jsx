@@ -31,6 +31,7 @@ export function App() {
                     <Route path="" element={<Navigate to="notes" />} />
                     <Route path="notes" element={<Notes />} />
                     <Route path="notes/:noteId" element={<Notes />} />
+                    <Route path="notes/add-note/" element={<Notes />} />
                     <Route path="reminders" element={<Reminders />} />
                     <Route path="edit-labels" element={<LabelEdit />} />
                     <Route path="archive" element={<Archive />} />

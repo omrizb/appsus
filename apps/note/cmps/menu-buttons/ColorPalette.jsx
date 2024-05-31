@@ -1,11 +1,8 @@
-const { useOutletContext } = ReactRouterDOM
-
 import { utilService } from "../../../../services/util.service.js"
 import { noteService } from "../../services/note.service.js"
 
 export function ColorPalette({ note, setNote }) {
 
-    const { onSaveNote } = useOutletContext()
     const colors = noteService.getBackgroundColors()
 
     const positionStyle = { top: '25px', left: '-150px' }

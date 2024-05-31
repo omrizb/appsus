@@ -1,6 +1,6 @@
 .notes {
     --max-width: 2000px;
-    --min-margin: 2em;
+    --min-margin: 60px;
 
     display: grid;
     grid-template-columns:
@@ -11,5 +11,5 @@
 
 .notes > * {
     grid-column: 2;
-    margin-block-end: 1.5em;
+    margin-block-end: 50px;
 }
