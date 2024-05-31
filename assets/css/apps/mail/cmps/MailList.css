@@ -38,12 +38,30 @@
 .mail-checkbox:hover {
     background-color: rgb(0, 0, 0, 0.2);
     cursor: pointer;
-
-
-
 }
 
 .mail-checkbox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 2rem;
+    width: 2rem;
+    padding: 10px;
+    border-radius: 100vh;
+}
+
+.action-checkboxes {
+    display: flex;
+    gap: 10px;
+
+}
+
+.action-checkbox:hover {
+    background-color: rgb(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+.action-checkbox {
     display: flex;
     align-items: center;
     justify-content: center;

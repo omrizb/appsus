@@ -1,87 +1,92 @@
-const { useState, useEffect } = React
-const { useParams, useNavigate } = ReactRouter
-const { Link, useLocation } = ReactRouterDOM
+const { useState, useEffect, useRef } = React
 
 import { mailService } from '../services/mail.service.js'
 import { eventBusService, showErrorMsg, showSuccessMsg } from '../../../services/event-bus.service.js'
 
-export function MailCompose() {
-    // console.log('im in compose')
-    const [mail, setMail] = useState(mailService.getEmptyMail())
+export function MailCompose({ selectedMail, onMailUpdate, onCloseModal }) {
 
-    const params = useParams()
-    const navigate = useNavigate()
-    const location = useLocation()
+    const inputRef = useRef()
+    const [mail, setMail] = useState(selectedMail)
+    const [lastSaved, setLastSaved] = useState(null)
+    const autoSaveIntervalRef = useRef(null)
 
     useEffect(() => {
-        if (!params.mailId) return
-        mailService.get(params.mailId)
-            .then(mail => setMail(mail))
+        inputRef.current.focus()
+
+        autoSaveIntervalRef.current = setInterval(() => {
+            onAutoSave()
+        }, 5000)
+
+        return () => clearInterval(autoSaveIntervalRef.current)
     }, [])
 
     function handleChange({ target }) {
         const { name, value } = target
         setMail(prevMail => ({ ...prevMail, [name]: value }))
+    }
 
+    function clearAutoSaveInterval() {
+        clearInterval(autoSaveIntervalRef.current)
+        setLastSaved(null)
+    }
+
+    function onAutoSave() {
+
+        onMailUpdate(
+            mail,
+            { folder: 'draft' },
+            'Auto save to draft...'
+        )
+        setLastSaved(Date.now())
     }
 
     function onSaveAsDraft(ev) {
         ev.preventDefault()
-        mailService.save(mail, 'draft')
-            .then(() => {
-                showSuccessMsg(`Your mail was moved to draft...`)
-                onGoBack()
-            })
-            .catch(() => {
-                showErrorMsg('Could not save as draft')
-                onGoBack()
-            })
+
+        onMailUpdate(
+            mail,
+            { folder: 'draft' },
+            'Your mail was moved to draft...'
+        )
+        clearAutoSaveInterval()
+        onCloseModal()
     }
 
 
     function onSend(ev) {
         ev.preventDefault()
-        const mailToSend = { ...mail, sentAt: Date.now() }
-        mailService.save(mailToSend, 'sent')
-            .then(() => {
-                showSuccessMsg(`Your mail was sent...`)
-                onGoBack()
-            })
-            .catch(() => {
-                showErrorMsg('Could not send email')
-                onGoBack()
-            })
+        onMailUpdate(
+            mail,
+            { folder: 'sent', sentAt: Date.now() },
+            'Your mail was sent...'
+        )
+        clearAutoSaveInterval()
+        onCloseModal()
     }
 
-    function onRemoveMail(ev) {
-        // console.log('hi');
+    function onRemove(ev) {
         ev.preventDefault()
-        const mailRemoved = { ...mail, isStarred: false, removedAt: Date.now() }
-        mailService.save(mailRemoved, 'trash')
-            .then(() => {
-                showSuccessMsg(`Your mail was moved to trash...`)
-                onGoBack()
-            })
-            .catch(err => {
-                console.log('err:', err)
-                showErrorMsg('There was a problem')
-                onGoBack()
-            })
+        onMailUpdate(
+            mail,
+            { folder: 'trash', isStarred: false, removedAt: Date.now() },
+            'Your mail was moved to trash'
+        )
+        clearAutoSaveInterval()
+        onCloseModal()
     }
 
-    function onGoBack() {
-        navigate(`/mail${location.search}`)
-    }
     return (
         <section className="mail-compose">
             <div className="mail-modal">
                 <h2>New Message</h2>
-                <button className="close-modal-btn" onClick={onGoBack}>x</button>
+                <button className="close-modal-btn" onClick={onSaveAsDraft}>x</button>
                 <form>
                     <div>From: {mail.from}</div>
                     <div>
                         <label>To:
                             <input
+                                autoFocus
+                                ref={inputRef}
                                 type="email"
                                 id="to"
                                 name="to"
@@ -111,14 +116,11 @@ export function MailCompose() {
                         onChange={handleChange}
                     />
                     <section className="actions">
-                        {(!mail.id) && (
-                            <button className="action-btn" onClick={onSaveAsDraft}>Save as Draft</button>
-                        )}
                         <button className="action-btn" onClick={onSend}>Send</button>
                         {(mail.id) && (
                             <label className="icon-btn">
                                 <div className="fa-regular i-trash icon"></div>
-                                <button onClick={onRemoveMail}></button>
+                                <button onClick={onRemove}></button>
                             </label>
                         )}
                     </section>

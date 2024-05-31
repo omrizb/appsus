@@ -31,7 +31,7 @@
 @import "./apps/note/views/Trash.css";
 @import "./apps/mail/views/MailIndex.css";
 @import "./apps/mail/views/MailDetails.css";
-@import "./apps/mail/views/MailCompose.css";
+
 
 /* Cmps */
 
@@ -60,3 +60,4 @@
 @import "./apps/mail/cmps/MailPreview.css";
 
 @import "./apps/mail/cmps/MailFilterSort.css";
+@import "./apps/mail/cmps/MailCompose.css";
