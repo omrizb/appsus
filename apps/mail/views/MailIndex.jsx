@@ -27,6 +27,7 @@ export function MailIndex() {
     const [isShowComposeMailModal, setIsShowComposeMailModal] = useState(false)
 
     const [selectedMails, setSelectedMails] = useState([])
+    const [isShowActionCheckboxes, setIsShowActionCheckboxes] = useState(false)
 
     useEffect(() => {
         setSearchParams({ ...filterBy, ...sortBy })
@@ -78,6 +79,8 @@ export function MailIndex() {
     }
 
     function onMailSelected(mail) {
+        setIsShowActionCheckboxes((prevIsShowActionCheckboxes) => !prevIsShowActionCheckboxes)
+
         setSelectedMails(prevSelectedMails => {
             if (prevSelectedMails.some(selectedMail => selectedMail.id === mail.id)) {
                 return prevSelectedMails.filter(selectedMail => selectedMail.id !== mail.id)
@@ -143,66 +146,75 @@ export function MailIndex() {
     return (
         <div className="mail-index-wrapper">
             <section className="mail-index">
-                <h1>My Mail</h1>
-                <MailFilterSort filterBy={filterBy} onFilter={onSetFilterBy} sortBy={sortBy} onSort={onSetSortBy} />
-                <section className="action-checkboxes">
-                    <label className="checkbox">
-                        <div className="fa-regular i-note icon"></div>
-                        <input
-                            hidden
-                            type="checkbox"
-                        // onChange={onSaveAsNotes}
-                        />
-                    </label>
-                    <label className="checkbox">
-                        <div className={(selectedMails && selectedMails.length > 0 && selectedMails[0].isStarred) ? `fa-solid i-star` : `fa-regular i-unstar`}></div>
-                        <input
-                            hidden
-                            type="checkbox"
-                            onChange={() => onMailsUpdate('isStarred')}
-                        />
-                    </label>
-                    <label className="checkbox">
-                        <div className={(selectedMails && selectedMails.length > 0 && selectedMails[0].isRead) ? `fa-regular i-read` : `fa-regular i-unread`}></div>
-                        <input
-                            hidden
-                            type="checkbox"
-                            onChange={() => onMailsUpdate('isRead')}
-                        />
-                    </label>
-                    <label className="checkbox">
-                        <div className="fa-regular i-trash icon"></div>
-                        <input
-                            hidden
-                            type="checkbox"
-                            onChange={() =>
-                                onMailsUpdate('trash')}
-                        />
-                    </label>
-                </section>
-                <label className="mail-compose-btn">
-                    <div className="fa-solid i-compose"></div>
-                    <button onClick={() => onOpenModal(null)}>Compose</button>
-                </label>
-                {(isMails) && (
-                    <MailList
-                        mails={mails}
-                        onMailUpdate={handleMailUpdate}
-                        onOpenModal={onOpenModal}
-                        onMailSelected={onMailSelected}
-                    />
-                )}
-                {(!isMails) && (<div className="no-mail-list" >No mails to show...</div>)}
-                {(isShowComposeMailModal) && (
-                    <MailCompose
-                        selectedMail={selectedMail}
-                        onMailUpdate={handleMailUpdate}
-                        onCloseModal={onCloseModal}
-                    />
-                )}
-                <MailFolderList onFolderClick={handleFolderClick} unreadCounts={unreadCounts} activeFolder={filterBy.folder} />
+                <section className="mail-header">
+                    <div className="header-elements">
+                        <h1>My Mail</h1>
+                        <label className="header-compose-btn">
+                            <div className="fa-solid i-compose"></div>
+                            <button onClick={() => onOpenModal(null)}>Compose</button>
+                        </label>
+                    </div>
+                    <MailFilterSort filterBy={filterBy} onFilter={onSetFilterBy} sortBy={sortBy} onSort={onSetSortBy} />
+                    {(isShowActionCheckboxes) && (
+                        <section className="action-checkboxes hidden">
+                            <label className="checkbox">
+                                <div className="fa-regular i-note icon"></div>
+                                <input
+                                    hidden
+                                    type="checkbox"
+                                // onChange={onSaveAsNotes}
+                                />
+                            </label>
+                            <label className="checkbox">
+                                <div className={(selectedMails && selectedMails.length > 0 && selectedMails[0].isStarred) ? `fa-solid i-star` : `fa-regular i-unstar`}></div>
+                                <input
+                                    hidden
+                                    type="checkbox"
+                                    onChange={() => onMailsUpdate('isStarred')}
+                                />
+                            </label>
+                            <label className="checkbox">
+                                <div className={(selectedMails && selectedMails.length > 0 && selectedMails[0].isRead) ? `fa-regular i-read` : `fa-regular i-unread`}></div>
+                                <input
+                                    hidden
+                                    type="checkbox"
+                                    onChange={() => onMailsUpdate('isRead')}
+                                />
+                            </label>
+                            <label className="checkbox">
+                                <div className="fa-regular i-trash icon"></div>
+                                <input
+                                    hidden
+                                    type="checkbox"
+                                    onChange={() =>
+                                        onMailsUpdate('trash')}
+                                />
+                            </label>
+                        </section>
+                    )}
+                </section >
 
-            </section >
+                <MailFolderList onFolderClick={handleFolderClick} unreadCounts={unreadCounts} activeFolder={filterBy.folder} />
+                <section className="mail-main-view">
+                    {(isMails) && (
+                        <MailList
+                            mails={mails}
+                            onMailUpdate={handleMailUpdate}
+                            onOpenModal={onOpenModal}
+                            onMailSelected={onMailSelected}
+                        />
+                    )}
+                    {(!isMails) && (<div className="no-mail-list" >No mails to show...</div>)}
+                    {(isShowComposeMailModal) && (
+                        <MailCompose
+                            selectedMail={selectedMail}
+                            onMailUpdate={handleMailUpdate}
+                            onCloseModal={onCloseModal}
+                        />
+                    )}
+
+                </section>
+            </section>
         </div>
     )
 }

@@ -4,7 +4,7 @@ export function MailFolderList({ onFolderClick, unreadCounts, activeFolder }) {
     const folders = ['inbox', 'starred', 'sent', 'draft', 'trash']
 
     return (
-        <section className="mail-folder-list">
+        <section className="mail-side-nav">
             <ul>
                 {folders.map(folder => (
                     <Link key={folder} to='/mail' onClick={() => onFolderClick(folder)}>

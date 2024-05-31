@@ -76,7 +76,7 @@ export function MailFilterSort({ filterBy, onFilter, sortBy, onSort }) {
 
     return (
         <section className="mail-filter-sort">
-            <label className="mail-filter-search">
+            <label className="mail-search">
                 <div className="fa-solid i-search"></div>
                 <input
                     onChange={handleFilterChange}
