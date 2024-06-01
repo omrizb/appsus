@@ -63,3 +63,4 @@
 
 /* Media query */
 @import "./apps/note/note-mq.css";
+@import "./apps/mail/mail-mq.css";

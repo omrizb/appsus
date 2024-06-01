@@ -36,8 +36,10 @@
 }
 
 .header-compose-btn {
-    grid-area: compose;
 
+    position: fixed;
+    bottom: 10%;
+    right: 15%;
 
     align-items: center;
     display: inline-flex;
