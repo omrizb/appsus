@@ -1,28 +1,23 @@
-.video-note-preview,
-.video-note-details {
+.video-note-preview {
     display: flex;
     flex-direction: column;
     gap: 1em;
 }
 
-.video-note-preview > *:not(:first-child),
-.video-note-details > *:not(:first-child) {
+.video-note-preview > *:not(:first-child) {
     padding-inline: 0.5em;
 }
 
-.video-note-preview img,
-.video-note-details img {
+.video-note-preview img {
     border-top-left-radius: 1em;
     border-top-right-radius: 1em;
 }
 
-.video-note-preview .thumbnail-container,
-.video-note-details .thumbnail-container {
+.video-note-preview .thumbnail-container {
     position: relative;
 }
 
-.video-note-preview .thumbnail-container .thumbnail,
-.video-note-details .thumbnail-container .thumbnail {
+.video-note-preview .thumbnail-container .thumbnail {
     position: absolute;
     top: 50%;
     left: 50%;

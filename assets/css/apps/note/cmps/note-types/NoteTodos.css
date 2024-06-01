@@ -1,17 +1,14 @@
-.todos-note-preview,
-.todos-note-details {
+.todos-note-preview {
     display: flex;
     flex-direction: column;
     gap: 1em;
 }
 
-.todos-note-preview > *:first-child,
-.todos-note-details > *:first-child {
+.todos-note-preview > *:first-child {
     margin-top: 0.8em;
 }
 
-.todos-note-preview > *,
-.todos-note-details > * {
+.todos-note-preview > * {
     padding-inline: 0.5em;
 }
 

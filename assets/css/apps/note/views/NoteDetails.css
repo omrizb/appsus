@@ -1,4 +1,34 @@
 .note-details {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
     width: 500px;
-    padding: 2em;
+}
+
+.note-details > *:not(:first-child) {
+    padding-inline: 2em;
+}
+
+.note-details img,
+.note-details .video-player-wrapper {
+    width: 100%;
+    border-top-left-radius: 0.5em;
+    border-top-right-radius: 0.5em;
+}
+
+.note-details .video-player-wrapper {
+    position: relative;
+    padding-top: 56.25%;
+    background-color: #000000;
+}
+
+.note-details .video-player-wrapper .video-player {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-top-left-radius: 0.5em;
+    border-top-right-radius: 0.5em;
+    border: none;
 }

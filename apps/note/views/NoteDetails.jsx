@@ -14,7 +14,14 @@ export function NoteDetails({ note }) {
     }
 
     return <section className="note-details" style={editNoteStyle}>
-        <h1>Note Details</h1>
+        <div className="media-container">
+            {note.type === 'NoteImg' && <img src={note.info.url} className="note-image" />}
+            {note.type === 'NoteVideo' && (
+                <div className="video-player-wrapper">
+                    <iframe src={note.info.url} className="video-player"></iframe>
+                </div>
+            )}
+        </div>
         <NoteEdit onSetStyle={onSetStyle} note={note} executeOnSubmit={() => navigate('/note/notes/')} />
     </section>
 }

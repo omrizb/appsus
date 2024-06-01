@@ -19,7 +19,7 @@ const BACKGROUND_COLORS = [
 ]
 const NOTE_KEY = 'noteDB'
 
-_createNotes(12)
+_createNotes(20)
 
 export const noteService = {
     query,
@@ -181,7 +181,7 @@ function _createNote() {
     const note = getEmptyNote(noteType)
 
     note.title = utilService.makeLorem(2)
-    note.isPinned = (Math.random() > 0.7)
+    note.isPinned = (Math.random() > 0.8)
     note.style.backgroundColor = utilService.getRandomItems(BACKGROUND_COLORS)
     note.id = utilService.makeId(5)
     note.createdAt = Date.now()

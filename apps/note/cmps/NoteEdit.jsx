@@ -38,7 +38,11 @@ export function NoteEdit({ note, onSetStyle, executeOnSubmit }) {
 
     useEffect(() => {
         noteStyleRef.current = { backgroundColor: noteToSave.style.backgroundColor.color }
-        if (onSetStyle) onSetStyle(noteStyleRef.current)
+        if (onSetStyle) {
+            const backgroundColor = noteToSave.style.backgroundColor
+            const borderColor = (backgroundColor.name === 'none') ? 'var(--gray-4)' : backgroundColor.color
+            onSetStyle({ backgroundColor: backgroundColor.color, border: `1px solid ${borderColor}` })
+        }
     }, [noteToSave.style])
 
     function handleClickOutside(ev) {
