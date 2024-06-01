@@ -26,6 +26,6 @@
     left: 200px;
     font-size: 8em;
 
-    color: var(--orange-12);
-    text-shadow: 0 0 5px #ffcb2e, 0 0 10px #ffcb2e, 0 0 15px #ffcb2e, 0 0 20px #ffcb2e, 0 0 25px #ffcb2e, 0 0 30px;
+    color: var(--green-12);
+    text-shadow: 0 0 5px var(--yellow-2), 0 0 10px var(--yellow-2), 0 0 15px var(--yellow-2), 0 0 20px var(--yellow-2), 0 0 25px var(--yellow-2), 0 0 30px;
 }
