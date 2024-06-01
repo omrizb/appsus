@@ -1,18 +1,3 @@
-.note-index {
-    display: grid;
-    grid-template-columns: minmax(200px, 1fr) 5fr;
-    gap: 10px;
-}
-
 .note-header {
-    grid-column: 1 / -1;
-    border-bottom: 1px solid gray;
-}
-
-.note-side-nav {
-    grid-column: 1;
-}
-
-.note-main-view {
-    grid-column: 2;
+    border-bottom: 1px solid var(--gray-4);
 }

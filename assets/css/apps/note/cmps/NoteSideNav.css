@@ -1,22 +1,26 @@
 .note-side-nav {
     display: flex;
-    flex-direction: column;
+    justify-content: space-around;
 }
 
 .note-side-nav > * {
     display: flex;
+    justify-content: center;
     gap: 1em;
-    padding: 1em 2em;
+    margin: 0.5em 1em;
+    padding: 1em;
 }
 
 .note-side-nav > *:hover {
-    border-top-right-radius: 100vh;
-    border-bottom-right-radius: 100vh;
+    border-radius: 100vh;
     background-color: var(--clr-background-hover);
 }
 
 .note-side-nav .active {
-    border-top-right-radius: 100vh;
-    border-bottom-right-radius: 100vh;
+    border-radius: 100vh;
     background-color: var(--clr-active-note-option);
+}
+
+.note-side-nav .link {
+    display: none;
 }

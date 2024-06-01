@@ -1,0 +1,116 @@
+@media screen and (min-width: 500px) {
+}
+
+@media screen and (min-width: 640px) {
+    /* NoteIndex */
+
+    .note-index {
+        display: grid;
+        grid-template-columns: 70px 1fr;
+        gap: 10px;
+    }
+
+    .note-header {
+        grid-column: 1 / -1;
+    }
+
+    .note-side-nav {
+        grid-column: 1;
+    }
+
+    .note-main-view {
+        grid-column: 2;
+    }
+
+    /* NodeSideNav */
+
+    .note-side-nav {
+        flex-direction: column;
+        justify-content: start;
+    }
+
+    .note-side-nav > * {
+        margin: 0;
+        margin-inline-start: 1em;
+        padding: 1em;
+    }
+
+    /* Notes */
+
+    .notes {
+        --max-width: 2000px;
+        --min-margin: 60px;
+
+        display: grid;
+        grid-template-columns:
+            minmax(var(--min-margin), 1fr)
+            minmax(auto, var(--max-width))
+            minmax(var(--min-margin), 1fr);
+
+        margin-inline: 0;
+    }
+
+    .notes > * {
+        grid-column: 2;
+        margin-block-end: 50px;
+    }
+
+    /* Trash */
+
+    .trash {
+        --max-width: 2000px;
+        --min-margin: 60px;
+
+        display: grid;
+        grid-template-columns:
+            minmax(var(--min-margin), 1fr)
+            minmax(auto, var(--max-width))
+            minmax(var(--min-margin), 1fr);
+
+        margin-inline: 0;
+    }
+
+    .trash > * {
+        grid-column: 2;
+        margin-block-end: 50px;
+    }
+}
+
+@media screen and (min-width: 980px) {
+    /* NoteIndex */
+
+    .note-index {
+        display: grid;
+        grid-template-columns: minmax(200px, 1fr) 5fr;
+        gap: 10px;
+    }
+
+    /* NodeSideNav */
+
+    .note-side-nav > * {
+        justify-content: start;
+        gap: 1em;
+        margin-inline-start: 0;
+        padding: 1em 2em;
+    }
+
+    .note-side-nav > *:hover {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        border-top-right-radius: 100vh;
+        border-bottom-right-radius: 100vh;
+        background-color: var(--clr-background-hover);
+    }
+
+    .note-side-nav .active {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        border-top-right-radius: 100vh;
+        border-bottom-right-radius: 100vh;
+        background-color: var(--clr-active-note-option);
+    }
+
+    .note-side-nav .link {
+        display: block;
+    }
+}

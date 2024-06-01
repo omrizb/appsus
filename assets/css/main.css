@@ -32,7 +32,6 @@
 @import "./apps/mail/views/MailIndex.css";
 @import "./apps/mail/views/MailDetails.css";
 
-
 /* Cmps */
 
 @import "./cmps/UserMsg.css";
@@ -61,3 +60,6 @@
 
 @import "./apps/mail/cmps/MailFilterSort.css";
 @import "./apps/mail/cmps/MailCompose.css";
+
+/* Media query */
+@import "./apps/note/note-mq.css";
