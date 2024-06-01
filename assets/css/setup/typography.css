@@ -1,3 +1,10 @@
+/* Logo font  */
+
+@font-face {
+    font-family: source-sans;
+    src: url("../../fonts/SourceSans3-VariableFont_wght.ttf");
+}
+
 /* Font Awesome */
 
 @font-face {
