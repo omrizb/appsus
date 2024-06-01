@@ -1,0 +1,11 @@
+.mail-details {
+    display: grid;
+    grid-template-columns: 1fr minmax(480px, 1fr) 1fr;
+
+}
+
+.mail-details .mail-container {
+
+    grid-column: 2;
+
+}

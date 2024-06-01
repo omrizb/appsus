@@ -34,6 +34,7 @@ export function MailIndex() {
         mailService.query(filterBy, sortBy)
             .then(mails => {
                 setMails(mails)
+                console.log('Mails fetched:', mails)
                 setChangeInFolder(false)
             }
             )
@@ -43,6 +44,7 @@ export function MailIndex() {
         mailService.getUnreadCountByFolder()
             .then(counts => {
                 setUnreadCounts(counts)
+                console.log('Unread counts fetched:', counts)
                 setChangeInFolder(false)
             })
     }, [changeInFolder])
@@ -79,40 +81,79 @@ export function MailIndex() {
     }
 
     function onMailSelected(mail) {
-        setIsShowActionCheckboxes((prevIsShowActionCheckboxes) => !prevIsShowActionCheckboxes)
-
+        console.log('Selecting Mail ID:', mail.id)
         setSelectedMails(prevSelectedMails => {
-            if (prevSelectedMails.some(selectedMail => selectedMail.id === mail.id)) {
-                return prevSelectedMails.filter(selectedMail => selectedMail.id !== mail.id)
+            const isMailSelected = prevSelectedMails.some(selectedMail => selectedMail.id === mail.id)
+            console.log('Is Mail Selected:', isMailSelected)
+            let updatedSelectedMails
+
+            if (isMailSelected) {
+                updatedSelectedMails = prevSelectedMails.filter(selectedMail => selectedMail.id !== mail.id)
             } else {
-                return [...prevSelectedMails, mail]
+                updatedSelectedMails = [...prevSelectedMails, mail]
             }
+
+            console.log('Updated Selected Mails:', updatedSelectedMails)
+
+            if (!isMailSelected && prevSelectedMails.length === 0) {
+                setIsShowActionCheckboxes(true)
+            }
+            if (isMailSelected && prevSelectedMails.length === 1) {
+                setIsShowActionCheckboxes(false)
+            }
+            return updatedSelectedMails
+        })
+    }
+
+    function onMailsUpdate(action) {
+        if (selectedMails.length === 0) return
+
+        const updates = {}
+        const firstSelectedMail = selectedMails[0]
+
+        if (action === 'isStarred') {
+            updates.isStarred = !firstSelectedMail.isStarred
+        } else if (action === 'isRead') {
+            updates.isRead = !firstSelectedMail.isRead
+        } else if (action === 'trash') {
+            updates.folder = 'trash'
+            updates.isStarred = false
+            updates.removedAt = Date.now()
+        }
+
+        console.log('Action:', action)
+        console.log('Updates:', updates)
+
+
+        setMails(prevMails => {
+            const updatedMails = prevMails.map(mail =>
+                selectedMails.some(selectedMail => selectedMail.id === mail.id) ? { ...mail, ...updates } : mail
+            )
+            console.log('Updated Mails:', updatedMails)
+            return updatedMails
         })
 
-    }
-    console.log('SelectedMails:', selectedMails)
-    function onMailsUpdate(action) {
         selectedMails.forEach(mail => {
-            if (action === 'isStarred') {
-                handleMailUpdate(mail, { isStarred: !mail.isStarred })
-            } else if (action === 'isRead') {
-                handleMailUpdate(mail, { isRead: !mail.isRead })
-            } else if (action === 'trash') {
-                handleMailUpdate(
-                    mail,
-                    { folder: 'trash', isStarred: false, removedAt: Date.now() },
-                    'Your mail was moved to trash...',
-                    'There was a problem',
-                    true
-                )
-            }
+            console.log('Updating Mail ID:', mail.id)
+            handleMailUpdate(mail, updates,
+                action === 'trash' ? 'Your mail was moved to trash...' : '',
+                action === 'trash' ? 'There was a problem' : '',
+                action === 'trash'
+            )
         })
+
     }
 
     function handleMailUpdate(orgMail, updates, successMsg, errorMsg, isRemove = false) {
         setIsLoading(true)
         const updatedMail = { ...orgMail, ...updates }
         const folder = updates.folder || orgMail.folder
+
+        console.log('Original Mail:', orgMail)
+        console.log('Updates:', updates)
+        console.log('Updated Mail:', updatedMail)
+        console.log('Folder:', folder)
+
         if (isRemove && orgMail.folder === 'trash') {
             mailService.remove(updatedMail.id)
                 .then(() => {
@@ -120,23 +161,19 @@ export function MailIndex() {
                     showSuccessMsg(`Your mail was deleted permanently!`)
                 })
                 .catch(err => {
-                    setChangeInFolder(true)
-                    console.log('err:', err)
+                    console.log('Error:', err)
                     showErrorMsg('There was a problem')
                 })
                 .finally(() => setIsLoading(false))
-        }
-        else {
+        } else {
             mailService.save(updatedMail, folder)
-
                 .then(() => {
-                    setMails(prevMails => prevMails.map(mail => mail.id === orgMail.id ? updatedMail : mail))
                     setChangeInFolder(true)
                     if (successMsg) showSuccessMsg(successMsg)
                 })
                 .catch(err => {
-                    console.log('err:', err)
-                    showErrorMsg(errorMsg ? errorMsg : 'There was a problem')
+                    console.log('Error:', err)
+                    showErrorMsg(errorMsg || 'There was a problem')
                 })
                 .finally(() => setIsLoading(false))
         }
@@ -166,7 +203,7 @@ export function MailIndex() {
                                 />
                             </label>
                             <label className="checkbox">
-                                <div className={(selectedMails && selectedMails.length > 0 && selectedMails[0].isStarred) ? `fa-solid i-star` : `fa-regular i-unstar`}></div>
+                                <div className={(selectedMails && selectedMails.length > 0 && !selectedMails[0].isStarred) ? `fa-solid i-star` : `fa-regular i-unstar`}></div>
                                 <input
                                     hidden
                                     type="checkbox"
@@ -174,7 +211,7 @@ export function MailIndex() {
                                 />
                             </label>
                             <label className="checkbox">
-                                <div className={(selectedMails && selectedMails.length > 0 && selectedMails[0].isRead) ? `fa-regular i-read` : `fa-regular i-unread`}></div>
+                                <div className={(selectedMails && selectedMails.length > 0 && !selectedMails[0].isRead) ? `fa-regular i-read` : `fa-regular i-unread`}></div>
                                 <input
                                     hidden
                                     type="checkbox"
