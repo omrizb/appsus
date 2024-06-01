@@ -6,7 +6,7 @@ import { NoteList } from "../cmps/NoteList.jsx"
 
 export function Notes() {
 
-    const { notes } = useOutletContext()
+    const { notes, newNotes } = useOutletContext()
     const [addNoteStyle, setAddNoteStyle] = useState(null)
     const hasPinned = notes.some(note => note.isPinned)
 
@@ -17,7 +17,7 @@ export function Notes() {
     return <div className="notes">
         <div className="add-note">
             <div className="note-container outline-box1" style={addNoteStyle}>
-                <NoteEdit onSetStyle={onSetStyle} />
+                <NoteEdit onSetStyle={onSetStyle} note={{ ...newNotes.current.NoteTxt, id: 'new-note' }} />
             </div>
         </div>
         {hasPinned && <div className="pinned-notes">
