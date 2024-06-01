@@ -82,14 +82,21 @@ export function NoteEdit({ note, onSetStyle, executeOnSubmit }) {
     function onSubmit(ev) {
         if (ev) ev.preventDefault()
 
+        if (utilService.deepEqual(noteToSave, note)) {
+            clearAndClose()
+            return
+        }
+
         if (noteToSave.id === 'new-note') {
             onAddNote(noteToSave)
         } else {
             onSaveNote(noteToSave)
         }
+        clearAndClose()
+    }
 
+    function clearAndClose() {
         if (executeOnSubmit) executeOnSubmit()
-
         setIsFocused(false)
         setNoteToSave(note)
     }
