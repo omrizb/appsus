@@ -13,13 +13,14 @@ import { MenuBtnAddVideo } from "./menu-buttons/MenuBtnAddVideo.jsx"
 import { MenuBtnAddTodo } from "./menu-buttons/MenuBtnAddTodo.jsx"
 import { MenuBtnCustom } from "./menu-buttons/MenuBtnCustom.jsx"
 
-export function NoteEdit() {
+export function NoteEdit({ onSetStyle }) {
 
     const { newNotes, onAddNote } = useOutletContext()
     const [newNoteToSave, setNewNoteToSave] = useState({ ...newNotes.current.NoteTxt, id: 'new-note' })
     const [isHovered, setIsHovered] = useState(false)
     const [isFocused, setIsFocused] = useState(false)
     const newNoteToSaveRef = useRef(newNoteToSave)
+    const noteStyleRef = useRef({ backgroundColor: newNoteToSave.style.backgroundColor.color })
     const addNoteRef = useRef(null)
     const textareaRef = useRef(null)
     const addNoteBtnRef = useRef(null)
@@ -33,11 +34,15 @@ export function NoteEdit() {
         newNoteToSaveRef.current = newNoteToSave
     }, [newNoteToSave])
 
+    useEffect(() => {
+        noteStyleRef.current = { backgroundColor: newNoteToSave.style.backgroundColor.color }
+        if (onSetStyle) onSetStyle(noteStyleRef.current)
+    }, [newNoteToSave.style])
+
     function handleClickOutside(ev) {
         if (addNoteRef.current && addNoteRef.current.contains(ev.target)) {
             return
         }
-
         const cleanNote = { ...newNotes.current.NoteTxt, id: 'new-note' }
 
         if (!utilService.deepEqual(newNoteToSaveRef.current, cleanNote)) {
@@ -80,8 +85,6 @@ export function NoteEdit() {
         setIsFocused(false)
     }
 
-    const noteStyle = { backgroundColor: newNoteToSave.style.backgroundColor.color }
-
     const menuBtnParams = {
         note: newNoteToSave,
         setNote: setNewNote,
@@ -90,13 +93,13 @@ export function NoteEdit() {
         customBtnTxt: 'Close'
     }
 
-    return <div className="add-note">
+    return <div className="edit-note">
         <form onSubmit={onSubmit}>
             <button ref={addNoteBtnRef} type="submit" style={{ display: 'none' }}></button>
-            <div ref={addNoteRef} className={`note outline-box1${isFocused ? ' open' : ''}`}
+            <div ref={addNoteRef} className={`note ${isFocused ? ' open' : ''}`}
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
-                style={noteStyle}
+                style={noteStyleRef.current}
             >
 
                 <input
@@ -106,6 +109,7 @@ export function NoteEdit() {
                     name="title"
                     type="text"
                     placeholder="Title"
+                    style={noteStyleRef.current}
                 />
                 <textarea
                     ref={textareaRef}
@@ -118,6 +122,7 @@ export function NoteEdit() {
                     type="text"
                     rows="1"
                     placeholder="Take a note..."
+                    style={noteStyleRef.current}
                 />
                 {newNoteToSave.type === 'NoteImg' && <input
                     className="add-image"
@@ -126,6 +131,7 @@ export function NoteEdit() {
                     name="info-url"
                     type="text"
                     placeholder="Image url"
+                    style={noteStyleRef.current}
                 />}
                 {newNoteToSave.type === 'NoteVideo' && <input
                     className="add-video-url"
@@ -134,6 +140,7 @@ export function NoteEdit() {
                     name="info-url"
                     type="text"
                     placeholder="Video url"
+                    style={noteStyleRef.current}
                 />}
                 {newNoteToSave.type === 'NoteVideo' && <input
                     className="add-video-thumbnail"
@@ -142,6 +149,7 @@ export function NoteEdit() {
                     name="info-thumbnail"
                     type="text"
                     placeholder="Video thumbnail"
+                    style={noteStyleRef.current}
                 />}
                 <NoteMenu
                     isHovered={isHovered}

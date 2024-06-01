@@ -13,3 +13,17 @@
     grid-column: 2;
     margin-block-end: 50px;
 }
+
+.notes .add-note {
+    width: 100%;
+    margin-block: 1em;
+}
+
+.notes .add-note .note-container {
+    margin-inline: auto;
+    padding: 0.5em;
+    position: relative;
+    width: 500px;
+    padding: 10px;
+    border-radius: 1em;
+}
