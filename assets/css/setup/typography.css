@@ -79,8 +79,8 @@
     content: "\f2ea";
 }
 
-.fa-solid.i-undo::before {
-    content: "\f2ea";
+.fa-solid.i-minus::before {
+    content: "\f068";
 }
 
 .fa-solid.i-inbox::before {

@@ -10,8 +10,9 @@ import { MenuBtnReminder } from "./menu-buttons/MenuBtnReminder.jsx"
 import { MenuBtnColorPalette } from "./menu-buttons/MenuBtnColorPalette.jsx"
 import { MenuBtnAddImage } from "./menu-buttons/MenuBtnAddImage.jsx"
 import { MenuBtnAddVideo } from "./menu-buttons/MenuBtnAddVideo.jsx"
-import { MenuBtnAddTodo } from "./menu-buttons/MenuBtnAddTodo.jsx"
+import { MenuBtnAddTodos } from "./menu-buttons/MenuBtnAddTodos.jsx"
 import { MenuBtnCustom } from "./menu-buttons/MenuBtnCustom.jsx"
+import { TodosEdit } from "./TodosEdit.jsx"
 
 export function NoteEdit({ onSetStyle }) {
 
@@ -52,7 +53,7 @@ export function NoteEdit({ onSetStyle }) {
         setIsFocused(false)
     }
 
-    function setNewNote(note, newProps) {
+    function setNewNote(note, newProps = {}) {
         setNewNoteToSave({ ...note, ...newProps })
     }
 
@@ -151,6 +152,11 @@ export function NoteEdit({ onSetStyle }) {
                     placeholder="Video thumbnail"
                     style={noteStyleRef.current}
                 />}
+                {newNoteToSave.type === 'NoteTodos' && <TodosEdit
+                    noteToSave={newNoteToSave}
+                    onSetNoteToSave={setNewNote}
+                    inputStyle={noteStyleRef.current}
+                />}
                 <NoteMenu
                     isHovered={isHovered}
                     note={newNoteToSave}
@@ -160,7 +166,7 @@ export function NoteEdit({ onSetStyle }) {
                     <MenuBtnColorPalette btnParams={menuBtnParams} classes={['color-palette-btn']} />
                     <MenuBtnAddImage btnParams={menuBtnParams} classes={['add-image-btn']} />
                     <MenuBtnAddVideo btnParams={menuBtnParams} classes={['add-video-btn']} />
-                    <MenuBtnAddTodo btnParams={menuBtnParams} classes={['add-todo-btn']} />
+                    <MenuBtnAddTodos btnParams={menuBtnParams} classes={['add-todo-btn']} />
                     <MenuBtnCustom btnParams={menuBtnParams} classes={['btn', 'new-note-btn']} />
                 </NoteMenu>
 

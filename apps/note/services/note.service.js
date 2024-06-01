@@ -155,7 +155,7 @@ function _getNoteInfo(type) {
         case 'NoteTodos':
             return {
                 txt: '',
-                todos: { txt: '', doneAt: null }
+                todos: [{ txt: '', doneAt: null, id: utilService.makeId(6) }]
             }
         default:
             throw new Error('Unknown note type. Type should be one of the following: NoteTxt, NoteImg, NoteVideo, NoteTodos.')
