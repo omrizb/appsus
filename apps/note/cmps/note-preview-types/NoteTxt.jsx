@@ -1,16 +1,9 @@
 import { ShortTxt } from "../../../../cmps/ShortTxt.jsx"
 
-export function NoteTxt({ note, isPreview = false }) {
+export function NoteTxt({ note }) {
 
-    if (isPreview) {
-        return <div className="text-note-preview">
-            <h2><ShortTxt txt={note.title} length={30} /></h2>
-            <ShortTxt txt={note.info.txt} length={100} />
-        </div>
-    }
-
-    return <div className="text-note-details">
-        <h2>{note.title}</h2>
-        <p>{note.info.txt}</p>
+    return <div className="text-note-preview">
+        <h2><ShortTxt txt={note.title} length={30} /></h2>
+        <ShortTxt txt={note.info.txt} length={100} />
     </div>
 }
