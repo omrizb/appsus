@@ -10,50 +10,55 @@ import { MenuBtnReminder } from "./menu-buttons/MenuBtnReminder.jsx"
 import { MenuBtnColorPalette } from "./menu-buttons/MenuBtnColorPalette.jsx"
 import { MenuBtnAddImage } from "./menu-buttons/MenuBtnAddImage.jsx"
 import { MenuBtnAddVideo } from "./menu-buttons/MenuBtnAddVideo.jsx"
-import { MenuBtnAddTodo } from "./menu-buttons/MenuBtnAddTodo.jsx"
+import { MenuBtnAddTodos } from "./menu-buttons/MenuBtnAddTodos.jsx"
 import { MenuBtnCustom } from "./menu-buttons/MenuBtnCustom.jsx"
+import { TodosEdit } from "./TodosEdit.jsx"
 
-export function NoteEdit({ onSetStyle }) {
+export function NoteEdit({ note, onSetStyle, executeOnSubmit }) {
 
-    const { newNotes, onAddNote } = useOutletContext()
-    const [newNoteToSave, setNewNoteToSave] = useState({ ...newNotes.current.NoteTxt, id: 'new-note' })
+    const { newNotes, onAddNote, onSaveNote } = useOutletContext()
+    const [noteToSave, setNoteToSave] = useState(note)
     const [isHovered, setIsHovered] = useState(false)
-    const [isFocused, setIsFocused] = useState(false)
-    const newNoteToSaveRef = useRef(newNoteToSave)
-    const noteStyleRef = useRef({ backgroundColor: newNoteToSave.style.backgroundColor.color })
+    const [isFocused, setIsFocused] = useState(note.id !== 'new-note')
+    const noteToSaveRef = useRef(noteToSave)
+    const noteStyleRef = useRef({ backgroundColor: noteToSave.style.backgroundColor.color })
     const addNoteRef = useRef(null)
     const textareaRef = useRef(null)
     const addNoteBtnRef = useRef(null)
 
     useEffect(() => {
+        adjustTextareaHeight()
         document.addEventListener('click', handleClickOutside)
         return () => document.removeEventListener('click', handleClickOutside)
     }, [])
 
     useEffect(() => {
-        newNoteToSaveRef.current = newNoteToSave
-    }, [newNoteToSave])
+        noteToSaveRef.current = noteToSave
+    }, [noteToSave])
 
     useEffect(() => {
-        noteStyleRef.current = { backgroundColor: newNoteToSave.style.backgroundColor.color }
-        if (onSetStyle) onSetStyle(noteStyleRef.current)
-    }, [newNoteToSave.style])
+        noteStyleRef.current = { backgroundColor: noteToSave.style.backgroundColor.color }
+        if (onSetStyle) {
+            const backgroundColor = noteToSave.style.backgroundColor
+            const borderColor = (backgroundColor.name === 'none') ? 'var(--gray-4)' : backgroundColor.color
+            onSetStyle({ backgroundColor: backgroundColor.color, border: `1px solid ${borderColor}` })
+        }
+    }, [noteToSave.style])
 
     function handleClickOutside(ev) {
         if (addNoteRef.current && addNoteRef.current.contains(ev.target)) {
             return
         }
-        const cleanNote = { ...newNotes.current.NoteTxt, id: 'new-note' }
 
-        if (!utilService.deepEqual(newNoteToSaveRef.current, cleanNote)) {
-            newNoteToSaveRef.current = null
+        if (!utilService.deepEqual(noteToSaveRef.current, note)) {
+            noteToSaveRef.current = null
             addNoteBtnRef.current.click()
         }
         setIsFocused(false)
     }
 
-    function setNewNote(note, newProps) {
-        setNewNoteToSave({ ...note, ...newProps })
+    function setNote(note, newProps = {}) {
+        setNoteToSave({ ...note, ...newProps })
     }
 
     function adjustTextareaHeight() {
@@ -63,31 +68,46 @@ export function NoteEdit({ onSetStyle }) {
     }
 
     function toggleAddNoteType(type) {
-        if (newNoteToSave.type === type) {
-            setNewNoteToSave({
-                ...newNoteToSave,
+        if (noteToSave.type === type) {
+            setNoteToSave({
+                ...noteToSave,
                 type: 'NoteTxt',
-                info: { ...newNotes.current.NoteTxt.info, txt: newNoteToSave.info.txt }
+                info: { ...newNotes.current.NoteTxt.info, txt: noteToSave.info.txt }
             })
             return
         }
-        setNewNoteToSave({
-            ...newNoteToSave,
+        setNoteToSave({
+            ...noteToSave,
             type,
-            info: { ...newNotes.current[type].info, txt: newNoteToSave.info.txt }
+            info: { ...newNotes.current[type].info, txt: noteToSave.info.txt }
         })
     }
 
     function onSubmit(ev) {
         if (ev) ev.preventDefault()
-        onAddNote(newNoteToSave)
-        setNewNoteToSave({ ...newNotes.current.NoteTxt, id: 'new-note' })
+
+        if (utilService.deepEqual(noteToSave, note)) {
+            clearAndClose()
+            return
+        }
+
+        if (noteToSave.id === 'new-note') {
+            onAddNote(noteToSave)
+        } else {
+            onSaveNote(noteToSave)
+        }
+        clearAndClose()
+    }
+
+    function clearAndClose() {
+        if (executeOnSubmit) executeOnSubmit()
         setIsFocused(false)
+        setNoteToSave(note)
     }
 
     const menuBtnParams = {
-        note: newNoteToSave,
-        setNote: setNewNote,
+        note: noteToSave,
+        setNote: setNote,
         onToggleAddNoteType: toggleAddNoteType,
         customBtnClick: () => addNoteBtnRef.current.click(),
         customBtnTxt: 'Close'
@@ -104,8 +124,8 @@ export function NoteEdit({ onSetStyle }) {
 
                 <input
                     className="big"
-                    onChange={ev => reactUtilService.handleChange(ev, setNewNoteToSave)}
-                    value={newNoteToSave.title}
+                    onChange={ev => reactUtilService.handleChange(ev, setNoteToSave)}
+                    value={noteToSave.title}
                     name="title"
                     type="text"
                     placeholder="Title"
@@ -115,52 +135,57 @@ export function NoteEdit({ onSetStyle }) {
                     ref={textareaRef}
                     className="always-open"
                     onFocus={() => setIsFocused(true)}
-                    onChange={ev => reactUtilService.handleChange(ev, setNewNoteToSave)}
+                    onChange={ev => reactUtilService.handleChange(ev, setNoteToSave)}
                     onInput={adjustTextareaHeight}
-                    value={newNoteToSave.info.txt}
+                    value={noteToSave.info.txt}
                     name="info-txt"
                     type="text"
                     rows="1"
                     placeholder="Take a note..."
                     style={noteStyleRef.current}
                 />
-                {newNoteToSave.type === 'NoteImg' && <input
+                {noteToSave.type === 'NoteImg' && <input
                     className="add-image"
-                    onChange={ev => reactUtilService.handleChange(ev, setNewNoteToSave)}
-                    value={newNoteToSave.info.url}
+                    onChange={ev => reactUtilService.handleChange(ev, setNoteToSave)}
+                    value={noteToSave.info.url}
                     name="info-url"
                     type="text"
                     placeholder="Image url"
                     style={noteStyleRef.current}
                 />}
-                {newNoteToSave.type === 'NoteVideo' && <input
+                {noteToSave.type === 'NoteVideo' && <input
                     className="add-video-url"
-                    onChange={ev => reactUtilService.handleChange(ev, setNewNoteToSave)}
-                    value={newNoteToSave.info.url}
+                    onChange={ev => reactUtilService.handleChange(ev, setNoteToSave)}
+                    value={noteToSave.info.url}
                     name="info-url"
                     type="text"
                     placeholder="Video url"
                     style={noteStyleRef.current}
                 />}
-                {newNoteToSave.type === 'NoteVideo' && <input
+                {noteToSave.type === 'NoteVideo' && <input
                     className="add-video-thumbnail"
-                    onChange={ev => reactUtilService.handleChange(ev, setNewNoteToSave)}
-                    value={newNoteToSave.info.thumbnail}
+                    onChange={ev => reactUtilService.handleChange(ev, setNoteToSave)}
+                    value={noteToSave.info.thumbnail}
                     name="info-thumbnail"
                     type="text"
                     placeholder="Video thumbnail"
                     style={noteStyleRef.current}
                 />}
+                {noteToSave.type === 'NoteTodos' && <TodosEdit
+                    noteToSave={noteToSave}
+                    onSetNoteToSave={setNote}
+                    inputStyle={noteStyleRef.current}
+                />}
                 <NoteMenu
                     isHovered={isHovered}
-                    note={newNoteToSave}
+                    note={noteToSave}
                 >
                     <MenuBtnPin btnParams={menuBtnParams} classes={['pin-btn', 'top-right-btn']} />
                     <MenuBtnReminder btnParams={menuBtnParams} classes={['reminder-btn']} />
                     <MenuBtnColorPalette btnParams={menuBtnParams} classes={['color-palette-btn']} />
                     <MenuBtnAddImage btnParams={menuBtnParams} classes={['add-image-btn']} />
                     <MenuBtnAddVideo btnParams={menuBtnParams} classes={['add-video-btn']} />
-                    <MenuBtnAddTodo btnParams={menuBtnParams} classes={['add-todo-btn']} />
+                    <MenuBtnAddTodos btnParams={menuBtnParams} classes={['add-todo-btn']} />
                     <MenuBtnCustom btnParams={menuBtnParams} classes={['btn', 'new-note-btn']} />
                 </NoteMenu>
 

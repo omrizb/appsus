@@ -1,16 +1,13 @@
-.text-note-preview,
-.text-note-details {
+.text-note-preview {
     display: flex;
     flex-direction: column;
     gap: 1em;
 }
 
-.text-note-preview > *:first-child,
-.text-note-details > *:first-child {
+.text-note-preview > *:first-child {
     margin-top: 0.8em;
 }
 
-.text-note-preview > *,
-.text-note-details > * {
+.text-note-preview > * {
     padding-inline: 0.5em;
 }

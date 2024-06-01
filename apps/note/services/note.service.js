@@ -19,7 +19,7 @@ const BACKGROUND_COLORS = [
 ]
 const NOTE_KEY = 'noteDB'
 
-_createNotes(12)
+_createNotes(20)
 
 export const noteService = {
     query,
@@ -155,7 +155,7 @@ function _getNoteInfo(type) {
         case 'NoteTodos':
             return {
                 txt: '',
-                todos: { txt: '', doneAt: null }
+                todos: [{ txt: '', doneAt: null, id: utilService.makeId(6) }]
             }
         default:
             throw new Error('Unknown note type. Type should be one of the following: NoteTxt, NoteImg, NoteVideo, NoteTodos.')
@@ -181,7 +181,7 @@ function _createNote() {
     const note = getEmptyNote(noteType)
 
     note.title = utilService.makeLorem(2)
-    note.isPinned = (Math.random() > 0.7)
+    note.isPinned = (Math.random() > 0.8)
     note.style.backgroundColor = utilService.getRandomItems(BACKGROUND_COLORS)
     note.id = utilService.makeId(5)
     note.createdAt = Date.now()

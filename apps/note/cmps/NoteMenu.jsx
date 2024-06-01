@@ -8,7 +8,7 @@ export function NoteMenu({ children, isHovered, note }) {
         pin: note.isPinned,
         image: note.type === 'NoteImg',
         video: note.type === 'NoteVideo',
-        todo: note.type === 'NoteTodo'
+        todo: note.type === 'NoteTodos'
     })
     const [openSideMenus, setOpenSideMenus] = useState({
         palette: activeElement.noteId === note.id && activeElement.item === 'palette',
@@ -28,7 +28,7 @@ export function NoteMenu({ children, isHovered, note }) {
             pin: note.isPinned,
             image: note.type === 'NoteImg',
             video: note.type === 'NoteVideo',
-            todo: note.type === 'NoteTodo'
+            todo: note.type === 'NoteTodos'
         })
     }, [note])
 

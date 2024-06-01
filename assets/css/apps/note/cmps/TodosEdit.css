@@ -1,0 +1,22 @@
+.todos-edit {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.todos-edit .no-todos {
+    margin-inline-start: 1em;
+}
+
+.todos-edit ul {
+    padding-inline-start: 1em;
+}
+
+.todos-edit li {
+    display: flex;
+    gap: 10px;
+}
+
+.todos-edit input {
+    width: 80%;
+}
