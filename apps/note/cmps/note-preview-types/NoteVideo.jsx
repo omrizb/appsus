@@ -4,7 +4,7 @@ export function NoteVideo({ note }) {
 
     return <div className="video-note-preview">
         <div className="thumbnail-container">
-            <img src="/assets/img/play-video.svg" className="thumbnail" />
+            <img src="/omrizb/appsus/blob/master/assets/img/play-video.svg" className="thumbnail" />
             {(note.info.thumbnail)
                 ? <img src={note.info.thumbnail} />
                 : <div className="no-video-thumbnail"></div>}
