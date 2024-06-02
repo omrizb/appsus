@@ -1,9 +1,10 @@
 .mail-details {
-    max-width: 980px;
+    max-width: 400px;
     display: flex;
     justify-content: center;
     text-align: left;
     margin: auto;
+    padding: 10px;
 }
 
 

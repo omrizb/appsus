@@ -1,6 +1,7 @@
 .mail-preview {
     display: grid;
     grid-template-columns: 1fr minmax(480px, 1fr) 1fr;
+
 }
 
 .mail-preview .content {

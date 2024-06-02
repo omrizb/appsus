@@ -11,7 +11,7 @@ export function MailFolderList({ onFolderClick, unreadCounts, activeFolder }) {
                         <li className={`${activeFolder === folder ? 'active-folder' : ''}`}>
                             <label className={folder === 'inbox' ? `fa-solid i-${folder}` : `fa-regular i-${folder}`}></label>
                             <div className="folder-info">
-                                <span>
+                                <span className="folder-name">
                                     {folder.charAt(0).toUpperCase() + folder.slice(1)}
                                 </span>
                                 {unreadCounts[folder] > 0 && (
