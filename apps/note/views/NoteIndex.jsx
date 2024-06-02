@@ -28,7 +28,7 @@ export function NoteIndex() {
     })
 
     useEffect(() => {
-        document.querySelector('#favicon').href = '../../../assets/favicons/note-favicon.png'
+        document.querySelector('#favicon').href = './assets/favicons/note-favicon.png'
         document.addEventListener('click', handleClickOutside)
         return () => document.removeEventListener('click', handleClickOutside)
     }, [])
