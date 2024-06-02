@@ -23,7 +23,7 @@ export function NoteHeader({ filterBy, onFilter, skipFilterRender }) {
     }, [filterByToEdit])
 
     return <section className="note-header">
-        <img className="note-logo-image" src="https://github.com/omrizb/appsus/blob/master/assets/img/light-bulb-logo.jpg" />
+        <img className="note-logo-image" src="./assets/img/light-bulb-logo.jpg" />
         <h1>Note</h1>
         <div className="search-box">
             <label htmlFor="input-search-box"><div className="fa-solid i-search"></div></label>
