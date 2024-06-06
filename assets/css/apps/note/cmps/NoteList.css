@@ -1,17 +1,21 @@
 .note-list ul {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    columns: 220px;
     gap: 20px;
     place-items: start;
 }
 
 .note-list li {
+    break-inside: avoid;
     position: relative;
     width: 100%;
     padding: 2px;
     border-radius: 1em;
 
     cursor: default;
+}
+
+.note-list li:not(:first-of-type) {
+    margin-top: 1.5em;
 }
 
 .note-list li:hover .note-menu {
