@@ -2,7 +2,7 @@
 
 .home {
     position: relative;
-    background-image: url("./assets/img/homepage-background.jpg");
+    background-image: url("../../img/homepage-background.jpg");
     background-size: cover;
     min-height: 100vh;
 }
